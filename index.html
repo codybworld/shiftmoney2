@@ -33,10 +33,32 @@ input,select{background:rgba(8,11,22,.8);border-color:rgba(169,139,255,.24);tran
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 
 .no-motion:before{animation:none!important}.no-motion h1{animation:none!important}
+
+/* NEON BLOOM v3: richer ambient lighting and dashboard polish */
+:root{--violet:#b69cff;--pink:#ff83df;--cyan:#68efff;--green:#7affd4}
+body:before{background:conic-gradient(from 30deg,transparent,rgba(169,139,255,.09),transparent,rgba(101,232,255,.08),transparent,rgba(255,130,209,.045),transparent);filter:blur(48px);animation:nebula 24s linear infinite}
+.card{box-shadow:0 10px 34px rgba(0,0,0,.18),inset 0 1px rgba(255,255,255,.025)}
+.card:hover{border-color:rgba(121,255,210,.32);box-shadow:0 12px 38px rgba(76,57,142,.12),0 0 22px rgba(101,232,255,.035)}
+.hero,.estimator{box-shadow:0 0 35px rgba(121,255,210,.07),0 12px 35px rgba(0,0,0,.16),inset 0 1px rgba(255,255,255,.08)}
+.btn.primary{background:linear-gradient(105deg,#79ffd2,#65e8ff 55%,#b7a0ff);background-size:200% 100%;animation:shimmer 8s linear infinite}
+.nav{grid-template-columns:repeat(7,minmax(0,1fr));padding-left:4px;padding-right:4px}
+.nav button{font-size:9px}.nav button span{font-size:17px}
+.page-title{font-size:23px;margin:2px 0 14px;background:linear-gradient(95deg,#fff,#9bfbe3 45%,#c6adff 80%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.metric-big{font-size:clamp(26px,7vw,34px);font-weight:800;letter-spacing:-.8px}
+.bar-track{height:8px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden}
+.bar-fill{height:100%;background:linear-gradient(90deg,#a98bff,#65e8ff,#79ffd2);border-radius:99px;box-shadow:0 0 12px rgba(101,232,255,.35)}
+.insight-row{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.insight-row:last-child{border-bottom:0}
+.plan-day{display:grid;grid-template-columns:42px 1fr auto;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.plan-day:last-child{border-bottom:0}
+.day-chip{width:38px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,rgba(169,139,255,.2),rgba(101,232,255,.1));border:1px solid rgba(169,139,255,.25);font-weight:800}
+.glow-orb{width:70px;height:70px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#e9fffa,#79ffd2 18%,#7e80ff 52%,rgba(255,130,209,.05) 70%);box-shadow:0 0 22px rgba(121,255,210,.18),0 0 45px rgba(169,139,255,.13);animation:floatGlow 5s ease-in-out infinite}
+@media(max-width:360px){.nav button{font-size:8px}.nav button span{font-size:15px}.nav{padding-left:2px;padding-right:2px}}
+
 </style>
 </head>
 <body>
-<header><div><div class="eyebrow"><span class="brand-dot"></span>Personal finance, built for servers</div><h1 id="appTitle">ShiftMoney</h1></div><button class="btn sm" onclick="showPage('settings')">⚙ Settings</button></header>
+<header><div><div class="eyebrow"><span class="brand-dot"></span>Personal finance · NEON BLOOM v3</div><h1 id="appTitle">ShiftMoney</h1></div><button class="btn sm" onclick="showPage('settings')">⚙ Settings</button></header>
 <main class="wrap">
 <section id="dashboard" class="page active">
  <div class="card hero"><div class="row"><div><div class="eyebrow">Current balance</div><div class="money" id="balanceDisplay">$0.00</div></div><button class="btn sm" onclick="editBalance()">✎ Update</button></div><div class="muted small" style="margin-top:9px">Manually updated • not connected to your bank</div></div>
@@ -71,6 +93,20 @@ input,select{background:rgba(8,11,22,.8);border-color:rgba(169,139,255,.24);tran
  <div class="card"><div class="row"><h2 style="margin:0">Earnings breakdown</h2><span class="pill green">From your logs</span></div><div class="grid2" style="margin-top:12px"><div class="stat"><div class="muted small">Cash tips</div><div class="num" id="allCashTips">$0.00</div></div><div class="stat"><div class="muted small">Credit tips</div><div class="num" id="allCreditTips">$0.00</div></div><div class="stat"><div class="muted small">Hours logged</div><div class="num" id="allHours">0</div></div><div class="stat"><div class="muted small">Average tips / hour</div><div class="num" id="allTipsHour">$0.00</div></div></div></div>
  <div class="row" style="margin:18px 2px 10px"><h2 style="margin:0">Recent shifts</h2><span class="pill" id="shiftListCount">0</span></div><div class="card" id="shiftList"></div>
 </section>
+
+<section id="plan" class="page">
+ <div class="row" style="margin:8px 2px 14px"><div><div class="eyebrow">Your money, in motion</div><h2 class="page-title">Weekly game plan</h2></div><div class="glow-orb"></div></div>
+ <div class="card hero"><div class="eyebrow">Next 7 days</div><div class="metric-big" id="planRequired">$0.00</div><div class="muted small" id="planSubtitle">Estimated bills minus your current balance</div><div class="glowline"></div><div class="grid2"><div class="stat"><div class="muted small">Scheduled shifts</div><div class="num" id="planShifts">0</div></div><div class="stat"><div class="muted small">Average target / shift</div><div class="num positive" id="planTarget">$0.00</div></div></div></div>
+ <div class="card"><div class="row"><h2 style="margin:0">Upcoming 7-day timeline</h2><span class="pill green">Forecast</span></div><div id="planTimeline"></div></div>
+ <div class="card"><h2>Plan assumptions</h2><p class="muted small">Forecast uses your current balance, unpaid bills due in the next 7 days, scheduled workdays and logged income. It does not predict exact tips. Add a shift estimate on Home before work, then log actual earnings afterward.</p><div class="actions"><button class="btn primary" onclick="showPage('calendar')">Edit work calendar</button><button class="btn" onclick="showPage('bills')">Review bills</button></div></div>
+</section>
+<section id="insights" class="page">
+ <div class="eyebrow">Patterns, not guesses</div><h2 class="page-title">Earnings lab</h2>
+ <div class="card estimator"><div class="row"><div><div class="eyebrow">Your logged history</div><h2 style="margin:0">Performance snapshot</h2></div><span class="pill green">Live data</span></div><div class="grid2" style="margin-top:14px"><div class="stat"><div class="muted small">Total logged take-home</div><div class="num positive" id="insTakehome">$0.00</div></div><div class="stat"><div class="muted small">Total tips</div><div class="num" id="insTips">$0.00</div></div><div class="stat"><div class="muted small">Best logged shift</div><div class="num" id="insBest">$0.00</div></div><div class="stat"><div class="muted small">Average tips / hour</div><div class="num" id="insTipsHour">$0.00</div></div></div></div>
+ <div class="card"><h2>Recent shift consistency</h2><div id="insRecent"></div><p class="muted small">Only shifts you manually log are included. This is a historical summary, not a promise of future earnings.</p></div>
+ <div class="card"><h2>Money health checklist</h2><div id="healthChecklist"></div></div>
+</section>
+
 <section id="settings" class="page">
  <div class="card"><h2>App preferences</h2><div class="field"><label>App name</label><input id="settingName" value="ShiftMoney"></div><div class="field"><label>Current balance ($)</label><input id="settingBalance" type="number" step=".01"></div><div class="formgrid"><div class="field"><label>Hourly base wage ($)</label><input id="hourlyWage" type="number" min="0" step=".01" value="10.70"></div><div class="field"><label>Estimated withholding (%)</label><input id="taxRate" type="number" min="0" max="100" step=".5" value="20"></div></div><div class="field"><label>Budget target includes</label><select id="targetMode"><option value="tips">Tips only (recommended for day-to-day bill money)</option><option value="takehome">Tips + estimated after-tax hourly wages</option></select></div><div class="field"><label class="inlinecheck"><input type="checkbox" id="motionEffects" checked> Enable subtle motion effects</label></div><button class="btn primary full" onclick="saveSettings()">Save preferences</button></div>
  <div class="card"><h2>Backup and restore</h2><p class="muted small">Your entries stay in this browser on this phone. Export a backup regularly, especially before clearing Safari website data or changing phones.</p><div class="actions"><button class="btn primary" onclick="exportData()">Export backup</button><button class="btn" onclick="document.getElementById('importFile').click()">Import backup</button><input id="importFile" class="hidden" type="file" accept="application/json" onchange="importData(event)"></div><div style="margin-top:15px"><button class="btn danger" onclick="resetApp()">Erase all app data</button></div></div>
@@ -82,6 +118,8 @@ input,select{background:rgba(8,11,22,.8);border-color:rgba(169,139,255,.24);tran
  <button data-page="calendar" onclick="showPage('calendar')"><span>▦</span>Calendar</button>
  <button data-page="bills" onclick="showPage('bills')"><span>↗</span>Bills</button>
  <button data-page="shifts" onclick="showPage('shifts')"><span>＄</span>Shifts</button>
+ <button data-page="plan" onclick="showPage('plan')"><span>◷</span>Plan</button>
+ <button data-page="insights" onclick="showPage('insights')"><span>✧</span>Insights</button>
  <button data-page="settings" onclick="showPage('settings')"><span>⚙</span>Settings</button>
 </nav>
 <div id="toast" class="toast"></div>
@@ -99,7 +137,7 @@ let viewMonth=new Date(today.getFullYear(),today.getMonth(),1), selectedDate=loc
 function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s)state={...state,...s};}catch(e){}}
 function persist(){localStorage.setItem(KEY,JSON.stringify(state));renderAll()}
 function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.style.display='block';setTimeout(()=>el.style.display='none',2200)}
-function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));if(id==='calendar')renderCalendar();if(id==='bills')renderBills();if(id==='shifts')renderShifts();if(id==='settings')fillSettings();window.scrollTo(0,0)}
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));if(id==='calendar')renderCalendar();if(id==='bills')renderBills();if(id==='shifts')renderShifts();if(id==='settings')fillSettings();if(id==='plan')renderPlan();if(id==='insights')renderInsights();window.scrollTo(0,0)}
 function billOccurrences(bill,from,to){let out=[];let d=parseDate(bill.due);if(!d)return out;let guard=0;while(d<from&&bill.repeat!=='once'&&guard++<500){d=bill.repeat==='weekly'?addDays(d,7):addMonths(d,1)}guard=0;while(d<=to&&guard++<500){if(d>=from)out.push({bill,date:localISO(d)});if(bill.repeat==='once')break;d=bill.repeat==='weekly'?addDays(d,7):addMonths(d,1)}return out}
 function allOccurrences(from,to){return state.bills.flatMap(b=>billOccurrences(b,from,to).filter(o=>!(b.paidDate===o.date)||false)).sort((a,b)=>a.date.localeCompare(b.date))}
 function isOccurrencePaid(bill,date){return !!(bill.paidDates||[]).includes(date) || (bill.paid && bill.due===date)}
@@ -177,7 +215,37 @@ function renderEarningsBreakdown(){
  document.getElementById('allCashTips').textContent=money(cash);document.getElementById('allCreditTips').textContent=money(credit);document.getElementById('allHours').textContent=hours.toFixed(2).replace(/\.00$/,'');document.getElementById('allTipsHour').textContent=money(hours?(cash+credit)/hours:0);
 }
 
-function renderAll(){renderDashboard();renderCalendar();renderBills();renderShifts();renderMoneySnapshot();renderEarningsBreakdown();updateEstimator();document.getElementById('appTitle').textContent=state.name||'ShiftMoney';document.body.classList.toggle('no-motion',state.motionEffects===false)}
+
+function renderPlan(){
+ const end=addDays(today,7),startKey=localISO(today),endKey=localISO(end);
+ const due=occurrences(today,end),billTotal=due.reduce((s,o)=>s+(Number(o.bill.amount)||0),0);
+ const logged=loggedNetBetween(startKey,endKey),scheduled=shiftsBetween(startKey,endKey);
+ const gap=Math.max(0,billTotal-(Number(state.balance)||0)-logged);
+ document.getElementById('planRequired').textContent=money(gap);
+ document.getElementById('planSubtitle').textContent=money(billTotal)+' in unpaid bills due within 7 days · '+money(Number(state.balance)||0)+' current balance';
+ document.getElementById('planShifts').textContent=scheduled.length;
+ document.getElementById('planTarget').textContent=money(scheduled.length?gap/scheduled.length:gap);
+ const list=document.getElementById('planTimeline');let out='';
+ for(let i=0;i<7;i++){
+  const d=addDays(today,i),key=localISO(d),wd=state.workdays[key],dayBills=due.filter(o=>o.date===key),dayShifts=state.shifts.filter(s=>s.date===key);
+  const label=d.toLocaleDateString('en-US',{weekday:'short'}),day=d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  out+=`<div class="plan-day"><div class="day-chip">${d.getDate()}</div><div><strong>${label}, ${day}</strong><div class="muted small">${wd&&wd.type!=='off'?(wd.type==='double'?'Double shift':'Work shift')+' · '+(wd.hours||'hours not set')+'h':'No shift scheduled'}${dayShifts.length?' · '+dayShifts.length+' logged':''}</div>${dayBills.length?`<div class="small" style="color:var(--yellow);margin-top:4px">${dayBills.map(o=>esc(o.bill.name)+' '+money(o.bill.amount)).join(' · ')}</div>`:''}</div><div style="text-align:right">${wd&&wd.type!=='off'?`<strong class="positive">${money(gap/Math.max(1,scheduled.length))}</strong><div class="muted small">avg target</div>`:dayBills.length?'<span class="pill red">Bill due</span>':'<span class="pill">—</span>'}</div></div>`;
+ }
+ list.innerHTML=out;
+}
+function renderInsights(){
+ const tips=state.shifts.reduce((s,x)=>s+(Number(x.cash)||0)+(Number(x.credit)||0),0);
+ const net=state.shifts.reduce((s,x)=>s+shiftNet(x),0),hours=state.shifts.reduce((s,x)=>s+(Number(x.hours)||0),0);
+ const best=state.shifts.reduce((m,x)=>Math.max(m,shiftNet(x)),0);
+ document.getElementById('insTakehome').textContent=money(net);document.getElementById('insTips').textContent=money(tips);document.getElementById('insBest').textContent=money(best);document.getElementById('insTipsHour').textContent=money(hours?tips/hours:0);
+ const recent=state.shifts.slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,7);
+ document.getElementById('insRecent').innerHTML=recent.length?recent.map(s=>`<div class="insight-row"><div><strong>${fmtDate(s.date)}</strong><div class="muted small">${Number(s.hours)||0}h · tips ${money((Number(s.cash)||0)+(Number(s.credit)||0))}</div></div><div style="text-align:right"><strong>${money(shiftNet(s))}</strong><div class="muted small">est. take-home</div></div></div>`).join(''):'<div class="empty">Log a few shifts to start seeing your patterns.</div>';
+ const future=occurrences(today,addDays(today,14)),upcoming=future.reduce((s,o)=>s+(Number(o.bill.amount)||0),0);
+ const checks=[[state.bills.length>0,'Bills added',state.bills.length?state.bills.length+' bill schedules saved':'Add your recurring bills to improve forecasts.'],[state.shifts.length>=3,'Earnings history',state.shifts.length+' shifts logged · '+(state.shifts.length>=3?'enough to start comparing shifts':'Log at least 3 shifts to build a useful baseline.')],[Object.keys(state.workdays).some(k=>k>=localISO(today)&&state.workdays[k].type!=='off'),'Work calendar','Schedule upcoming shifts to calculate targets per shift.'],[(Number(state.balance)||0)>=upcoming,'14-day bill coverage',money(Number(state.balance)||0)+' balance vs '+money(upcoming)+' in bills due within 14 days.']];
+ document.getElementById('healthChecklist').innerHTML=checks.map(([ok,title,desc])=>`<div class="insight-row"><div><strong>${esc(title)}</strong><div class="muted small">${esc(desc)}</div></div><span class="pill ${ok?'green':'red'}">${ok?'On track':'Review'}</span></div>`).join('');
+}
+
+function renderAll(){renderDashboard();renderCalendar();renderBills();renderShifts();renderMoneySnapshot();renderEarningsBreakdown();updateEstimator();renderPlan();renderInsights();document.getElementById('appTitle').textContent=state.name||'ShiftMoney';document.body.classList.toggle('no-motion',state.motionEffects===false)}
 </script>
 </body>
 </html>
