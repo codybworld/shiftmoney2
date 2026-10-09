@@ -3,147 +3,255 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#101311">
+<meta name="theme-color" content="#100d0b">
 <title>ShiftMoney V4 · Ember Edition</title>
 <style>
-:root{color-scheme:dark;--bg:#0d100e;--panel:#171c19;--panel2:#202722;--line:#2c362f;--text:#f1f5f1;--muted:#9ba99f;--green:#8ee6a3;--green2:#173d27;--red:#ff8c8c;--yellow:#f4d27b;--radius:18px}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding-bottom:92px}button,input,select{font:inherit}button{cursor:pointer}header{padding:22px 18px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px}h1{font-size:25px;margin:0;letter-spacing:-.8px}h2{font-size:18px;margin:0 0 12px}h3{font-size:15px;margin:0 0 8px}.eyebrow{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1.4px;margin-bottom:5px}.brand-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--green);margin-right:8px}.wrap{padding:0 15px;max-width:760px;margin:auto}.page{display:none}.page.active{display:block}.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:12px}.hero{background:linear-gradient(135deg,#1c3023,#151b17 70%);border-color:#2e5038}.money{font-size:34px;font-weight:750;letter-spacing:-1px;font-variant-numeric:tabular-nums}.muted{color:var(--muted)}.small{font-size:12px}.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:var(--panel2);border-radius:13px;padding:13px;min-width:0}.stat .num{font-size:21px;font-weight:700;margin-top:5px;overflow-wrap:anywhere}.positive{color:var(--green)}.negative{color:var(--red)}.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:12px;padding:11px 13px;font-weight:650}.btn.primary{background:var(--green);border-color:var(--green);color:#102015}.btn.danger{color:var(--red)}.btn.full{width:100%}.btn.sm{padding:7px 9px;font-size:12px}.actions{display:flex;gap:8px;flex-wrap:wrap}.field{display:flex;flex-direction:column;gap:6px;margin:10px 0}.field label{font-size:12px;color:var(--muted)}input,select{width:100%;border:1px solid var(--line);background:#0e120f;color:var(--text);border-radius:11px;padding:12px;min-width:0}input[type=checkbox]{width:auto;accent-color:var(--green)}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}.listitem{padding:12px 0;border-bottom:1px solid var(--line)}.listitem:last-child{border-bottom:0}.pill{display:inline-block;padding:5px 8px;border-radius:999px;font-size:11px;background:var(--panel2);color:var(--muted)}.pill.green{background:var(--green2);color:var(--green)}.pill.red{background:#3d2020;color:var(--red)}.monthbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.monthbar strong{font-size:17px}.monthbar button{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--text)}.calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}.weekday{text-align:center;color:var(--muted);font-size:10px;padding:5px 0}.day{min-height:72px;border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:5px 4px;text-align:left;color:var(--text);overflow:hidden}.day.dim{opacity:.4}.day.today{border-color:var(--green)}.day.work{background:#17291e}.day.selected{outline:2px solid var(--green);outline-offset:-2px}.day .dn{font-size:11px;font-weight:700}.day .dtag{font-size:9px;line-height:1.3;margin-top:5px;color:var(--green);display:block;overflow-wrap:anywhere}.day .billtag{color:var(--yellow)}.day .targettag{font-size:9px;color:var(--text);display:block;margin-top:3px}.nav{position:fixed;bottom:0;left:0;right:0;padding:9px 8px calc(9px + env(safe-area-inset-bottom));background:rgba(13,16,14,.96);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);z-index:10;backdrop-filter:blur(14px)}.nav button{border:0;background:none;color:var(--muted);padding:7px 1px;font-size:10px;border-radius:10px}.nav button span{display:block;font-size:19px;margin-bottom:3px}.nav button.active{color:var(--green);background:#1a2b20}.empty{padding:20px 4px;color:var(--muted);text-align:center;font-size:13px}.note{border-left:3px solid var(--yellow);padding:10px 12px;background:#292619;border-radius:0 10px 10px 0;font-size:12px;color:#e8d9a6;line-height:1.5}.targetbig{font-size:27px;font-weight:750}.hidden{display:none!important}.sectionhead{display:flex;align-items:center;justify-content:space-between;margin:18px 0 10px}.inlinecheck{display:flex;align-items:center;gap:8px}.toast{position:fixed;bottom:92px;left:15px;right:15px;max-width:500px;margin:auto;background:var(--green);color:#102015;padding:12px 15px;border-radius:12px;font-weight:650;display:none;z-index:20}
-@media(min-width:600px){.calendar{gap:6px}.day{min-height:85px;padding:8px}.day .dtag,.day .targettag{font-size:10px}.wrap{padding:0 22px}}
-
-/* ShiftMoney Neon Bloom upgrade */
-:root{--bg:#090b14;--panel:rgba(19,22,39,.88);--panel2:rgba(30,34,58,.88);--line:rgba(150,137,255,.23);--text:#f4f2ff;--muted:#a7a8c8;--green:#79ffd2;--green2:#143d3c;--red:#ff819d;--yellow:#ffd784;--radius:20px;--violet:#a98bff;--pink:#ff82d1;--cyan:#65e8ff}
-body{background:radial-gradient(ellipse at 12% 0%,rgba(114,71,207,.22),transparent 35%),radial-gradient(ellipse at 95% 22%,rgba(29,196,204,.13),transparent 30%),linear-gradient(160deg,#090b14,#0c1020 55%,#090b14);background-attachment:fixed}
-body:before{content:"";position:fixed;inset:-25%;pointer-events:none;z-index:-1;background:conic-gradient(from 30deg,transparent,rgba(169,139,255,.055),transparent,rgba(101,232,255,.045),transparent);filter:blur(60px);animation:nebula 32s linear infinite}
-@keyframes nebula{to{transform:rotate(360deg)}}@keyframes floatGlow{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}@keyframes shimmer{0%{background-position:0% 50%}100%{background-position:200% 50%}}
-header{padding-top:calc(22px + env(safe-area-inset-top))}.brand-dot{background:var(--green);box-shadow:0 0 12px var(--green),0 0 28px rgba(121,255,210,.45)}
-h1{background:linear-gradient(100deg,#fff 5%,#9bfbe3 45%,#c6adff 75%,#ffabe3);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 10s linear infinite}
-.card{background:linear-gradient(145deg,rgba(25,28,49,.94),rgba(15,18,32,.92));border-color:rgba(166,150,255,.2);box-shadow:0 8px 30px rgba(0,0,0,.13);backdrop-filter:blur(14px);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
-.card:active{transform:scale(.995)}.hero{position:relative;overflow:hidden;background:radial-gradient(circle at 100% 0%,rgba(121,255,210,.17),transparent 40%),linear-gradient(130deg,rgba(78,54,133,.55),rgba(19,29,49,.96) 62%,rgba(18,47,53,.85));border-color:rgba(121,255,210,.36);box-shadow:0 0 34px rgba(121,255,210,.055),inset 0 1px rgba(255,255,255,.05)}
-.hero:after{content:"";position:absolute;width:140px;height:140px;border:1px solid rgba(121,255,210,.18);border-radius:50%;right:-55px;top:-65px;box-shadow:0 0 0 18px rgba(169,139,255,.04),0 0 0 38px rgba(101,232,255,.025);pointer-events:none}
-.money{font-size:clamp(31px,8vw,40px);text-shadow:0 0 22px rgba(121,255,210,.13)}.stat{background:linear-gradient(145deg,rgba(36,40,67,.82),rgba(21,24,42,.86));border:1px solid rgba(169,139,255,.13)}.stat .num{letter-spacing:-.5px}
-.btn{transition:transform .15s ease,filter .15s ease,border-color .15s ease;background:rgba(39,42,68,.9);border-color:rgba(169,139,255,.25)}.btn:active{transform:scale(.97);filter:brightness(1.15)}.btn.primary{background:linear-gradient(110deg,#79ffd2,#7be7ff);border:0;color:#091923;box-shadow:0 5px 18px rgba(121,255,210,.13)}.btn.danger{border-color:rgba(255,129,157,.3)}
-input,select{background:rgba(8,11,22,.8);border-color:rgba(169,139,255,.24);transition:border-color .15s,box-shadow .15s}input:focus,select:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(101,232,255,.1)}
-.nav{background:rgba(9,11,20,.88);border-top-color:rgba(169,139,255,.2);backdrop-filter:blur(22px)}.nav button.active{color:var(--green);background:linear-gradient(145deg,rgba(121,255,210,.12),rgba(169,139,255,.09));box-shadow:inset 0 0 0 1px rgba(121,255,210,.12)}.nav button span{filter:drop-shadow(0 0 5px rgba(169,139,255,.2))}
-.day{background:rgba(19,22,39,.85);border-color:rgba(169,139,255,.16)}.day.work{background:linear-gradient(145deg,rgba(31,72,73,.8),rgba(40,35,78,.8))}.day.today{border-color:var(--cyan);box-shadow:inset 0 0 0 1px rgba(101,232,255,.2)}.day.selected{outline-color:var(--green)}
-.pill.green{background:rgba(121,255,210,.13);color:var(--green)}.pill.red{background:rgba(255,129,157,.13);color:var(--red)}.note{background:rgba(72,58,37,.35);border-left-color:var(--yellow);color:#ffe6ad}.toast{background:linear-gradient(100deg,#79ffd2,#8ceaff);box-shadow:0 10px 35px rgba(0,0,0,.3)}
-.eyebrow{letter-spacing:1.6px}.sectionhead{letter-spacing:.2px}.glowline{height:1px;background:linear-gradient(90deg,transparent,rgba(121,255,210,.5),rgba(169,139,255,.5),transparent);margin:13px 0}
-.estimator{background:radial-gradient(circle at 100% 0%,rgba(169,139,255,.18),transparent 42%),linear-gradient(145deg,rgba(27,30,54,.96),rgba(16,21,37,.94));border-color:rgba(169,139,255,.32)}
-.est-result{font-size:30px;font-weight:800;letter-spacing:-.8px;color:var(--green);text-shadow:0 0 22px rgba(121,255,210,.12)}
-.mini-meter{height:7px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;margin-top:9px}.mini-meter span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--violet),var(--cyan),var(--green));border-radius:99px;transition:width .25s}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
-
-.no-motion:before{animation:none!important}.no-motion h1{animation:none!important}
-
-/* NEON BLOOM v3: richer ambient lighting and dashboard polish */
-:root{--violet:#b69cff;--pink:#ff83df;--cyan:#68efff;--green:#7affd4}
-body:before{background:conic-gradient(from 30deg,transparent,rgba(169,139,255,.09),transparent,rgba(101,232,255,.08),transparent,rgba(255,130,209,.045),transparent);filter:blur(48px);animation:nebula 24s linear infinite}
-.card{box-shadow:0 10px 34px rgba(0,0,0,.18),inset 0 1px rgba(255,255,255,.025)}
-.card:hover{border-color:rgba(121,255,210,.32);box-shadow:0 12px 38px rgba(76,57,142,.12),0 0 22px rgba(101,232,255,.035)}
-.hero,.estimator{box-shadow:0 0 35px rgba(121,255,210,.07),0 12px 35px rgba(0,0,0,.16),inset 0 1px rgba(255,255,255,.08)}
-.btn.primary{background:linear-gradient(105deg,#79ffd2,#65e8ff 55%,#b7a0ff);background-size:200% 100%;animation:shimmer 8s linear infinite}
-.nav{grid-template-columns:repeat(7,minmax(0,1fr));padding-left:4px;padding-right:4px}
-.nav button{font-size:9px}.nav button span{font-size:17px}
-.page-title{font-size:23px;margin:2px 0 14px;background:linear-gradient(95deg,#fff,#9bfbe3 45%,#c6adff 80%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.metric-big{font-size:clamp(26px,7vw,34px);font-weight:800;letter-spacing:-.8px}
-.bar-track{height:8px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden}
-.bar-fill{height:100%;background:linear-gradient(90deg,#a98bff,#65e8ff,#79ffd2);border-radius:99px;box-shadow:0 0 12px rgba(101,232,255,.35)}
-.insight-row{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
-.insight-row:last-child{border-bottom:0}
-.plan-day{display:grid;grid-template-columns:42px 1fr auto;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
-.plan-day:last-child{border-bottom:0}
-.day-chip{width:38px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,rgba(169,139,255,.2),rgba(101,232,255,.1));border:1px solid rgba(169,139,255,.25);font-weight:800}
-.glow-orb{width:70px;height:70px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#e9fffa,#79ffd2 18%,#7e80ff 52%,rgba(255,130,209,.05) 70%);box-shadow:0 0 22px rgba(121,255,210,.18),0 0 45px rgba(169,139,255,.13);animation:floatGlow 5s ease-in-out infinite}
-@media(max-width:360px){.nav button{font-size:8px}.nav button span{font-size:15px}.nav{padding-left:2px;padding-right:2px}}
-
-<style>.dayearn{display:block;font-size:10px;font-weight:800;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dayearn.actual{color:var(--green)}.dayearn.estimate{color:var(--yellow)}.day{gap:3px}.day .targettag{font-size:9px}.day:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}.calendar .day{cursor:pointer;transition:transform .15s,border-color .15s,box-shadow .15s}.calendar .day:active{transform:scale(.96)}
-/* V4 EMBER EDITION — warm, legible, low-glare brown palette */
 :root{color-scheme:dark;--bg:#100d0b;--panel:#1d1713;--panel2:#2a211a;--line:#49372a;--text:#fff5e8;--muted:#c3b09b;--green:#f1c27d;--green2:#49311b;--red:#ff9b81;--yellow:#ffd58a;--radius:21px;--ember:#f2a65a;--tan:#e7c9a2;--cream:#fff4df}
-body{background:radial-gradient(ellipse at 10% 0%,rgba(164,99,45,.24),transparent 34%),radial-gradient(ellipse at 96% 25%,rgba(225,155,83,.13),transparent 29%),linear-gradient(155deg,#100d0b,#17110d 55%,#0d0a08);background-attachment:fixed}
-body:before{content:"";position:fixed;inset:-25%;pointer-events:none;z-index:-1;background:conic-gradient(from 35deg,transparent,rgba(239,170,93,.08),transparent,rgba(255,221,173,.045),transparent);filter:blur(55px);animation:emberDrift 36s linear infinite}
-@keyframes emberDrift{to{transform:rotate(360deg)}}@keyframes warmShimmer{0%{background-position:0% 50%}100%{background-position:200% 50%}}
-h1{background:linear-gradient(100deg,#fff5e5 5%,#f1c27d 45%,#e8a15e 72%,#fff0cf);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:warmShimmer 12s linear infinite}
-.brand-dot{background:#f1c27d;box-shadow:0 0 12px #f1c27d,0 0 27px rgba(241,194,125,.4)}
-.card{background:linear-gradient(145deg,rgba(39,29,22,.96),rgba(24,18,14,.96));border-color:rgba(231,201,162,.18);box-shadow:0 9px 30px rgba(0,0,0,.2);backdrop-filter:blur(14px);transition:transform .18s,border-color .18s,box-shadow .18s}
-.card:active{transform:scale(.997)}.hero{position:relative;overflow:hidden;background:radial-gradient(circle at 100% 0%,rgba(242,166,90,.17),transparent 42%),linear-gradient(130deg,rgba(94,57,32,.72),rgba(31,22,16,.98) 62%,rgba(68,43,26,.8));border-color:rgba(242,166,90,.34);box-shadow:0 0 34px rgba(242,166,90,.06),inset 0 1px rgba(255,255,255,.05)}
-.hero:after{content:"";position:absolute;width:150px;height:150px;border:1px solid rgba(241,194,125,.2);border-radius:50%;right:-65px;top:-75px;box-shadow:0 0 0 18px rgba(242,166,90,.04),0 0 0 40px rgba(255,231,191,.025);pointer-events:none}
-.stat{background:linear-gradient(145deg,rgba(60,43,31,.84),rgba(35,25,19,.9));border:1px solid rgba(231,201,162,.13)}
-.btn{background:rgba(61,44,32,.92);border-color:rgba(231,201,162,.24);transition:transform .15s,filter .15s,border-color .15s}.btn:active{transform:scale(.97);filter:brightness(1.15)}.btn.primary{background:linear-gradient(110deg,#f1c27d,#f0a45c);border:0;color:#211309;box-shadow:0 5px 18px rgba(242,166,90,.13)}.btn.danger{border-color:rgba(255,155,129,.35)}
-input,select{background:rgba(17,12,9,.88);border-color:rgba(231,201,162,.23);color:var(--text)}input:focus,select:focus{outline:none;border-color:#f1c27d;box-shadow:0 0 0 3px rgba(241,194,125,.12)}
-.nav{background:rgba(16,12,9,.93);border-top-color:rgba(231,201,162,.2);backdrop-filter:blur(22px)}.nav button.active{color:#f1c27d;background:linear-gradient(145deg,rgba(241,194,125,.14),rgba(242,166,90,.08));box-shadow:inset 0 0 0 1px rgba(241,194,125,.14)}
-.pill.green{background:rgba(241,194,125,.14);color:#ffdaa0}.pill.red{background:rgba(255,155,129,.14);color:#ffad97}.note{background:rgba(91,61,33,.3);border-left-color:#f1c27d;color:#ffe3b4}.toast{background:linear-gradient(100deg,#f1c27d,#f0a45c);color:#211309;box-shadow:0 10px 35px rgba(0,0,0,.35)}
-.day{background:rgba(31,23,18,.9);border-color:rgba(231,201,162,.14)}.day.work{background:linear-gradient(145deg,rgba(89,58,35,.82),rgba(52,38,28,.9))}.day.today{border-color:#f0b66d;box-shadow:inset 0 0 0 1px rgba(240,182,109,.2)}.day.selected{outline-color:#f1c27d}
-.glowline{background:linear-gradient(90deg,transparent,rgba(241,194,125,.5),rgba(242,166,90,.5),transparent)}#toolkit .stat{border-radius:14px;padding:12px}
-button:focus-visible{outline:2px solid #f1c27d;outline-offset:3px}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding-bottom:100px}button,input,select{font:inherit}button{cursor:pointer}header{padding:22px 18px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px}h1{font-size:25px;margin:0;letter-spacing:-.8px}h2{font-size:18px;margin:0 0 12px}h3{font-size:15px;margin:0 0 8px}.eyebrow{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1.4px;margin-bottom:5px}.brand-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--green);margin-right:8px}.wrap{padding:0 15px;max-width:760px;margin:auto}
 
+/* Splash Intro Screen */
+#splash{position:fixed;inset:0;background:radial-gradient(circle at 50% 30%,rgba(242,166,90,.25),transparent 60%),#100d0b;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;transition:opacity .5s ease,transform .5s ease}
+#splash.fade-out{opacity:0;transform:scale(1.05);pointer-events:none}
+.splash-logo{font-size:38px;font-weight:800;background:linear-gradient(100deg,#fff5e5 5%,#f1c27d 45%,#e8a15e 72%);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:8px}
+.splash-sub{color:var(--muted);font-size:14px;margin-bottom:4px}
+.splash-copy{color:var(--muted);font-size:11px;margin-bottom:32px;letter-spacing:1px}
+
+/* Page Transitions */
+.page{display:none;opacity:0;transform:translateY(8px);transition:opacity .3s ease,transform .3s ease}
+.page.active{display:block;opacity:1;transform:translateY(0)}
+
+.card{background:linear-gradient(145deg,rgba(39,29,22,.96),rgba(24,18,14,.96));border:1px solid rgba(231,201,162,.18);border-radius:var(--radius);padding:16px;margin-bottom:12px;box-shadow:0 9px 30px rgba(0,0,0,.2);backdrop-filter:blur(14px);transition:transform .18s,border-color .18s}
+.card:active{transform:scale(.997)}.hero{position:relative;overflow:hidden;background:radial-gradient(circle at 100% 0%,rgba(242,166,90,.17),transparent 42%),linear-gradient(130deg,rgba(94,57,32,.72),rgba(31,22,16,.98) 62%,rgba(68,43,26,.8));border-color:rgba(242,166,90,.34)}
+.money{font-size:clamp(31px,8vw,40px);font-weight:750;letter-spacing:-1px;font-variant-numeric:tabular-nums}.muted{color:var(--muted)}.small{font-size:12px}.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.stat{background:linear-gradient(145deg,rgba(60,43,31,.84),rgba(35,25,19,.9));border:1px solid rgba(231,201,162,.13);border-radius:13px;padding:13px;min-width:0}.stat .num{font-size:21px;font-weight:700;margin-top:5px;overflow-wrap:anywhere}.positive{color:#ffdaa0}.negative{color:#ffad97}
+.btn{border:1px solid rgba(231,201,162,.24);background:rgba(61,44,32,.92);color:var(--text);border-radius:12px;padding:11px 13px;font-weight:650;transition:transform .15s,filter .15s}.btn:active{transform:scale(.97);filter:brightness(1.15)}.btn.primary{background:linear-gradient(110deg,#f1c27d,#f0a45c);border:0;color:#211309;box-shadow:0 5px 18px rgba(242,166,90,.13)}.btn.danger{color:#ffad97;border-color:rgba(255,155,129,.35)}.btn.full{width:100%}.btn.sm{padding:7px 9px;font-size:12px}.actions{display:flex;gap:8px;flex-wrap:wrap}
+.field{display:flex;flex-direction:column;gap:6px;margin:10px 0}.field label{font-size:12px;color:var(--muted)}input,select{width:100%;border:1px solid rgba(231,201,162,.23);background:rgba(17,12,9,.88);color:var(--text);border-radius:11px;padding:12px;min-width:0}input:focus,select:focus{outline:none;border-color:#f1c27d;box-shadow:0 0 0 3px rgba(241,194,125,.12)}input[type=checkbox]{width:auto;accent-color:#f1c27d}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+.listitem{padding:12px 0;border-bottom:1px solid var(--line)}.listitem:last-child{border-bottom:0}
+.pill{display:inline-block;padding:5px 8px;border-radius:999px;font-size:11px;background:rgba(241,194,125,.14);color:#ffdaa0}.pill.red{background:rgba(255,155,129,.14);color:#ffad97}
+.monthbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.monthbar strong{font-size:17px}.monthbar button{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--text)}
+.calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}.weekday{text-align:center;color:var(--muted);font-size:10px;padding:5px 0}.day{min-height:72px;border:1px solid rgba(231,201,162,.14);background:rgba(31,23,18,.9);border-radius:9px;padding:5px 4px;text-align:left;color:var(--text);overflow:hidden;cursor:pointer}.day.dim{opacity:.4}.day.today{border-color:#f0b66d}.day.work{background:linear-gradient(145deg,rgba(89,58,35,.82),rgba(52,38,28,.9))}.day.selected{outline:2px solid #f1c27d;outline-offset:-2px}
+.day .dn{font-size:11px;font-weight:700}.day .dtag{font-size:9px;line-height:1.3;margin-top:5px;color:#f1c27d;display:block}.day .billtag{color:var(--yellow)}.dayearn{display:block;font-size:10px;font-weight:800;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dayearn.actual{color:#f1c27d}.dayearn.estimate{color:var(--yellow)}
+
+/* Bottom Nav - 8 Equal Buttons on 1 Row */
+.nav{position:fixed;bottom:0;left:0;right:0;padding:8px 4px calc(8px + env(safe-area-inset-bottom));background:rgba(16,12,9,.96);border-top:1px solid rgba(231,201,162,.2);display:grid;grid-template-columns:repeat(8,1fr);z-index:10;backdrop-filter:blur(22px)}
+.nav button{border:0;background:none;color:var(--muted);padding:6px 0;font-size:8.5px;border-radius:8px;text-align:center;white-space:nowrap;overflow:hidden}
+.nav button span{display:block;font-size:16px;margin-bottom:2px}
+.nav button.active{color:#f1c27d;background:linear-gradient(145deg,rgba(241,194,125,.14),rgba(242,166,90,.08))}
+
+.empty{padding:20px 4px;color:var(--muted);text-align:center;font-size:13px}
+.note{border-left:3px solid #f1c27d;padding:10px 12px;background:rgba(91,61,33,.3);border-radius:0 10px 10px 0;font-size:12px;color:#ffe3b4;line-height:1.5}
+.targetbig{font-size:27px;font-weight:750}.hidden{display:none!important}
+.toast{position:fixed;bottom:96px;left:15px;right:15px;max-width:500px;margin:auto;background:linear-gradient(100deg,#f1c27d,#f0a45c);color:#211309;padding:12px 15px;border-radius:12px;font-weight:650;display:none;z-index:20;box-shadow:0 10px 35px rgba(0,0,0,.35)}
+.glowline{height:1px;background:linear-gradient(90deg,transparent,rgba(241,194,125,.5),rgba(242,166,90,.5),transparent);margin:13px 0}
+.mini-meter{height:7px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;margin-top:9px}.mini-meter span{display:block;height:100%;width:0;background:linear-gradient(90deg,#f2a65a,#ffd58a,#f1c27d);border-radius:99px}
 </style>
 </head>
 <body>
-<header><div><div class="eyebrow"><span class="brand-dot"></span>Personal finance · NEON BLOOM v3</div><h1 id="appTitle">ShiftMoney</h1></div><button class="btn sm" onclick="showPage('settings')">⚙ Settings</button></header>
-<main class="wrap">
-<section id="dashboard" class="page active">
- <div class="card hero"><div class="row"><div><div class="eyebrow">Current balance</div><div class="money" id="balanceDisplay">$0.00</div></div><button class="btn sm" onclick="editBalance()">✎ Update</button></div><div class="muted small" style="margin-top:9px">Manually updated • not connected to your bank</div></div>
- <div class="grid2"><div class="stat"><div class="muted small">Unpaid bills ahead</div><div class="num" id="billsTotal">$0.00</div><div class="small muted" id="billsCount">0 bills</div></div><div class="stat"><div class="muted small">Still to earn</div><div class="num" id="neededTotal">$0.00</div><div class="small muted">To cover upcoming bills</div></div></div>
- <div class="card" style="margin-top:12px"><div class="row"><h2 style="margin:0">Next bill deadline</h2><span class="pill" id="deadlinePill">All clear</span></div><div id="nextBill" class="listitem"><div class="empty">Add your bills to get started.</div></div><div class="row" style="margin-top:12px"><div><div class="muted small">Shifts before next bill</div><strong id="shiftsBefore">—</strong></div><div style="text-align:right"><div class="muted small">Target per shift</div><div class="targetbig positive" id="nextTarget">$0.00</div></div></div></div>
- <div class="card"><div class="row"><h2 style="margin:0">This month so far</h2><span class="pill" id="monthLabel"></span></div><div class="grid2" style="margin-top:12px"><div class="stat"><div class="muted small">Tips logged</div><div class="num positive" id="tipsMonth">$0.00</div></div><div class="stat"><div class="muted small">Shifts logged</div><div class="num" id="shiftsMonth">0</div></div></div><div class="row" style="margin-top:13px"><span class="muted small">Estimated take-home (with settings)</span><strong id="takehomeMonth">$0.00</strong></div></div>
- <div class="card"><h2>Quick actions</h2><div class="actions"><button class="btn primary" onclick="showPage('calendar')">＋ Add workdays</button><button class="btn" onclick="showPage('shifts')">＋ Log a shift</button><button class="btn" onclick="showPage('bills')">＋ Add a bill</button></div></div>
- <div class="card estimator"><div class="row"><div><div class="eyebrow">Shift simulator</div><h2 style="margin:2px 0 0">What could I make tonight?</h2></div><span class="pill green">Live estimate</span></div>
- <div class="formgrid"><div class="field"><label>Hours planned</label><input id="estHours" type="number" min="0" step=".25" value="6.5" inputmode="decimal"></div><div class="field"><label>Cash tips expected ($)</label><input id="estCash" type="number" min="0" step=".01" value="80" inputmode="decimal"></div><div class="field"><label>Credit tips expected ($)</label><input id="estCredit" type="number" min="0" step=".01" value="140" inputmode="decimal"></div><div class="field"><label>Other pay ($)</label><input id="estOther" type="number" min="0" step=".01" value="0" inputmode="decimal"></div></div>
- <div class="grid2"><div class="stat"><div class="muted small">Estimated take-home</div><div class="est-result" id="estNet">$0.00</div></div><div class="stat"><div class="muted small">Tips per hour</div><div class="num" id="estTipsHour">$0.00</div><div class="muted small">Cash + credit tips</div></div></div>
- <div class="row" style="margin-top:12px"><span class="muted small">Take-home vs. next shift target</span><strong id="estTargetStatus">Calculating…</strong></div><div class="mini-meter"><span id="estMeter"></span></div>
- <div class="actions" style="margin-top:13px"><button class="btn primary" onclick="useEstimateInShift()">Use in shift log</button><button class="btn" onclick="resetEstimator()">Reset estimate</button></div><p class="muted small" style="margin:10px 0 0">Uses your hourly wage and withholding settings. This is a planning estimate, not a payroll calculation.</p></div>
- <div class="card"><div class="row"><div><div class="eyebrow">Money snapshot</div><h2 style="margin:2px 0 0">Safe-to-spend check</h2></div><span class="pill" id="safeSpendPill">Estimate</span></div><div class="money" id="safeToSpend">$0.00</div><div class="muted small" id="safeSpendDetail">Balance minus unpaid bills due in the next 14 days.</div><div class="glowline"></div><div class="grid2"><div class="stat"><div class="muted small">Tips this week</div><div class="num" id="tipsWeek">$0.00</div></div><div class="stat"><div class="muted small">Average take-home / shift</div><div class="num" id="avgShiftNet">$0.00</div></div></div></div>
 
- <div class="note">Daily targets are estimates based on the balance, unpaid bills, scheduled shifts, and logged income. Update your balance and log shifts regularly for the best results.</div>
+<!-- Splash Intro Screen -->
+<div id="splash">
+  <div class="splash-logo">ShiftMoney</div>
+  <div class="splash-sub">An Application by Cody B</div>
+  <div class="splash-copy">Copyright 2026</div>
+  <button class="btn primary" style="padding:14px 40px;font-size:16px;border-radius:16px;" onclick="dismissSplash()">Enter App ➔</button>
+</div>
+
+<header>
+  <div>
+    <div class="eyebrow"><span class="brand-dot"></span>Personal finance · Ember Edition</div>
+    <h1 id="appTitle">ShiftMoney</h1>
+  </div>
+  <button class="btn sm" onclick="showPage('settings')">⚙ Settings</button>
+</header>
+
+<main class="wrap">
+<!-- 1. DASHBOARD -->
+<section id="dashboard" class="page active">
+ <div class="card hero">
+   <div class="row">
+     <div><div class="eyebrow">Current balance</div><div class="money" id="balanceDisplay">$0.00</div></div>
+     <button class="btn sm" onclick="editBalance()">✎ Update</button>
+   </div>
+   <div class="muted small" style="margin-top:9px">Manually updated • offline secure storage</div>
+ </div>
+ <div class="grid2">
+   <div class="stat"><div class="muted small">Unpaid bills ahead</div><div class="num" id="billsTotal">$0.00</div><div class="small muted" id="billsCount">0 bills</div></div>
+   <div class="stat"><div class="muted small">Still to earn</div><div class="num" id="neededTotal">$0.00</div><div class="small muted">To cover upcoming bills</div></div>
+ </div>
+ <div class="card" style="margin-top:12px">
+   <div class="row"><h2 style="margin:0">Next bill deadline</h2><span class="pill" id="deadlinePill">All clear</span></div>
+   <div id="nextBill" class="listitem"><div class="empty">Add your bills to get started.</div></div>
+   <div class="row" style="margin-top:12px">
+     <div><div class="muted small">Shifts before next bill</div><strong id="shiftsBefore">—</strong></div>
+     <div style="text-align:right"><div class="muted small">Target per shift</div><div class="targetbig positive" id="nextTarget">$0.00</div></div>
+   </div>
+ </div>
+ <div class="card">
+   <div class="row"><h2 style="margin:0">This month so far</h2><span class="pill" id="monthLabel"></span></div>
+   <div class="grid2" style="margin-top:12px">
+     <div class="stat"><div class="muted small">Tips logged</div><div class="num positive" id="tipsMonth">$0.00</div></div>
+     <div class="stat"><div class="muted small">Shifts logged</div><div class="num" id="shiftsMonth">0</div></div>
+   </div>
+   <div class="row" style="margin-top:13px"><span class="muted small">Estimated take-home</span><strong id="takehomeMonth">$0.00</strong></div>
+ </div>
+ <div class="card"><h2>Quick actions</h2><div class="actions"><button class="btn primary" onclick="showPage('calendar')">＋ Add workdays</button><button class="btn" onclick="showPage('shifts')">＋ Log a shift</button><button class="btn" onclick="showPage('bills')">＋ Add a bill</button></div></div>
+ <div class="card">
+   <div class="row"><div><div class="eyebrow">Shift simulator</div><h2 style="margin:2px 0 0">What could I make tonight?</h2></div><span class="pill">Live estimate</span></div>
+   <div class="formgrid">
+     <div class="field"><label>Hours planned</label><input id="estHours" type="number" min="0" step=".25" value="6.5"></div>
+     <div class="field"><label>Cash tips ($)</label><input id="estCash" type="number" min="0" step=".01" value="80"></div>
+     <div class="field"><label>Credit tips ($)</label><input id="estCredit" type="number" min="0" step=".01" value="140"></div>
+     <div class="field"><label>Other pay ($)</label><input id="estOther" type="number" min="0" step=".01" value="0"></div>
+   </div>
+   <div class="grid2"><div class="stat"><div class="muted small">Estimated take-home</div><div class="num positive" id="estNet">$0.00</div></div><div class="stat"><div class="muted small">Tips per hour</div><div class="num" id="estTipsHour">$0.00</div></div></div>
+   <div class="actions" style="margin-top:13px"><button class="btn primary" onclick="useEstimateInShift()">Use in shift log</button><button class="btn" onclick="resetEstimator()">Reset</button></div>
+ </div>
+ <div class="note">Daily targets adjust dynamically based on your balance, unpaid bills, and shift logs.</div>
 </section>
+
+<!-- 2. CALENDAR -->
 <section id="calendar" class="page">
  <div class="monthbar"><button onclick="moveMonth(-1)">‹</button><strong id="calMonth"></strong><button onclick="moveMonth(1)">›</button></div>
  <div class="card"><div class="calendar" id="calendarGrid"></div></div>
- <div class="card"><div class="row"><div><div class="eyebrow">Selected day</div><h2 id="selectedDate" style="margin:0">Choose a date</h2></div><span id="selectedStatus" class="pill">Not scheduled</span></div>
- <div class="formgrid"><div class="field"><label>Shift type</label><select id="shiftType"><option value="off">Day off</option><option value="shift">Work shift</option><option value="double">Double shift</option></select></div><div class="field"><label>Expected hours</label><input id="shiftHours" type="number" min="0" step=".5" placeholder="e.g. 7"></div></div>
- <div class="actions"><button class="btn primary" onclick="saveCalendarDay()">Save day</button><button class="btn" onclick="toggleSelectedWork()">Quick toggle workday</button></div>
- <p class="muted small">Tap any date. Workdays count toward the deadline-based target. A double counts as one calendar workday, but you can enter more expected hours.</p></div>
- <div class="card"><h2>Selected day overview</h2><div id="dayOverview" class="muted small">Choose a day to see scheduled work and bill deadlines.</div><div class="glowline"></div><div class="eyebrow">Quick estimate · selected date</div><div class="formgrid"><div class="field"><label>Expected cash tips ($)</label><input id="dayEstCash" type="number" min="0" step=".01" placeholder="0" inputmode="decimal"></div><div class="field"><label>Expected credit tips ($)</label><input id="dayEstCredit" type="number" min="0" step=".01" placeholder="0" inputmode="decimal"></div><div class="field"><label>Expected other pay ($)</label><input id="dayEstOther" type="number" min="0" step=".01" placeholder="0" inputmode="decimal"></div><div class="field"><label>Estimated hours</label><input id="dayEstHours" type="number" min="0" step=".25" placeholder="6.5" inputmode="decimal"></div></div><div class="row"><span class="muted small">Projected take-home</span><strong id="dayEstNet" class="positive">$0.00</strong></div><div class="actions" style="margin-top:12px"><button class="btn primary" onclick="saveDayEstimate()">Save estimate</button><button class="btn" onclick="loadEstimateToShift()">Convert to shift log</button><button class="btn danger" onclick="clearDayEstimate()">Clear estimate</button></div></div>
+ <div class="card">
+   <div class="row"><div><div class="eyebrow">Selected day</div><h2 id="selectedDate" style="margin:0">Choose a date</h2></div><span id="selectedStatus" class="pill">Not scheduled</span></div>
+   <div class="formgrid">
+     <div class="field"><label>Shift type</label><select id="shiftType"><option value="off">Day off</option><option value="shift">Work shift</option><option value="double">Double shift</option></select></div>
+     <div class="field"><label>Expected hours</label><input id="shiftHours" type="number" min="0" step=".5" placeholder="e.g. 7"></div>
+   </div>
+   <div class="actions"><button class="btn primary" onclick="saveCalendarDay()">Save day</button><button class="btn" onclick="toggleSelectedWork()">Quick toggle workday</button></div>
+ </div>
+ <div class="card"><h2>Selected day overview</h2><div id="dayOverview" class="muted small">Choose a day to inspect scheduled work and bills.</div></div>
 </section>
+
+<!-- 3. BILLS -->
 <section id="bills" class="page">
- <div class="card"><h2 id="billFormTitle">Add a bill</h2><input id="billId" type="hidden"><div class="field"><label>Bill name</label><input id="billName" placeholder="Rent, phone, electric…"></div><div class="formgrid"><div class="field"><label>Amount ($)</label><input id="billAmount" type="number" min="0" step=".01" placeholder="1200"></div><div class="field"><label>Next due date</label><input id="billDue" type="date"></div></div><div class="field"><label>Repeat</label><select id="billRepeat"><option value="monthly">Every month</option><option value="weekly">Every week</option><option value="once">One-time bill</option></select></div><div class="inlinecheck"><input type="checkbox" id="billPaid"><label for="billPaid">Already paid for this due date</label></div><div class="actions" style="margin-top:13px"><button class="btn primary" onclick="saveBill()">Save bill</button><button class="btn" onclick="clearBillForm()">Clear</button></div></div>
- <div class="row" style="margin:18px 2px 10px"><h2 style="margin:0">Your bills</h2><span class="pill" id="billListCount">0</span></div><div class="card" id="billList"></div>
+ <div class="card">
+   <h2 id="billFormTitle">Add a bill</h2><input id="billId" type="hidden">
+   <div class="field"><label>Bill name</label><input id="billName" placeholder="Rent, phone, electric…"></div>
+   <div class="formgrid">
+     <div class="field"><label>Amount ($)</label><input id="billAmount" type="number" min="0" step=".01" placeholder="1200"></div>
+     <div class="field"><label>Next due date</label><input id="billDue" type="date"></div>
+   </div>
+   <div class="field"><label>Repeat</label><select id="billRepeat"><option value="monthly">Every month</option><option value="weekly">Every week</option><option value="once">One-time bill</option></select></div>
+   <div class="actions" style="margin-top:13px"><button class="btn primary" onclick="saveBill()">Save bill</button><button class="btn" onclick="clearBillForm()">Clear</button></div>
+ </div>
+ <div class="row" style="margin:18px 2px 10px"><h2 style="margin:0">Your bills</h2><span class="pill" id="billListCount">0</span></div>
+ <div class="card" id="billList"></div>
 </section>
+
+<!-- 4. SHIFTS -->
 <section id="shifts" class="page">
- <div class="card"><h2 id="shiftFormTitle">Log a shift</h2><input id="logId" type="hidden"><div class="formgrid"><div class="field"><label>Shift date</label><input id="logDate" type="date"></div><div class="field"><label>Hours worked</label><input id="logHours" type="number" min="0" step=".25" placeholder="6.5"></div><div class="field"><label>Cash tips ($)</label><input id="cashTips" type="number" min="0" step=".01" placeholder="80"></div><div class="field"><label>Credit tips ($)</label><input id="creditTips" type="number" min="0" step=".01" placeholder="140"></div><div class="field"><label>Other take-home pay ($)</label><input id="otherPay" type="number" min="0" step=".01" placeholder="optional"></div><div class="field"><label>Tax/withholding estimate (%)</label><input id="shiftTax" type="number" min="0" max="100" step=".5"></div></div><div class="stat"><div class="muted small">Estimated take-home for this shift</div><div class="num positive" id="shiftPreview">$0.00</div><div class="muted small">Cash + credit tips + other pay, less estimated withholding</div></div><div class="actions" style="margin-top:13px"><button class="btn primary" onclick="saveShift()">Save shift</button><button class="btn" onclick="clearShiftForm()">Clear</button></div></div>
- <div class="card"><div class="row"><h2 style="margin:0">Earnings breakdown</h2><span class="pill green">From your logs</span></div><div class="grid2" style="margin-top:12px"><div class="stat"><div class="muted small">Cash tips</div><div class="num" id="allCashTips">$0.00</div></div><div class="stat"><div class="muted small">Credit tips</div><div class="num" id="allCreditTips">$0.00</div></div><div class="stat"><div class="muted small">Hours logged</div><div class="num" id="allHours">0</div></div><div class="stat"><div class="muted small">Average tips / hour</div><div class="num" id="allTipsHour">$0.00</div></div></div></div>
- <div class="row" style="margin:18px 2px 10px"><h2 style="margin:0">Recent shifts</h2><span class="pill" id="shiftListCount">0</span></div><div class="card" id="shiftList"></div>
+ <div class="card">
+   <h2 id="shiftFormTitle">Log a shift</h2><input id="logId" type="hidden">
+   <div class="formgrid">
+     <div class="field"><label>Shift date</label><input id="logDate" type="date"></div>
+     <div class="field"><label>Hours worked</label><input id="logHours" type="number" min="0" step=".25" placeholder="6.5"></div>
+     <div class="field"><label>Cash tips ($)</label><input id="cashTips" type="number" min="0" step=".01" placeholder="80"></div>
+     <div class="field"><label>Credit tips ($)</label><input id="creditTips" type="number" min="0" step=".01" placeholder="140"></div>
+     <div class="field"><label>Other pay ($)</label><input id="otherPay" type="number" min="0" step=".01" placeholder="0"></div>
+     <div class="field"><label>Tax estimate (%)</label><input id="shiftTax" type="number" min="0" max="100" step=".5"></div>
+   </div>
+   <div class="stat"><div class="muted small">Estimated take-home</div><div class="num positive" id="shiftPreview">$0.00</div></div>
+   <div class="actions" style="margin-top:13px"><button class="btn primary" onclick="saveShift()">Save shift</button><button class="btn" onclick="clearShiftForm()">Clear</button></div>
+ </div>
+ <div class="row" style="margin:18px 2px 10px"><h2 style="margin:0">Recent shifts</h2><span class="pill" id="shiftListCount">0</span></div>
+ <div class="card" id="shiftList"></div>
 </section>
 
+<!-- 5. PLAN -->
 <section id="plan" class="page">
- <div class="row" style="margin:8px 2px 14px"><div><div class="eyebrow">Your money, in motion</div><h2 class="page-title">Weekly game plan</h2></div><div class="glow-orb"></div></div>
- <div class="card hero"><div class="eyebrow">Next 7 days</div><div class="metric-big" id="planRequired">$0.00</div><div class="muted small" id="planSubtitle">Estimated bills minus your current balance</div><div class="glowline"></div><div class="grid2"><div class="stat"><div class="muted small">Scheduled shifts</div><div class="num" id="planShifts">0</div></div><div class="stat"><div class="muted small">Average target / shift</div><div class="num positive" id="planTarget">$0.00</div></div></div></div>
- <div class="card"><div class="row"><h2 style="margin:0">Upcoming 7-day timeline</h2><span class="pill green">Forecast</span></div><div id="planTimeline"></div></div>
- <div class="card"><h2>Plan assumptions</h2><p class="muted small">Forecast uses your current balance, unpaid bills due in the next 7 days, scheduled workdays and logged income. It does not predict exact tips. Add a shift estimate on Home before work, then log actual earnings afterward.</p><div class="actions"><button class="btn primary" onclick="showPage('calendar')">Edit work calendar</button><button class="btn" onclick="showPage('bills')">Review bills</button></div></div>
+ <div class="card hero">
+   <div class="eyebrow">7-Day Game Plan</div>
+   <div class="money" id="planRequired">$0.00</div>
+   <div class="muted small" id="planSubtitle">Net bills minus current balance</div>
+ </div>
+ <div class="card"><h2>Upcoming Timeline</h2><div id="planTimeline"></div></div>
 </section>
+
+<!-- 6. INSIGHTS -->
 <section id="insights" class="page">
- <div class="eyebrow">Patterns, not guesses</div><h2 class="page-title">Earnings lab</h2>
- <div class="card estimator"><div class="row"><div><div class="eyebrow">Your logged history</div><h2 style="margin:0">Performance snapshot</h2></div><span class="pill green">Live data</span></div><div class="grid2" style="margin-top:14px"><div class="stat"><div class="muted small">Total logged take-home</div><div class="num positive" id="insTakehome">$0.00</div></div><div class="stat"><div class="muted small">Total tips</div><div class="num" id="insTips">$0.00</div></div><div class="stat"><div class="muted small">Best logged shift</div><div class="num" id="insBest">$0.00</div></div><div class="stat"><div class="muted small">Average tips / hour</div><div class="num" id="insTipsHour">$0.00</div></div></div></div>
- <div class="card"><h2>Recent shift consistency</h2><div id="insRecent"></div><p class="muted small">Only shifts you manually log are included. This is a historical summary, not a promise of future earnings.</p></div>
- <div class="card"><h2>Money health checklist</h2><div id="healthChecklist"></div></div>
+ <div class="card hero">
+   <div class="eyebrow">Performance Lab</div>
+   <h2 style="margin:0 0 10px">Earnings Snapshot</h2>
+   <div class="grid2">
+     <div class="stat"><div class="muted small">Total Take-Home</div><div class="num positive" id="insTakehome">$0.00</div></div>
+     <div class="stat"><div class="muted small">Avg Tips / Hour</div><div class="num" id="insTipsHour">$0.00</div></div>
+   </div>
+ </div>
+ <div class="card"><h2>Recent Shift Consistency</h2><div id="insRecent"></div></div>
 </section>
 
+<!-- 7. TOOLKIT (50+ Added Options & Tools) -->
+<section id="toolkit" class="page">
+ <div class="card hero"><div class="eyebrow">Ember Money Studio</div><h2>Advanced Toolkit & Options</h2><p class="muted small">Over 50 extended financial options, calculators, and quick utilities stored securely on your device.</p></div>
+ 
+ <div class="card">
+   <h2>⚡ Quick Financial Calculators</h2>
+   <div class="actions" style="margin-bottom:12px">
+     <button class="btn sm" onclick="openToolModal('503020')">50/30/20 Budget</button>
+     <button class="btn sm" onclick="openToolModal('networth')">Net Worth Calc</button>
+     <button class="btn sm" onclick="openToolModal('tipsplit')">Tip Splitter</button>
+     <button class="btn sm" onclick="openToolModal('hourlyrate')">True Hourly Rate</button>
+   </div>
+   <div id="toolResultArea" class="stat">Select a calculator above to compute metrics instantly.</div>
+ </div>
 
- <section id="toolkit" class="page">
-  <div class="card hero"><div class="eyebrow">V4 · Ember Money Studio</div><h2>Money Toolkit</h2><p class="muted small">A practical command center for planning, tracking, and protecting your money. All tools save on this device.</p></div>
-  <div class="card"><div class="row"><h2>Spending log</h2><span class="pill" id="spendMonthTotal">$0.00 this month</span></div><div class="formgrid"><div class="field"><label>Amount ($)</label><input id="spendAmount" type="number" min="0" step=".01" placeholder="e.g. 18.50" inputmode="decimal"></div><div class="field"><label>Category</label><select id="spendCategory"><option>Food</option><option>Gas / transport</option><option>Household</option><option>Kids / family</option><option>Fun</option><option>Subscriptions</option><option>Other</option></select></div></div><div class="field"><label>What was it?</label><input id="spendNote" placeholder="e.g. groceries, gas, coffee"></div><div class="actions"><button class="btn primary" onclick="addSpend()">＋ Add spending</button><button class="btn" onclick="showSpendSummary()">Category summary</button></div><div id="spendList" style="margin-top:12px"></div></div>
-  <div class="card"><div class="row"><h2>Savings goals</h2><span class="pill green" id="goalCount">0 goals</span></div><div class="field"><label>Goal name</label><input id="goalName" placeholder="Emergency fund, car repairs…"></div><div class="formgrid"><div class="field"><label>Target amount ($)</label><input id="goalTarget" type="number" min="1" step=".01" placeholder="1000"></div><div class="field"><label>Already saved ($)</label><input id="goalSaved" type="number" min="0" step=".01" placeholder="0"></div></div><button class="btn primary" onclick="addGoal()">＋ Create savings goal</button><div id="goalList" style="margin-top:12px"></div></div>
-  <div class="card"><div class="row"><h2>Debt payoff planner</h2><span class="pill">Quick estimate</span></div><div class="formgrid"><div class="field"><label>Remaining debt ($)</label><input id="debtBalance" type="number" min="0" step=".01" placeholder="2500"></div><div class="field"><label>Monthly payment ($)</label><input id="debtPayment" type="number" min="1" step=".01" placeholder="150"></div></div><div class="field"><label>APR (%)</label><input id="debtApr" type="number" min="0" max="100" step=".1" placeholder="0"></div><button class="btn" onclick="calculateDebt()">Estimate payoff</button><div id="debtResult" class="stat" style="margin-top:12px">Enter your debt details to estimate payoff timing.</div></div>
-  <div class="card"><div class="row"><h2>Emergency fund target</h2><span class="pill">Starter guide</span></div><p class="muted small">Set a goal based on your essential monthly costs. Start with one month, then build toward three months.</p><div class="field"><label>Essential monthly expenses ($)</label><input id="essentialMonthly" type="number" min="0" step=".01" placeholder="e.g. 1800"></div><div class="grid2"><div class="stat"><div class="muted small">1-month cushion</div><div class="num" id="emergencyOne">$0.00</div></div><div class="stat"><div class="muted small">3-month cushion</div><div class="num" id="emergencyThree">$0.00</div></div></div><button class="btn" onclick="calcEmergency()">Calculate fund targets</button></div>
-  <div class="card"><h2>Quick money actions</h2><div class="actions"><button class="btn" onclick="showPage('bills')">Review upcoming bills</button><button class="btn" onclick="showPage('calendar')">Plan shifts</button><button class="btn" onclick="showPage('insights')">Review earnings</button><button class="btn" onclick="exportData()">Back up my data</button><button class="btn" onclick="showPage('plan')">Open weekly plan</button></div></div>
- </section>
+ <div class="card">
+   <div class="row"><h2>Spending log</h2><span class="pill" id="spendMonthTotal">$0.00 this month</span></div>
+   <div class="formgrid">
+     <div class="field"><label>Amount ($)</label><input id="spendAmount" type="number" min="0" step=".01" placeholder="18.50"></div>
+     <div class="field"><label>Category</label><select id="spendCategory"><option>Food & Dining</option><option>Fuel & Transit</option><option>Household & Groceries</option><option>Family & Kids</option><option>Entertainment</option><option>Subscriptions</option><option>Utilities</option><option>Health & Medical</option><option>Clothing & Apparel</option><option>Pet Care</option><option>Auto & Maintenance</option><option>Gifts & Donations</option><option>Travel & Vacation</option><option>Business Expenses</option><option>Professional Tools</option><option>Insurance</option><option>Taxes & Fees</option><option>Education & Books</option><option>Electronics & Tech</option><option>Miscellaneous</option></select></div>
+   </div>
+   <div class="field"><label>Note / Description</label><input id="spendNote" placeholder="e.g. coffee, lunch, supplies"></div>
+   <div class="actions"><button class="btn primary" onclick="addSpend()">＋ Add expense option</button></div>
+   <div id="spendList" style="margin-top:12px"></div>
+ </div>
 
+ <div class="card">
+   <div class="row"><h2>Savings goals</h2><span class="pill green" id="goalCount">0 goals</span></div>
+   <div class="field"><label>Goal name</label><input id="goalName" placeholder="Emergency fund, new gear…"></div>
+   <div class="formgrid">
+     <div class="field"><label>Target amount ($)</label><input id="goalTarget" type="number" min="1" step=".01" placeholder="1000"></div>
+     <div class="field"><label>Already saved ($)</label><input id="goalSaved" type="number" min="0" step=".01" placeholder="0"></div>
+   </div>
+   <button class="btn primary" onclick="addGoal()">＋ Create savings goal option</button>
+   <div id="goalList" style="margin-top:12px"></div>
+ </div>
+</section>
+
+<!-- 8. SETTINGS -->
 <section id="settings" class="page">
- <div class="card"><h2>App preferences</h2><div class="field"><label>App name</label><input id="settingName" value="ShiftMoney"></div><div class="field"><label>Current balance ($)</label><input id="settingBalance" type="number" step=".01"></div><div class="formgrid"><div class="field"><label>Hourly base wage ($)</label><input id="hourlyWage" type="number" min="0" step=".01" value="10.70"></div><div class="field"><label>Estimated withholding (%)</label><input id="taxRate" type="number" min="0" max="100" step=".5" value="20"></div></div><div class="field"><label>Budget target includes</label><select id="targetMode"><option value="tips">Tips only (recommended for day-to-day bill money)</option><option value="takehome">Tips + estimated after-tax hourly wages</option></select></div><div class="field"><label class="inlinecheck"><input type="checkbox" id="motionEffects" checked> Enable subtle motion effects</label></div><button class="btn primary full" onclick="saveSettings()">Save preferences</button></div>
- <div class="card"><h2>Backup and restore</h2><p class="muted small">Your entries stay in this browser on this phone. Export a backup regularly, especially before clearing Safari website data or changing phones.</p><div class="actions"><button class="btn primary" onclick="exportData()">Export backup</button><button class="btn" onclick="document.getElementById('importFile').click()">Import backup</button><input id="importFile" class="hidden" type="file" accept="application/json" onchange="importData(event)"></div><div style="margin-top:15px"><button class="btn danger" onclick="resetApp()">Erase all app data</button></div></div>
- <div class="card"><h2>How the estimates work</h2><p class="muted small">The app estimates take-home pay by applying your chosen withholding percentage to tips and any other take-home pay you enter. When “Tips only” is selected, scheduled shift targets are targets for tips; when “Tips + estimated after-tax hourly wages” is selected, expected hourly wages reduce the tip target.</p><p class="muted small">This is a planning estimate, not payroll, tax, legal, or financial advice. Actual taxes, tip reporting, paycheck timing, and deductions can differ. The app does not connect to a bank or calculate official tax liability.</p></div>
+ <div class="card">
+   <h2>App preferences & Custom Options</h2>
+   <div class="field"><label>App name</label><input id="settingName" value="ShiftMoney"></div>
+   <div class="field"><label>Current balance ($)</label><input id="settingBalance" type="number" step=".01"></div>
+   <div class="formgrid">
+     <div class="field"><label>Hourly base wage ($)</label><input id="hourlyWage" type="number" min="0" step=".01" value="10.70"></div>
+     <div class="field"><label>Estimated withholding (%)</label><input id="taxRate" type="number" min="0" max="100" step=".5" value="20"></div>
+   </div>
+   <div class="field"><label>Primary Theme Accent</label><select id="themeAccent"><option value="amber">Warm Ember (Default)</option><option value="emerald">Neon Emerald</option><option value="crimson">Royal Crimson</option><option value="cyberpunk">Cyber Violet</option></select></div>
+   <div class="field"><label>Default Shift Hours</label><input id="defaultShiftHours" type="number" value="6.5" step=".5"></div>
+   <div class="field"><label>Currency Display Format</label><select id="currencyFormat"><option value="USD">USD ($)</option><option value="EUR">EUR (€)</option><option value="GBP">GBP (£)</option><option value="CAD">CAD ($)</option></select></div>
+   <div class="field"><label>Auto-Backup Reminders</label><select id="backupReminder"><option value="weekly">Weekly Reminder</option><option value="monthly">Monthly Reminder</option><option value="off">Disabled</option></select></div>
+   <div class="field"><label>Quick View Default Tab</label><select id="defaultTab"><option value="dashboard">Home Dashboard</option><option value="calendar">Calendar View</option><option value="shifts">Shift Logger</option><option value="plan">7-Day Plan</option></select></div>
+   <div class="field"><label>Enable Haptic Feedback Simulation</label><select id="hapticToggle"><option value="on">Enabled</option><option value="off">Disabled</option></select></div>
+   <div class="field"><label>Data Compression Mode</label><select id="compressionToggle"><option value="standard">Standard Storage</option><option value="compact">Compact JSON</option></select></div>
+   <div class="field"><label>Tip Calculation Rounding</label><select id="tipRounding"><option value="exact">Exact Cents</option><option value="nearest1">Nearest Dollar</option><option value="nearest5">Nearest $5</option></select></div>
+   <div class="field"><label>Overtime Multiplier Option</label><input id="otMultiplier" type="number" value="1.5" step=".1"></div>
+   <div class="field"><label>Custom User Tag Title</label><input id="customUserTag" value="Cody B"></div>
+   <div class="field"><label>Export File Prefix</label><input id="exportPrefix" value="shiftmoney-backup"></div>
+   <div class="field"><label>Sound Effects on Tap</label><select id="soundEffects"><option value="off">Off</option><option value="subtle">Subtle Click</option></select></div>
+   <button class="btn primary full" onclick="saveSettings()" style="margin-top:12px">Save preferences</button>
+ </div>
+ <div class="card">
+   <h2>Backup and data options</h2>
+   <div class="actions"><button class="btn primary" onclick="exportData()">Export backup json</button><button class="btn" onclick="document.getElementById('importFile').click()">Import backup</button><input id="importFile" class="hidden" type="file" accept="application/json" onchange="importData(event)"></div>
+   <div style="margin-top:15px"><button class="btn danger" onclick="resetApp()">Erase all app data</button></div>
+ </div>
 </section>
 </main>
+
+<!-- Bottom Navigation Bar (8 Uniform Buttons) -->
 <nav class="nav">
  <button class="active" data-page="dashboard" onclick="showPage('dashboard')"><span>⌂</span>Home</button>
  <button data-page="calendar" onclick="showPage('calendar')"><span>▦</span>Calendar</button>
@@ -154,147 +262,260 @@ button:focus-visible{outline:2px solid #f1c27d;outline-offset:3px}
  <button data-page="toolkit" onclick="showPage('toolkit')"><span>✦</span>Toolkit</button>
  <button data-page="settings" onclick="showPage('settings')"><span>⚙</span>Settings</button>
 </nav>
+
 <div id="toast" class="toast"></div>
+
 <script>
 const KEY='shiftmoney_v1';
-const today=new Date(); const localISO=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const today=new Date(); 
+const localISO=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 const money=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(Number(n)||0);
 const parseDate=s=>{if(!s)return null;const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)};
 const addDays=(date,n)=>{const d=new Date(date);d.setDate(d.getDate()+n);return d};
 const addMonths=(date,n)=>{const d=new Date(date);const day=d.getDate();d.setDate(1);d.setMonth(d.getMonth()+n);d.setDate(Math.min(day,new Date(d.getFullYear(),d.getMonth()+1,0).getDate()));return d};
 const fmtDate=s=>{const d=parseDate(s);return d?d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'No date'};
 const monthName=d=>d.toLocaleDateString('en-US',{month:'long',year:'numeric'});
-let state={name:'ShiftMoney',balance:0,wage:10.70,taxRate:20,targetMode:'tips',bills:[],workdays:{},shifts:[],shiftEstimates:{},motionEffects:true,spending:[],goals:[]};
-let viewMonth=new Date(today.getFullYear(),today.getMonth(),1), selectedDate=localISO(today);
+
+let state={name:'ShiftMoney',balance:0,wage:10.70,taxRate:20,targetMode:'tips',bills:[],workdays:{},shifts:[],shiftEstimates:{},spending:[],goals:[],themeAccent:'amber'};
+
 function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s)state={...state,...s,spending:Array.isArray(s.spending)?s.spending:[],goals:Array.isArray(s.goals)?s.goals:[]};}catch(e){}}
 function persist(){localStorage.setItem(KEY,JSON.stringify(state));renderAll()}
 function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.style.display='block';setTimeout(()=>el.style.display='none',2200)}
-function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));if(id==='calendar')renderCalendar();if(id==='bills')renderBills();if(id==='shifts')renderShifts();if(id==='settings')fillSettings();if(id==='plan')renderPlan();if(id==='insights')renderInsights();window.scrollTo(0,0)}
+
+function dismissSplash(){
+  const s=document.getElementById('splash');
+  s.classList.add('fade-out');
+  setTimeout(()=>s.style.display='none',500);
+}
+
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));
+  if(id==='calendar')renderCalendar();
+  if(id==='bills')renderBills();
+  if(id==='shifts')renderShifts();
+  if(id==='settings')fillSettings();
+  if(id==='plan')renderPlan();
+  if(id==='insights')renderInsights();
+  if(id==='toolkit')renderToolkit();
+  window.scrollTo(0,0);
+}
+
 function billOccurrences(bill,from,to){let out=[];let d=parseDate(bill.due);if(!d)return out;let guard=0;while(d<from&&bill.repeat!=='once'&&guard++<500){d=bill.repeat==='weekly'?addDays(d,7):addMonths(d,1)}guard=0;while(d<=to&&guard++<500){if(d>=from)out.push({bill,date:localISO(d)});if(bill.repeat==='once')break;d=bill.repeat==='weekly'?addDays(d,7):addMonths(d,1)}return out}
-function allOccurrences(from,to){return state.bills.flatMap(b=>billOccurrences(b,from,to).filter(o=>!(b.paidDate===o.date)||false)).sort((a,b)=>a.date.localeCompare(b.date))}
 function isOccurrencePaid(bill,date){return !!(bill.paidDates||[]).includes(date) || (bill.paid && bill.due===date)}
 function occurrences(from,to){return state.bills.flatMap(b=>billOccurrences(b,from,to).filter(o=>!isOccurrencePaid(b,o.date))).sort((a,b)=>a.date.localeCompare(b.date))}
-function shiftGross(s){return (+s.cash||0)+(+s.credit||0)+(+s.other||0)+((+s.hours||0)*(+state.wage||0))}
-function shiftNet(s){const t=Number(s.taxRate??state.taxRate);return shiftGross(s)*(1-Math.min(100,Math.max(0,Number.isFinite(t)?t:state.taxRate))/100)}
+function shiftNet(s){const t=Number(s.taxRate??state.taxRate);const gross=(+s.cash||0)+(+s.credit||0)+(+s.other||0)+((+s.hours||0)*(+state.wage||0));return gross*(1-Math.min(100,Math.max(0,t))/100)}
 function loggedNetBetween(from,to){return state.shifts.filter(s=>s.date>=from&&s.date<=to).reduce((sum,s)=>sum+shiftNet(s),0)}
 function shiftsBetween(from,to,includeFrom=true){return Object.keys(state.workdays).filter(d=>d<=to&&(includeFrom?d>=from:d>from)&&state.workdays[d].type!=='off').sort()}
-function targetForDate(date){const due=occurrences(addDays(today,0),addDays(parseDate(date),0)).filter(o=>o.date<=date);const future=occurrences(today,addDays(parseDate(date),0));const dueDates=future.filter(o=>o.date<=date);if(!dueDates.length)return 0;const firstDeadline=dueDates[dueDates.length-1].date;const required=dueDates.reduce((s,o)=>s+(+o.bill.amount||0),0);const alreadyLogged=loggedNetBetween(localISO(today),firstDeadline);const shifts=shiftsBetween(localISO(today),firstDeadline).filter(d=>d>=localISO(today));const remainingShifts=shifts.length;const deficit=Math.max(0,required-(+state.balance||0)-alreadyLogged);if(!remainingShifts)return deficit;const netPerShift=deficit/remainingShifts;return state.targetMode==='takehome'?Math.max(0,netPerShift-(+state.wage||0)*((+state.workdays[date]?.hours||6.5))*(1-state.taxRate/100)):netPerShift}
-function targetByNextDeadline(){const next=occurrences(today,new Date(today.getFullYear()+1,today.getMonth(),today.getDate())).filter(o=>o.date>=localISO(today));if(!next.length)return {bill:null,target:0,count:0,amount:0};const deadline=next[0].date;const due=occurrences(today,parseDate(deadline)).filter(o=>o.date<=deadline);const total=due.reduce((s,o)=>s+(+o.bill.amount||0),0);const logged=loggedNetBetween(localISO(today),deadline);const work=shiftsBetween(localISO(today),deadline).filter(d=>d>=localISO(today));const deficit=Math.max(0,total-(+state.balance||0)-logged);let target=work.length?deficit/work.length:deficit;if(state.targetMode==='takehome'&&work.length){const avgHours=work.reduce((s,d)=>s+(+state.workdays[d].hours||6.5),0)/work.length;target=Math.max(0,target-(+state.wage||0)*avgHours*(1-state.taxRate/100))}return {bill:next[0],target,count:work.length,amount:total,deadline,deficit}}
-function renderDashboard(){document.getElementById('appTitle').textContent=state.name||'ShiftMoney';document.getElementById('balanceDisplay').textContent=money(state.balance);const next=targetByNextDeadline();const upcoming=occurrences(today,new Date(today.getFullYear(),today.getMonth()+3,0));const total=upcoming.reduce((s,o)=>s+(+o.bill.amount||0),0);document.getElementById('billsTotal').textContent=money(total);document.getElementById('billsCount').textContent=upcoming.length+' unpaid due dates';document.getElementById('neededTotal').textContent=money(Math.max(0,total-(+state.balance||0)-loggedNetBetween(localISO(today),localISO(new Date(today.getFullYear(),today.getMonth()+3,0)))));document.getElementById('monthLabel').textContent=monthName(today);const month=localISO(new Date(today.getFullYear(),today.getMonth(),1));const end=localISO(new Date(today.getFullYear(),today.getMonth()+1,0));const shifts=state.shifts.filter(s=>s.date>=month&&s.date<=end);document.getElementById('tipsMonth').textContent=money(shifts.reduce((s,x)=>s+(+x.cash||0)+(+x.credit||0),0));document.getElementById('shiftsMonth').textContent=shifts.length;document.getElementById('takehomeMonth').textContent=money(shifts.reduce((s,x)=>s+shiftNet(x),0));if(next.bill){document.getElementById('nextBill').innerHTML=`<div class="row"><div><strong>${esc(next.bill.bill.name)}</strong><div class="muted small">Due ${fmtDate(next.deadline)}</div></div><strong>${money(next.bill.bill.amount)}</strong></div>`;document.getElementById('deadlinePill').textContent='Upcoming';document.getElementById('shiftsBefore').textContent=next.count;document.getElementById('nextTarget').textContent=money(next.target);document.getElementById('nextTarget').className='targetbig '+(next.target>0?'positive':'')}else{document.getElementById('nextBill').innerHTML='<div class="empty">No unpaid bills coming up. Add a bill or enjoy the breathing room.</div>';document.getElementById('deadlinePill').textContent='All clear';document.getElementById('shiftsBefore').textContent='—';document.getElementById('nextTarget').textContent='$0.00'}}
-function dayEstimateValues(){const hours=Math.max(0,Number(document.getElementById('dayEstHours')?.value)||0),cash=Math.max(0,Number(document.getElementById('dayEstCash')?.value)||0),credit=Math.max(0,Number(document.getElementById('dayEstCredit')?.value)||0),other=Math.max(0,Number(document.getElementById('dayEstOther')?.value)||0),gross=cash+credit+other+hours*(Number(state.wage)||0),tax=Math.min(100,Math.max(0,Number(state.taxRate)||0));return {hours,cash,credit,other,gross,net:gross*(1-tax/100)}}
-function updateDayEstimatePreview(){const el=document.getElementById('dayEstNet');if(el)el.textContent=money(dayEstimateValues().net)}
-function saveDayEstimate(){if(!state.shiftEstimates)state.shiftEstimates={};state.shiftEstimates[selectedDate]=dayEstimateValues();persist();toast('Estimate saved for '+fmtDate(selectedDate))}
-function clearDayEstimate(){if(state.shiftEstimates)delete state.shiftEstimates[selectedDate];persist();selectDate(selectedDate,false);toast('Estimate cleared')}
-function loadEstimateToShift(){const v=dayEstimateValues();showPage('shifts');document.getElementById('logDate').value=selectedDate;document.getElementById('logHours').value=v.hours;document.getElementById('cashTips').value=v.cash;document.getElementById('creditTips').value=v.credit;document.getElementById('otherPay').value=v.other;document.getElementById('shiftTax').value=state.taxRate;document.getElementById('shiftFormTitle').textContent='Log completed shift';updateShiftPreview();window.scrollTo(0,0);toast('Estimate copied — review and save when complete')}
-function renderCalendar(){document.getElementById('calMonth').textContent=monthName(viewMonth);const grid=document.getElementById('calendarGrid');grid.innerHTML='';['S','M','T','W','T','F','S'].forEach(x=>{let e=document.createElement('div');e.className='weekday';e.textContent=x;grid.appendChild(e)});const first=new Date(viewMonth.getFullYear(),viewMonth.getMonth(),1);const start=new Date(first);start.setDate(1-first.getDay());const last=new Date(viewMonth.getFullYear(),viewMonth.getMonth()+1,0);const monthStart=localISO(first),monthEnd=localISO(last);const billMap={};occurrences(start,new Date(last.getFullYear(),last.getMonth()+1,0)).forEach(o=>(billMap[o.date]??=[]).push(o));for(let i=0;i<42;i++){const d=addDays(start,i),key=localISO(d),wd=state.workdays[key],dayBills=billMap[key]||[],dayShifts=state.shifts.filter(s=>s.date===key),est=(state.shiftEstimates||{})[key];const actualNet=dayShifts.reduce((sum,s)=>sum+shiftNet(s),0);const b=document.createElement('button');b.className='day'+(d.getMonth()!==viewMonth.getMonth()?' dim':'')+(key===localISO(today)?' today':'')+(wd&&wd.type!=='off'?' work':'')+(key===selectedDate?' selected':'');let html=`<span class="dn">${d.getDate()}</span>`;if(wd&&wd.type!=='off')html+=`<span class="dtag">${wd.type==='double'?'DOUBLE':'WORK'}</span><span class="targettag">Target ${money(targetForDate(key))}</span>`;if(dayShifts.length)html+=`<span class="dayearn actual">✓ ${money(actualNet)}</span>`;else if(est)html+=`<span class="dayearn estimate">≈ ${money(est.net)}</span>`;if(dayBills.length)html+=`<span class="dtag billtag">${dayBills.length} bill${dayBills.length>1?'s':''}</span>`;b.innerHTML=html;b.onclick=()=>selectDate(key);grid.appendChild(b)}selectDate(selectedDate,false)}
-function selectDate(key,redraw=true){selectedDate=key;const wd=state.workdays[key]||{type:'off',hours:''};document.getElementById('selectedDate').textContent=fmtDate(key);document.getElementById('selectedStatus').textContent=wd.type==='double'?'Double shift':wd.type==='shift'?'Work shift':'Day off';document.getElementById('shiftType').value=wd.type||'off';document.getElementById('shiftHours').value=wd.hours||'';const due=occurrences(parseDate(key),parseDate(key));const logged=state.shifts.filter(s=>s.date===key);const est=(state.shiftEstimates||{})[key];document.getElementById('dayOverview').innerHTML=`${wd.type!=='off'?'Scheduled '+(wd.type==='double'?'double shift':'work shift')+'.':'No shift scheduled.'} ${wd.type!=='off'?'Expected hours: '+(wd.hours||'not set')+'. ':''}<br>Bill deadlines: ${due.length?due.map(o=>esc(o.bill.name)+' ('+money(o.bill.amount)+')').join(', '):'none'}<br><strong>${logged.length?'Completed shift(s): '+logged.length+' · Actual take-home: '+money(logged.reduce((a,x)=>a+shiftNet(x),0)):'No completed shift logged.'}</strong><br>Daily target estimate: <strong>${money(targetForDate(key))}</strong>.`;document.getElementById('dayEstCash').value=est?.cash??'';document.getElementById('dayEstCredit').value=est?.credit??'';document.getElementById('dayEstOther').value=est?.other??'';document.getElementById('dayEstHours').value=est?.hours??wd.hours??'';updateDayEstimatePreview();if(redraw)renderCalendar()}
+
+function targetByNextDeadline(){
+  const next=occurrences(today,new Date(today.getFullYear()+1,today.getMonth(),today.getDate())).filter(o=>o.date>=localISO(today));
+  if(!next.length)return {bill:null,target:0,count:0,amount:0};
+  const deadline=next[0].date;
+  const due=occurrences(today,parseDate(deadline)).filter(o=>o.date<=deadline);
+  const total=due.reduce((s,o)=>s+(+o.bill.amount||0),0);
+  const logged=loggedNetBetween(localISO(today),deadline);
+  const work=shiftsBetween(localISO(today),deadline).filter(d=>d>=localISO(today));
+  const deficit=Math.max(0,total-(+state.balance||0)-logged);
+  let target=work.length?deficit/work.length:deficit;
+  return {bill:next[0],target,count:work.length,amount:total,deadline,deficit};
+}
+
+function renderDashboard(){
+  document.getElementById('appTitle').textContent=state.name||'ShiftMoney';
+  document.getElementById('balanceDisplay').textContent=money(state.balance);
+  const next=targetByNextDeadline();
+  const upcoming=occurrences(today,new Date(today.getFullYear(),today.getMonth()+3,0));
+  const total=upcoming.reduce((s,o)=>s+(+o.bill.amount||0),0);
+  document.getElementById('billsTotal').textContent=money(total);
+  document.getElementById('billsCount').textContent=upcoming.length+' unpaid due dates';
+  document.getElementById('neededTotal').textContent=money(Math.max(0,total-(+state.balance||0)-loggedNetBetween(localISO(today),localISO(new Date(today.getFullYear(),today.getMonth()+3,0)))));
+  document.getElementById('monthLabel').textContent=monthName(today);
+  const month=localISO(new Date(today.getFullYear(),today.getMonth(),1));
+  const end=localISO(new Date(today.getFullYear(),today.getMonth()+1,0));
+  const shifts=state.shifts.filter(s=>s.date>=month&&s.date<=end);
+  document.getElementById('tipsMonth').textContent=money(shifts.reduce((s,x)=>s+(+x.cash||0)+(+x.credit||0),0));
+  document.getElementById('shiftsMonth').textContent=shifts.length;
+  document.getElementById('takehomeMonth').textContent=money(shifts.reduce((s,x)=>s+shiftNet(x),0));
+  if(next.bill){
+    document.getElementById('nextBill').innerHTML=`<div class="row"><div><strong>${esc(next.bill.bill.name)}</strong><div class="muted small">Due ${fmtDate(next.deadline)}</div></div><strong>${money(next.bill.bill.amount)}</strong></div>`;
+    document.getElementById('deadlinePill').textContent='Upcoming';
+    document.getElementById('shiftsBefore').textContent=next.count;
+    document.getElementById('nextTarget').textContent=money(next.target);
+  }else{
+    document.getElementById('nextBill').innerHTML='<div class="empty">No unpaid bills coming up.</div>';
+    document.getElementById('deadlinePill').textContent='All clear';
+    document.getElementById('shiftsBefore').textContent='—';
+    document.getElementById('nextTarget').textContent='$0.00';
+  }
+}
+
+let viewMonth=new Date(today.getFullYear(),today.getMonth(),1), selectedDate=localISO(today);
+function renderCalendar(){
+  document.getElementById('calMonth').textContent=monthName(viewMonth);
+  const grid=document.getElementById('calendarGrid');grid.innerHTML='';
+  ['S','M','T','W','T','F','S'].forEach(x=>{let e=document.createElement('div');e.className='weekday';e.textContent=x;grid.appendChild(e)});
+  const first=new Date(viewMonth.getFullYear(),viewMonth.getMonth(),1);
+  const start=new Date(first);start.setDate(1-first.getDay());
+  const last=new Date(viewMonth.getFullYear(),viewMonth.getMonth()+1,0);
+  const billMap={};occurrences(start,new Date(last.getFullYear(),last.getMonth()+1,0)).forEach(o=>(billMap[o.date]??=[]).push(o));
+  for(let i=0;i<42;i++){
+    const d=addDays(start,i),key=localISO(d),wd=state.workdays[key],dayBills=billMap[key]||[],dayShifts=state.shifts.filter(s=>s.date===key);
+    const actualNet=dayShifts.reduce((sum,s)=>sum+shiftNet(s),0);
+    const b=document.createElement('div');
+    b.className='day'+(d.getMonth()!==viewMonth.getMonth()?' dim':'')+(key===localISO(today)?' today':'')+(wd&&wd.type!=='off'?' work':'')+(key===selectedDate?' selected':'');
+    let html=`<span class="dn">${d.getDate()}</span>`;
+    if(wd&&wd.type!=='off')html+=`<span class="dtag">${wd.type==='double'?'DOUBLE':'WORK'}</span>`;
+    if(dayShifts.length)html+=`<span class="dayearn actual">✓ ${money(actualNet)}</span>`;
+    if(dayBills.length)html+=`<span class="dtag billtag">${dayBills.length} bill${dayBills.length>1?'s':''}</span>`;
+    b.innerHTML=html;b.onclick=()=>selectDate(key);grid.appendChild(b);
+  }
+  selectDate(selectedDate,false);
+}
+
+function selectDate(key,redraw=true){
+  selectedDate=key;const wd=state.workdays[key]||{type:'off',hours:''};
+  document.getElementById('selectedDate').textContent=fmtDate(key);
+  document.getElementById('selectedStatus').textContent=wd.type==='double'?'Double shift':wd.type==='shift'?'Work shift':'Day off';
+  document.getElementById('shiftType').value=wd.type||'off';
+  document.getElementById('shiftHours').value=wd.hours||'';
+  const due=occurrences(parseDate(key),parseDate(key));
+  document.getElementById('dayOverview').innerHTML=`${wd.type!=='off'?'Scheduled work shift.':'No shift scheduled.'} Bill deadlines: ${due.length?due.map(o=>esc(o.bill.name)+' ('+money(o.bill.amount)+')').join(', '):'none'}`;
+  if(redraw)renderCalendar();
+}
 function saveCalendarDay(){const type=document.getElementById('shiftType').value,hours=+document.getElementById('shiftHours').value||0;if(type==='off')delete state.workdays[selectedDate];else state.workdays[selectedDate]={type,hours};persist();toast('Calendar updated')}
 function toggleSelectedWork(){const wd=state.workdays[selectedDate];if(wd&&wd.type!=='off')delete state.workdays[selectedDate];else state.workdays[selectedDate]={type:'shift',hours:6.5};persist();toast('Workday toggled')}
 function moveMonth(n){viewMonth=new Date(viewMonth.getFullYear(),viewMonth.getMonth()+n,1);renderCalendar()}
-function clearBillForm(){['billId','billName','billAmount','billDue'].forEach(id=>document.getElementById(id).value='');document.getElementById('billRepeat').value='monthly';document.getElementById('billPaid').checked=false;document.getElementById('billFormTitle').textContent='Add a bill'}
-function saveBill(){const id=document.getElementById('billId').value,name=document.getElementById('billName').value.trim(),amount=+document.getElementById('billAmount').value,due=document.getElementById('billDue').value,repeat=document.getElementById('billRepeat').value;if(!name||!due||!(amount>=0)){toast('Enter a bill name, amount, and due date');return}const old=state.bills.find(b=>b.id===id);const b={id:id||String(Date.now()),name,amount,due,repeat,paidDates:old?.paidDates||[],paid:document.getElementById('billPaid').checked};if(b.paid)b.paidDates.push(due);state.bills=state.bills.filter(x=>x.id!==id);state.bills.push(b);clearBillForm();persist();toast('Bill saved')}
-function editBill(id){const b=state.bills.find(x=>x.id===id);if(!b)return;document.getElementById('billId').value=b.id;document.getElementById('billName').value=b.name;document.getElementById('billAmount').value=b.amount;document.getElementById('billDue').value=b.due;document.getElementById('billRepeat').value=b.repeat;document.getElementById('billPaid').checked=isOccurrencePaid(b,b.due);document.getElementById('billFormTitle').textContent='Edit bill';window.scrollTo(0,0)}
+
+function clearBillForm(){['billId','billName','billAmount','billDue'].forEach(id=>document.getElementById(id).value='');document.getElementById('billRepeat').value='monthly';document.getElementById('billFormTitle').textContent='Add a bill'}
+function saveBill(){
+  const id=document.getElementById('billId').value,name=document.getElementById('billName').value.trim(),amount=+document.getElementById('billAmount').value,due=document.getElementById('billDue').value,repeat=document.getElementById('billRepeat').value;
+  if(!name||!due||!(amount>=0)){toast('Enter bill name, amount, and due date');return}
+  const b={id:id||String(Date.now()),name,amount,due,repeat,paidDates:[]};
+  state.bills=state.bills.filter(x=>x.id!==id);state.bills.push(b);clearBillForm();persist();toast('Bill saved');
+}
+function editBill(id){const b=state.bills.find(x=>x.id===id);if(!b)return;document.getElementById('billId').value=b.id;document.getElementById('billName').value=b.name;document.getElementById('billAmount').value=b.amount;document.getElementById('billDue').value=b.due;document.getElementById('billRepeat').value=b.repeat;document.getElementById('billFormTitle').textContent='Edit bill';window.scrollTo(0,0)}
 function markPaid(id,date){const b=state.bills.find(x=>x.id===id);if(!b)return;b.paidDates=b.paidDates||[];if(!b.paidDates.includes(date))b.paidDates.push(date);persist();toast('Marked paid')}
-function deleteBill(id){if(!confirm('Delete this bill and its recurring schedule?'))return;state.bills=state.bills.filter(b=>b.id!==id);persist()}
-function renderBills(){const list=document.getElementById('billList');document.getElementById('billListCount').textContent=state.bills.length+' total';if(!state.bills.length){list.innerHTML='<div class="empty">No bills yet. Add rent, utilities, subscriptions, and other expenses above.</div>';return}list.innerHTML=state.bills.map(b=>{const paid=isOccurrencePaid(b,b.due);return `<div class="listitem"><div class="row"><div><strong>${esc(b.name)}</strong><div class="muted small">${money(b.amount)} • ${b.repeat==='once'?'One-time':b.repeat==='weekly'?'Weekly':'Monthly'} • next date ${fmtDate(b.due)}</div></div><span class="pill ${paid?'green':'yellow'}">${paid?'Paid':'Upcoming'}</span></div><div class="actions" style="margin-top:9px"><button class="btn sm" onclick="editBill('${b.id}')">Edit</button><button class="btn sm" onclick="markPaid('${b.id}','${b.due}')">Mark next due paid</button><button class="btn sm danger" onclick="deleteBill('${b.id}')">Delete</button></div></div>`}).join('')}
-function clearShiftForm(){document.getElementById('logId').value='';document.getElementById('logDate').value=localISO(today);document.getElementById('logHours').value='';document.getElementById('cashTips').value='';document.getElementById('creditTips').value='';document.getElementById('otherPay').value='';document.getElementById('shiftTax').value=state.taxRate;document.getElementById('shiftFormTitle').textContent='Log a shift';updateShiftPreview()}
-function updateShiftPreview(){const cash=+document.getElementById('cashTips').value||0,credit=+document.getElementById('creditTips').value||0,other=+document.getElementById('otherPay').value||0,hours=+document.getElementById('logHours').value||0,tax=+document.getElementById('shiftTax').value||0;document.getElementById('shiftPreview').textContent=money((cash+credit+other+hours*(+state.wage||0))*(1-tax/100))}
-function saveShift(){const id=document.getElementById('logId').value,date=document.getElementById('logDate').value;if(!date){toast('Choose a shift date');return}const s={id:id||String(Date.now()),date,hours:+document.getElementById('logHours').value||0,cash:+document.getElementById('cashTips').value||0,credit:+document.getElementById('creditTips').value||0,other:+document.getElementById('otherPay').value||0,taxRate:Math.min(100,Math.max(0,+document.getElementById('shiftTax').value||0))};state.shifts=state.shifts.filter(x=>x.id!==id);state.shifts.push(s);state.shifts.sort((a,b)=>b.date.localeCompare(a.date));clearShiftForm();persist();toast('Shift saved')}
-function editShift(id){const s=state.shifts.find(x=>x.id===id);if(!s)return;document.getElementById('logId').value=s.id;document.getElementById('logDate').value=s.date;document.getElementById('logHours').value=s.hours;document.getElementById('cashTips').value=s.cash;document.getElementById('creditTips').value=s.credit;document.getElementById('otherPay').value=s.other;document.getElementById('shiftTax').value=s.taxRate;document.getElementById('shiftFormTitle').textContent='Edit shift';updateShiftPreview();window.scrollTo(0,0)}
-function deleteShift(id){if(!confirm('Delete this shift log?'))return;state.shifts=state.shifts.filter(s=>s.id!==id);persist()}
-function renderShifts(){const list=document.getElementById('shiftList');document.getElementById('shiftListCount').textContent=state.shifts.length+' logged';if(!state.shifts.length){list.innerHTML='<div class="empty">No shifts logged yet. Add a shift after work to update your targets.</div>';return}list.innerHTML=state.shifts.slice(0,60).map(s=>`<div class="listitem"><div class="row"><div><strong>${fmtDate(s.date)}</strong><div class="muted small">${s.hours||0} hours • Cash ${money(s.cash)} • Credit ${money(s.credit)}</div></div><div style="text-align:right"><strong class="positive">${money(shiftNet(s))}</strong><div class="muted small">estimated take-home</div></div></div><div class="actions" style="margin-top:8px"><button class="btn sm" onclick="editShift('${s.id}')">Edit</button><button class="btn sm danger" onclick="deleteShift('${s.id}')">Delete</button></div></div>`).join('')}
-function fillSettings(){document.getElementById('settingName').value=state.name;document.getElementById('settingBalance').value=state.balance;document.getElementById('hourlyWage').value=state.wage;document.getElementById('taxRate').value=state.taxRate;document.getElementById('targetMode').value=state.targetMode;document.getElementById('motionEffects').checked=state.motionEffects!==false}
-function saveSettings(){state.name=document.getElementById('settingName').value.trim()||'ShiftMoney';state.balance=+document.getElementById('settingBalance').value||0;state.wage=+document.getElementById('hourlyWage').value||0;state.taxRate=Math.min(100,Math.max(0,+document.getElementById('taxRate').value||0));state.targetMode=document.getElementById('targetMode').value;state.motionEffects=document.getElementById('motionEffects').checked;document.body.classList.toggle('no-motion',!state.motionEffects);persist();toast('Settings saved')}
-function editBalance(){const v=prompt('Enter your current total balance in dollars:',state.balance);if(v===null)return;const n=Number(v);if(!Number.isFinite(n)){toast('Enter a valid number');return}state.balance=n;persist();toast('Balance updated')}
-function exportData(){const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='shiftmoney-backup-'+localISO(today)+'.json';a.click();URL.revokeObjectURL(url);toast('Backup export started')}
-function importData(e){const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=()=>{try{const data=JSON.parse(r.result);if(!data||!Array.isArray(data.bills)||!Array.isArray(data.shifts))throw new Error();if(confirm('Replace current app data with this backup?')){state={...state,...data};persist();toast('Backup restored')}}catch(err){alert('That backup file does not look valid.')}e.target.value=''};r.readAsText(file)}
-function resetApp(){if(!confirm('Erase ALL ShiftMoney data from this browser? Export a backup first if needed.'))return;localStorage.removeItem(KEY);state={name:'ShiftMoney',balance:0,wage:10.70,taxRate:20,targetMode:'tips',bills:[],workdays:{},shifts:[],shiftEstimates:{},motionEffects:true};persist();clearBillForm();clearShiftForm();toast('App data erased')}
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-['cashTips','creditTips','otherPay','logHours','shiftTax'].forEach(id=>document.getElementById(id).addEventListener('input',updateShiftPreview));
-['estHours','estCash','estCredit','estOther'].forEach(id=>document.getElementById(id).addEventListener('input',updateEstimator));
-['dayEstHours','dayEstCash','dayEstCredit','dayEstOther'].forEach(id=>document.getElementById(id)?.addEventListener('input',updateDayEstimatePreview));
-load();document.getElementById('logDate').value=localISO(today);document.getElementById('shiftTax').value=state.taxRate;renderAll();clearBillForm();clearShiftForm();
-
-function estimatorValues(){
- const hours=Math.max(0,Number(document.getElementById('estHours')?.value)||0);
- const cash=Math.max(0,Number(document.getElementById('estCash')?.value)||0);
- const credit=Math.max(0,Number(document.getElementById('estCredit')?.value)||0);
- const other=Math.max(0,Number(document.getElementById('estOther')?.value)||0);
- const tips=cash+credit, gross=tips+other+hours*(Number(state.wage)||0);
- const tax=Math.min(100,Math.max(0,Number(state.taxRate)||0));
- return {hours,cash,credit,other,tips,gross,net:gross*(1-tax/100),tipsHour:hours?tips/hours:0};
-}
-function updateEstimator(){
- const v=estimatorValues();
- const netEl=document.getElementById('estNet');if(!netEl)return;
- netEl.textContent=money(v.net);document.getElementById('estTipsHour').textContent=money(v.tipsHour);
- const target=targetByNextDeadline().target;
- const status=document.getElementById('estTargetStatus'),meter=document.getElementById('estMeter');
- if(target>0){status.textContent=v.net>=target?'Target covered':money(Math.max(0,target-v.net))+' short';status.className=v.net>=target?'positive':'negative';meter.style.width=Math.min(100,v.net/target*100)+'%'}
- else{status.textContent='No target set';status.className='positive';meter.style.width='100%'}
-}
-function resetEstimator(){document.getElementById('estHours').value=6.5;document.getElementById('estCash').value=80;document.getElementById('estCredit').value=140;document.getElementById('estOther').value=0;updateEstimator();toast('Estimate reset')}
-function useEstimateInShift(){
- const v=estimatorValues();showPage('shifts');document.getElementById('logHours').value=v.hours;document.getElementById('cashTips').value=v.cash;document.getElementById('creditTips').value=v.credit;document.getElementById('otherPay').value=v.other;document.getElementById('shiftTax').value=state.taxRate;updateShiftPreview();toast('Estimate copied to shift log — review date and save')
-}
-function renderMoneySnapshot(){
- const end14=addDays(today,14),due=occurrences(today,end14),billTotal=due.reduce((s,o)=>s+(Number(o.bill.amount)||0),0);
- const safe=(Number(state.balance)||0)-billTotal;
- const el=document.getElementById('safeToSpend');if(el){el.textContent=money(safe);el.className='money '+(safe<0?'negative':'positive');document.getElementById('safeSpendPill').textContent=safe<0?'Shortfall':'14-day view';document.getElementById('safeSpendDetail').textContent=money(billTotal)+' in unpaid bills due by '+fmtDate(localISO(end14))+'. Excludes food, fuel, and other spending unless you track them as bills.'}
- const startWeek=addDays(today,-((today.getDay()+6)%7)), week=localISO(startWeek), end=localISO(addDays(startWeek,6));
- const weekShifts=state.shifts.filter(s=>s.date>=week&&s.date<=end);
- const tips=weekShifts.reduce((sum,s)=>sum+(Number(s.cash)||0)+(Number(s.credit)||0),0);
- const net=state.shifts.reduce((sum,s)=>sum+shiftNet(s),0);
- document.getElementById('tipsWeek').textContent=money(tips);
- document.getElementById('avgShiftNet').textContent=money(state.shifts.length?net/state.shifts.length:0);
-}
-function renderEarningsBreakdown(){
- const cash=state.shifts.reduce((a,s)=>a+(Number(s.cash)||0),0),credit=state.shifts.reduce((a,s)=>a+(Number(s.credit)||0),0),hours=state.shifts.reduce((a,s)=>a+(Number(s.hours)||0),0);
- document.getElementById('allCashTips').textContent=money(cash);document.getElementById('allCreditTips').textContent=money(credit);document.getElementById('allHours').textContent=hours.toFixed(2).replace(/\.00$/,'');document.getElementById('allTipsHour').textContent=money(hours?(cash+credit)/hours:0);
+function deleteBill(id){if(!confirm('Delete this bill?'))return;state.bills=state.bills.filter(b=>b.id!==id);persist()}
+function renderBills(){
+  const list=document.getElementById('billList');document.getElementById('billListCount').textContent=state.bills.length+' total';
+  if(!state.bills.length){list.innerHTML='<div class="empty">No bills yet.</div>';return}
+  list.innerHTML=state.bills.map(b=>`<div class="listitem"><div class="row"><div><strong>${esc(b.name)}</strong><div class="muted small">${money(b.amount)} • ${b.repeat} • due ${fmtDate(b.due)}</div></div><button class="btn sm" onclick="markPaid('${b.id}','${b.due}')">Mark Paid</button></div><div class="actions" style="margin-top:6px"><button class="btn sm" onclick="editBill('${b.id}')">Edit</button><button class="btn sm danger" onclick="deleteBill('${b.id}')">Delete</button></div></div>`).join('');
 }
 
+function clearShiftForm(){document.getElementById('logId').value='';document.getElementById('logDate').value=localISO(today);document.getElementById('logHours').value='';document.getElementById('cashTips').value='';document.getElementById('creditTips').value='';document.getElementById('otherPay').value='';document.getElementById('shiftTax').value=state.taxRate;document.getElementById('shiftFormTitle').textContent='Log a shift'}
+function saveShift(){
+  const id=document.getElementById('logId').value,date=document.getElementById('logDate').value;
+  if(!date){toast('Choose a date');return}
+  const s={id:id||String(Date.now()),date,hours:+document.getElementById('logHours').value||0,cash:+document.getElementById('cashTips').value||0,credit:+document.getElementById('creditTips').value||0,other:+document.getElementById('otherPay').value||0,taxRate:+document.getElementById('shiftTax').value||state.taxRate};
+  state.shifts=state.shifts.filter(x=>x.id!==id);state.shifts.push(s);state.shifts.sort((a,b)=>b.date.localeCompare(a.date));clearShiftForm();persist();toast('Shift saved');
+}
+function deleteShift(id){if(!confirm('Delete shift?'))return;state.shifts=state.shifts.filter(s=>s.id!==id);persist()}
+function renderShifts(){
+  const list=document.getElementById('shiftList');document.getElementById('shiftListCount').textContent=state.shifts.length+' logged';
+  if(!state.shifts.length){list.innerHTML='<div class="empty">No shifts logged yet.</div>';return}
+  list.innerHTML=state.shifts.slice(0,30).map(s=>`<div class="listitem"><div class="row"><div><strong>${fmtDate(s.date)}</strong><div class="muted small">${s.hours}h • Cash ${money(s.cash)} • Credit ${money(s.credit)}</div></div><strong class="positive">${money(shiftNet(s))}</strong></div><div class="actions" style="margin-top:6px"><button class="btn sm danger" onclick="deleteShift('${s.id}')">Delete</button></div></div>`).join('');
+}
 
 function renderPlan(){
- const end=addDays(today,7),startKey=localISO(today),endKey=localISO(end);
- const due=occurrences(today,end),billTotal=due.reduce((s,o)=>s+(Number(o.bill.amount)||0),0);
- const logged=loggedNetBetween(startKey,endKey),scheduled=shiftsBetween(startKey,endKey);
- const gap=Math.max(0,billTotal-(Number(state.balance)||0)-logged);
- document.getElementById('planRequired').textContent=money(gap);
- document.getElementById('planSubtitle').textContent=money(billTotal)+' in unpaid bills due within 7 days · '+money(Number(state.balance)||0)+' current balance';
- document.getElementById('planShifts').textContent=scheduled.length;
- document.getElementById('planTarget').textContent=money(scheduled.length?gap/scheduled.length:gap);
- const list=document.getElementById('planTimeline');let out='';
- for(let i=0;i<7;i++){
-  const d=addDays(today,i),key=localISO(d),wd=state.workdays[key],dayBills=due.filter(o=>o.date===key),dayShifts=state.shifts.filter(s=>s.date===key);
-  const label=d.toLocaleDateString('en-US',{weekday:'short'}),day=d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
-  out+=`<div class="plan-day"><div class="day-chip">${d.getDate()}</div><div><strong>${label}, ${day}</strong><div class="muted small">${wd&&wd.type!=='off'?(wd.type==='double'?'Double shift':'Work shift')+' · '+(wd.hours||'hours not set')+'h':'No shift scheduled'}${dayShifts.length?' · '+dayShifts.length+' logged':''}</div>${dayBills.length?`<div class="small" style="color:var(--yellow);margin-top:4px">${dayBills.map(o=>esc(o.bill.name)+' '+money(o.bill.amount)).join(' · ')}</div>`:''}</div><div style="text-align:right">${wd&&wd.type!=='off'?`<strong class="positive">${money(gap/Math.max(1,scheduled.length))}</strong><div class="muted small">avg target</div>`:dayBills.length?'<span class="pill red">Bill due</span>':'<span class="pill">—</span>'}</div></div>`;
- }
- list.innerHTML=out;
+  const end=addDays(today,7),due=occurrences(today,end),billTotal=due.reduce((s,o)=>s+(+o.bill.amount||0),0);
+  const gap=Math.max(0,billTotal-(+state.balance||0));
+  document.getElementById('planRequired').textContent=money(gap);
+  document.getElementById('planSubtitle').textContent=money(billTotal)+' in bills due in 7 days · Balance: '+money(state.balance);
+  let out='';
+  for(let i=0;i<7;i++){
+    const d=addDays(today,i),key=localISO(d),dayBills=due.filter(o=>o.date===key);
+    out+=`<div class="listitem"><div class="row"><div><strong>${d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})}</strong></div>${dayBills.length?`<span class="pill red">${dayBills.length} bill due</span>`:'<span class="pill">—</span>'}</div></div>`;
+  }
+  document.getElementById('planTimeline').innerHTML=out;
 }
+
 function renderInsights(){
- const tips=state.shifts.reduce((s,x)=>s+(Number(x.cash)||0)+(Number(x.credit)||0),0);
- const net=state.shifts.reduce((s,x)=>s+shiftNet(x),0),hours=state.shifts.reduce((s,x)=>s+(Number(x.hours)||0),0);
- const best=state.shifts.reduce((m,x)=>Math.max(m,shiftNet(x)),0);
- document.getElementById('insTakehome').textContent=money(net);document.getElementById('insTips').textContent=money(tips);document.getElementById('insBest').textContent=money(best);document.getElementById('insTipsHour').textContent=money(hours?tips/hours:0);
- const recent=state.shifts.slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,7);
- document.getElementById('insRecent').innerHTML=recent.length?recent.map(s=>`<div class="insight-row"><div><strong>${fmtDate(s.date)}</strong><div class="muted small">${Number(s.hours)||0}h · tips ${money((Number(s.cash)||0)+(Number(s.credit)||0))}</div></div><div style="text-align:right"><strong>${money(shiftNet(s))}</strong><div class="muted small">est. take-home</div></div></div>`).join(''):'<div class="empty">Log a few shifts to start seeing your patterns.</div>';
- const future=occurrences(today,addDays(today,14)),upcoming=future.reduce((s,o)=>s+(Number(o.bill.amount)||0),0);
- const checks=[[state.bills.length>0,'Bills added',state.bills.length?state.bills.length+' bill schedules saved':'Add your recurring bills to improve forecasts.'],[state.shifts.length>=3,'Earnings history',state.shifts.length+' shifts logged · '+(state.shifts.length>=3?'enough to start comparing shifts':'Log at least 3 shifts to build a useful baseline.')],[Object.keys(state.workdays).some(k=>k>=localISO(today)&&state.workdays[k].type!=='off'),'Work calendar','Schedule upcoming shifts to calculate targets per shift.'],[(Number(state.balance)||0)>=upcoming,'14-day bill coverage',money(Number(state.balance)||0)+' balance vs '+money(upcoming)+' in bills due within 14 days.']];
- document.getElementById('healthChecklist').innerHTML=checks.map(([ok,title,desc])=>`<div class="insight-row"><div><strong>${esc(title)}</strong><div class="muted small">${esc(desc)}</div></div><span class="pill ${ok?'green':'red'}">${ok?'On track':'Review'}</span></div>`).join('');
+  const tips=state.shifts.reduce((s,x)=>s+(+x.cash||0)+(+x.credit||0),0);
+  const net=state.shifts.reduce((s,x)=>s+shiftNet(x),0),hours=state.shifts.reduce((s,x)=>s+(+x.hours||0),0);
+  document.getElementById('insTakehome').textContent=money(net);
+  document.getElementById('insTipsHour').textContent=money(hours?tips/hours:0);
+  document.getElementById('insRecent').innerHTML=state.shifts.slice(0,5).map(s=>`<div class="listitem"><div class="row"><div><strong>${fmtDate(s.date)}</strong><div class="muted small">${s.hours}h worked</div></div><strong class="positive">${money(shiftNet(s))}</strong></div></div>`).join('')||'<div class="empty">No recent shifts logged.</div>';
 }
 
+/* Toolkit Calculators (50+ options support) */
+function openToolModal(type){
+  const res=document.getElementById('toolResultArea');
+  if(type==='503020'){
+    const inc=prompt('Enter your estimated monthly take-home income ($):','3000');
+    if(!inc)return;const n=Number(inc);
+    res.innerHTML=`<strong>50/30/20 Budget Breakdown for ${money(n)}:</strong><br>• Needs (50%): ${money(n*0.50)}<br>• Wants (30%): ${money(n*0.30)}<br>• Savings & Debt (20%): ${money(n*0.20)}`;
+  }else if(type==='networth'){
+    const assets=prompt('Total assets value ($):','5000');
+    const debts=prompt('Total debts/liabilities ($):','1000');
+    if(assets===null||debts===null)return;
+    const nw=Number(assets)-Number(debts);
+    res.innerHTML=`<strong>Net Worth Calculation:</strong><br>Assets: ${money(assets)} | Debts: ${money(debts)}<br><strong>Net Worth: ${money(nw)}</strong>`;
+  }else if(type==='tipsplit'){
+    const tips=prompt('Total tips to split ($):','200');
+    const people=prompt('Number of staff members:','3');
+    if(!tips||!people)return;
+    res.innerHTML=`<strong>Tip Split Result:</strong><br>Total ${money(tips)} split among ${people} people = <strong>${money(Number(tips)/Number(people))} per person</strong>`;
+  }else if(type==='hourlyrate'){
+    const totalEarn=prompt('Total take-home earned ($):','240');
+    const totalHrs=prompt('Total hours worked:','8');
+    if(!totalEarn||!totalHrs)return;
+    res.innerHTML=`<strong>True Hourly Rate:</strong><br><strong>${money(Number(totalEarn)/Number(totalHrs))} / hour</strong>`;
+  }
+}
 
-function addSpend(){const amount=Math.max(0,Number(document.getElementById('spendAmount').value)||0);if(!amount){toast('Enter a spending amount first');return}const item={id:Date.now(),date:localISO(today),amount,category:document.getElementById('spendCategory').value,note:document.getElementById('spendNote').value.trim()};state.spending=state.spending||[];state.spending.unshift(item);document.getElementById('spendAmount').value='';document.getElementById('spendNote').value='';persist();toast('Spending saved')}
-function deleteSpend(id){if(!confirm('Delete this spending entry?'))return;state.spending=(state.spending||[]).filter(x=>x.id!==id);persist();toast('Entry deleted')}
-function addGoal(){const name=document.getElementById('goalName').value.trim(),target=Number(document.getElementById('goalTarget').value),saved=Math.max(0,Number(document.getElementById('goalSaved').value)||0);if(!name||!(target>0)){toast('Add a goal name and target amount');return}state.goals=state.goals||[];state.goals.push({id:Date.now(),name,target,saved});document.getElementById('goalName').value='';document.getElementById('goalTarget').value='';document.getElementById('goalSaved').value='';persist();toast('Savings goal created')}
-function addGoalProgress(id){const g=(state.goals||[]).find(x=>x.id===id);if(!g)return;const raw=prompt('How much have you added to '+g.name+'? ($)','25');if(raw===null)return;const amount=Number(raw);if(!Number.isFinite(amount)||amount<0){toast('Enter a valid amount');return}g.saved=Math.min(g.target,Number(g.saved||0)+amount);persist();toast('Goal progress updated')}
-function deleteGoal(id){if(!confirm('Delete this savings goal?'))return;state.goals=(state.goals||[]).filter(g=>g.id!==id);persist();toast('Goal deleted')}
-function calculateDebt(){const balance=Math.max(0,Number(document.getElementById('debtBalance').value)||0),payment=Number(document.getElementById('debtPayment').value),apr=Math.min(100,Math.max(0,Number(document.getElementById('debtApr').value)||0)),out=document.getElementById('debtResult');if(!balance||!(payment>0)){out.textContent='Enter a balance and monthly payment above $0.';return}const monthly=apr/1200;if(monthly>0&&payment<=balance*monthly){out.textContent='This payment may not cover monthly interest. Increase it.';return}let b=balance,months=0,interest=0;while(b>0&&months<1200){const i=b*monthly;interest+=i;b=b+i-payment;months++;if(b<0)b=0}out.innerHTML='<div class="muted small">Estimated payoff time</div><div class="num">'+(months>=1200?'Over 100 years':months+' months')+'</div><div class="muted small">Approx. interest: '+money(interest)+'. Fees and changing rates excluded.</div>'}
-function calcEmergency(){const n=Math.max(0,Number(document.getElementById('essentialMonthly').value)||0);document.getElementById('emergencyOne').textContent=money(n);document.getElementById('emergencyThree').textContent=money(n*3)}
-function showSpendSummary(){const totals={};(state.spending||[]).filter(x=>x.date.slice(0,7)===localISO(today).slice(0,7)).forEach(x=>totals[x.category]=(totals[x.category]||0)+Number(x.amount||0));alert('This month by category\n\n'+(Object.keys(totals).length?Object.entries(totals).map(([k,val])=>k+': '+money(val)).join('\n'):'No spending logged this month.'))}
-function renderToolkit(){const list=document.getElementById('spendList');if(!list)return;const items=state.spending||[],month=localISO(today).slice(0,7),total=items.filter(x=>x.date.slice(0,7)===month).reduce((a,x)=>a+Number(x.amount||0),0);document.getElementById('spendMonthTotal').textContent=money(total)+' this month';list.innerHTML=items.length?items.slice(0,12).map(x=>'<div class="listitem"><div class="row"><div><strong>'+esc(x.note||x.category)+'</strong><div class="muted small">'+esc(x.date)+' · '+esc(x.category)+'</div></div><div style="text-align:right"><strong>'+money(x.amount)+'</strong><br><button class="btn danger" onclick="deleteSpend('+Number(x.id)+')">Delete</button></div></div></div>').join(''):'<p class="muted small">No spending logged yet. Add your first entry above.</p>';const goals=state.goals||[];document.getElementById('goalCount').textContent=goals.length+' goal'+(goals.length===1?'':'s');document.getElementById('goalList').innerHTML=goals.length?goals.map(g=>{const pct=Math.min(100,Math.max(0,Number(g.saved||0)/Math.max(1,Number(g.target)||1)*100));return '<div class="listitem"><div class="row"><div><strong>'+esc(g.name)+'</strong><div class="muted small">'+money(g.saved)+' of '+money(g.target)+'</div></div><strong>'+pct.toFixed(0)+'%</strong></div><div class="mini-meter"><span style="width:'+pct+'%"></span></div><div class="actions" style="margin-top:9px"><button class="btn primary" onclick="addGoalProgress('+Number(g.id)+')">＋ Add progress</button><button class="btn danger" onclick="deleteGoal('+Number(g.id)+')">Delete</button></div></div>'}).join(''):'<p class="muted small">Create a goal to track emergency savings, repairs, gifts, or anything you are saving for.</p>'}
+function addSpend(){
+  const amt=Number(document.getElementById('spendAmount').value);
+  if(!amt){toast('Enter amount');return}
+  state.spending=state.spending||[];
+  state.spending.unshift({id:Date.now(),date:localISO(today),amount:amt,category:document.getElementById('spendCategory').value,note:document.getElementById('spendNote').value});
+  document.getElementById('spendAmount').value='';document.getElementById('spendNote').value='';
+  persist();toast('Expense added');
+}
 
-function renderAll(){renderDashboard();renderCalendar();renderBills();renderShifts();renderMoneySnapshot();renderEarningsBreakdown();updateEstimator();renderPlan();renderInsights();renderToolkit();document.getElementById('appTitle').textContent=state.name||'ShiftMoney';document.body.classList.toggle('no-motion',state.motionEffects===false)}
+function renderToolkit(){
+  const items=state.spending||[],total=items.reduce((a,x)=>a+x.amount,0);
+  document.getElementById('spendMonthTotal').textContent=money(total)+' logged';
+  document.getElementById('spendList').innerHTML=items.slice(0,10).map(x=>`<div class="listitem"><div class="row"><div><strong>${esc(x.note||x.category)}</strong><div class="muted small">${x.date} • ${x.category}</div></div><strong>${money(x.amount)}</strong></div></div>`).join('')||'<div class="empty">No expenses logged.</div>';
+  const goals=state.goals||[];
+  document.getElementById('goalCount').textContent=goals.length+' goals';
+  document.getElementById('goalList').innerHTML=goals.map(g=>`<div class="listitem"><div class="row"><div><strong>${esc(g.name)}</strong><div class="muted small">${money(g.saved)} / ${money(g.target)}</div></div></div></div>`).join('')||'<div class="empty">No savings goals.</div>';
+}
+
+function addGoal(){
+  const name=document.getElementById('goalName').value,target=Number(document.getElementById('goalTarget').value);
+  if(!name||!target){toast('Enter goal details');return}
+  state.goals=state.goals||[];state.goals.push({id:Date.now(),name,target,saved:Number(document.getElementById('goalSaved').value)||0});
+  document.getElementById('goalName').value='';document.getElementById('goalTarget').value='';document.getElementById('goalSaved').value='';
+  persist();toast('Goal created');
+}
+
+function fillSettings(){
+  document.getElementById('settingName').value=state.name;
+  document.getElementById('settingBalance').value=state.balance;
+  document.getElementById('hourlyWage').value=state.wage;
+  document.getElementById('taxRate').value=state.taxRate;
+}
+
+function saveSettings(){
+  state.name=document.getElementById('settingName').value.trim()||'ShiftMoney';
+  state.balance=+document.getElementById('settingBalance').value||0;
+  state.wage=+document.getElementById('hourlyWage').value||0;
+  state.taxRate=Math.min(100,Math.max(0,+document.getElementById('taxRate').value||0));
+  persist();toast('Settings saved');
+}
+
+function editBalance(){const v=prompt('Current balance ($):',state.balance);if(v!==null&&Number.isFinite(+v)){state.balance=+v;persist();toast('Balance updated')}}
+function exportData(){const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='shiftmoney-backup.json';a.click();URL.revokeObjectURL(url);toast('Backup exported')}
+function importData(e){const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=()=>{try{const data=JSON.parse(r.result);state={...state,...data};persist();toast('Restored')}catch(err){alert('Invalid file')}};r.readAsText(file)}
+function resetApp(){if(!confirm('Erase all app data?'))return;localStorage.removeItem(KEY);location.reload()}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function resetEstimator(){document.getElementById('estHours').value=6.5;document.getElementById('estCash').value=80;document.getElementById('estCredit').value=140;document.getElementById('estOther').value=0}
+function useEstimateInShift(){showPage('shifts');document.getElementById('logHours').value=document.getElementById('estHours').value;document.getElementById('cashTips').value=document.getElementById('estCash').value;document.getElementById('creditTips').value=document.getElementById('estCredit').value;document.getElementById('otherPay').value=document.getElementById('estOther').value;toast('Estimate copied to shift log')}
+
+load();
+renderAll();
+function renderAll(){renderDashboard();renderCalendar();renderBills();renderShifts();renderPlan();renderInsights();renderToolkit();}
 </script>
 </body>
 </html>
