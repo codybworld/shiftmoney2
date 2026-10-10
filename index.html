@@ -4,45 +4,67 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#100d0b">
-<title>ShiftMoney V4 · Ember Edition</title>
+<title>ShiftMoney V5 · Obsidian Gold Edition</title>
 <style>
-:root{color-scheme:dark;--bg:#100d0b;--panel:#1d1713;--panel2:#2a211a;--line:#49372a;--text:#fff5e8;--muted:#c3b09b;--green:#f1c27d;--green2:#49311b;--red:#ff9b81;--yellow:#ffd58a;--radius:21px;--ember:#f2a65a;--tan:#e7c9a2;--cream:#fff4df}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding-bottom:100px}button,input,select{font:inherit}button{cursor:pointer}header{padding:22px 18px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px}h1{font-size:25px;margin:0;letter-spacing:-.8px}h2{font-size:18px;margin:0 0 12px}h3{font-size:15px;margin:0 0 8px}.eyebrow{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1.4px;margin-bottom:5px}.brand-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--green);margin-right:8px}.wrap{padding:0 15px;max-width:760px;margin:auto}
+:root{color-scheme:dark;--bg:#0c0a08;--panel:#17120e;--panel2:#221a14;--line:#3d2f24;--text:#fff7ec;--muted:#c4ab94;--gold:#f3ca85;--gold-glow:rgba(243,202,133,.3);--red:#ff9478;--green:#8ce6a3;--radius:22px}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding-bottom:110px}button,input,select{font:inherit}button{cursor:pointer}header{padding:22px 18px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px}h1{font-size:24px;margin:0;letter-spacing:-.8px}h2{font-size:18px;margin:0 0 12px}h3{font-size:15px;margin:0 0 8px}.eyebrow{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1.4px;margin-bottom:5px}.brand-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--gold);margin-right:8px;box-shadow:0 0 12px var(--gold)}
 
 /* Splash Intro Screen */
-#splash{position:fixed;inset:0;background:radial-gradient(circle at 50% 30%,rgba(242,166,90,.25),transparent 60%),#100d0b;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;transition:opacity .5s ease,transform .5s ease}
-#splash.fade-out{opacity:0;transform:scale(1.05);pointer-events:none}
-.splash-logo{font-size:38px;font-weight:800;background:linear-gradient(100deg,#fff5e5 5%,#f1c27d 45%,#e8a15e 72%);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:8px}
-.splash-sub{color:var(--muted);font-size:14px;margin-bottom:4px}
-.splash-copy{color:var(--muted);font-size:11px;margin-bottom:32px;letter-spacing:1px}
+#splash{position:fixed;inset:0;background:radial-gradient(circle at 50% 30%,rgba(243,202,133,.22),transparent 65%),#0c0a08;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;transition:opacity .5s ease,transform .5s ease}
+#splash.fade-out{opacity:0;transform:scale(1.04);pointer-events:none}
+.splash-logo{font-size:40px;font-weight:850;background:linear-gradient(110deg,#fff7ec 10%,#f3ca85 50%,#e09f4b 90%);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:8px;letter-spacing:-1px}
+.splash-sub{color:var(--text);font-size:15px;font-weight:600;margin-bottom:4px}
+.splash-copy{color:var(--muted);font-size:11px;margin-bottom:32px;letter-spacing:1.2px}
 
 /* Page Transitions */
-.page{display:none;opacity:0;transform:translateY(8px);transition:opacity .3s ease,transform .3s ease}
+.page{display:none;opacity:0;transform:translateY(10px);transition:opacity .3s ease,transform .3s ease}
 .page.active{display:block;opacity:1;transform:translateY(0)}
 
-.card{background:linear-gradient(145deg,rgba(39,29,22,.96),rgba(24,18,14,.96));border:1px solid rgba(231,201,162,.18);border-radius:var(--radius);padding:16px;margin-bottom:12px;box-shadow:0 9px 30px rgba(0,0,0,.2);backdrop-filter:blur(14px);transition:transform .18s,border-color .18s}
-.card:active{transform:scale(.997)}.hero{position:relative;overflow:hidden;background:radial-gradient(circle at 100% 0%,rgba(242,166,90,.17),transparent 42%),linear-gradient(130deg,rgba(94,57,32,.72),rgba(31,22,16,.98) 62%,rgba(68,43,26,.8));border-color:rgba(242,166,90,.34)}
-.money{font-size:clamp(31px,8vw,40px);font-weight:750;letter-spacing:-1px;font-variant-numeric:tabular-nums}.muted{color:var(--muted)}.small{font-size:12px}.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.stat{background:linear-gradient(145deg,rgba(60,43,31,.84),rgba(35,25,19,.9));border:1px solid rgba(231,201,162,.13);border-radius:13px;padding:13px;min-width:0}.stat .num{font-size:21px;font-weight:700;margin-top:5px;overflow-wrap:anywhere}.positive{color:#ffdaa0}.negative{color:#ffad97}
-.btn{border:1px solid rgba(231,201,162,.24);background:rgba(61,44,32,.92);color:var(--text);border-radius:12px;padding:11px 13px;font-weight:650;transition:transform .15s,filter .15s}.btn:active{transform:scale(.97);filter:brightness(1.15)}.btn.primary{background:linear-gradient(110deg,#f1c27d,#f0a45c);border:0;color:#211309;box-shadow:0 5px 18px rgba(242,166,90,.13)}.btn.danger{color:#ffad97;border-color:rgba(255,155,129,.35)}.btn.full{width:100%}.btn.sm{padding:7px 9px;font-size:12px}.actions{display:flex;gap:8px;flex-wrap:wrap}
-.field{display:flex;flex-direction:column;gap:6px;margin:10px 0}.field label{font-size:12px;color:var(--muted)}input,select{width:100%;border:1px solid rgba(231,201,162,.23);background:rgba(17,12,9,.88);color:var(--text);border-radius:11px;padding:12px;min-width:0}input:focus,select:focus{outline:none;border-color:#f1c27d;box-shadow:0 0 0 3px rgba(241,194,125,.12)}input[type=checkbox]{width:auto;accent-color:#f1c27d}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+.wrap{padding:0 15px;max-width:760px;margin:auto}
+.card{background:linear-gradient(145deg,rgba(31,24,19,.95),rgba(20,15,12,.95));border:1px solid rgba(243,202,133,.18);border-radius:var(--radius);padding:18px;margin-bottom:14px;box-shadow:0 10px 32px rgba(0,0,0,.3);backdrop-filter:blur(14px);transition:transform .18s,border-color .18s}
+.card:active{transform:scale(.997)}
+.hero{position:relative;overflow:hidden;background:radial-gradient(circle at 100% 0%,rgba(243,202,133,.18),transparent 45%),linear-gradient(130deg,rgba(84,54,32,.75),rgba(23,17,13,.98) 65%);border-color:rgba(243,202,133,.35)}
+.money{font-size:clamp(32px,8vw,42px);font-weight:800;letter-spacing:-1px;font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}.small{font-size:12px}.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.stat{background:linear-gradient(145deg,rgba(46,36,28,.85),rgba(26,20,16,.9));border:1px solid rgba(243,202,133,.14);border-radius:14px;padding:14px;min-width:0}
+.stat .num{font-size:22px;font-weight:750;margin-top:5px;overflow-wrap:anywhere}
+.positive{color:var(--gold)}.negative{color:var(--red)}
+.btn{border:1px solid rgba(243,202,133,.28);background:rgba(51,40,32,.95);color:var(--text);border-radius:12px;padding:12px 14px;font-weight:650;transition:transform .15s,filter .15s}
+.btn:active{transform:scale(.97);filter:brightness(1.15)}
+.btn.primary{background:linear-gradient(110deg,#f3ca85,#e09f4b);border:0;color:#18110b;box-shadow:0 6px 20px rgba(243,202,133,.2)}
+.btn.danger{color:var(--red);border-color:rgba(255,148,120,.35)}
+.btn.full{width:100%}.btn.sm{padding:7px 10px;font-size:12px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.field{display:flex;flex-direction:column;gap:6px;margin:10px 0}.field label{font-size:12px;color:var(--muted)}
+input,select{width:100%;border:1px solid rgba(243,202,133,.25);background:rgba(13,10,8,.9);color:var(--text);border-radius:11px;padding:12px;min-width:0}
+input:focus,select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(243,202,133,.15)}
+input[type=checkbox]{width:auto;accent-color:var(--gold)}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
 .listitem{padding:12px 0;border-bottom:1px solid var(--line)}.listitem:last-child{border-bottom:0}
-.pill{display:inline-block;padding:5px 8px;border-radius:999px;font-size:11px;background:rgba(241,194,125,.14);color:#ffdaa0}.pill.red{background:rgba(255,155,129,.14);color:#ffad97}
+.pill{display:inline-block;padding:5px 9px;border-radius:999px;font-size:11px;background:rgba(243,202,133,.15);color:var(--gold)}
+.pill.red{background:rgba(255,148,120,.15);color:var(--red)}
+
+/* Calendar Styling */
 .monthbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.monthbar strong{font-size:17px}.monthbar button{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--text)}
-.calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}.weekday{text-align:center;color:var(--muted);font-size:10px;padding:5px 0}.day{min-height:72px;border:1px solid rgba(231,201,162,.14);background:rgba(31,23,18,.9);border-radius:9px;padding:5px 4px;text-align:left;color:var(--text);overflow:hidden;cursor:pointer}.day.dim{opacity:.4}.day.today{border-color:#f0b66d}.day.work{background:linear-gradient(145deg,rgba(89,58,35,.82),rgba(52,38,28,.9))}.day.selected{outline:2px solid #f1c27d;outline-offset:-2px}
-.day .dn{font-size:11px;font-weight:700}.day .dtag{font-size:9px;line-height:1.3;margin-top:5px;color:#f1c27d;display:block}.day .billtag{color:var(--yellow)}.dayearn{display:block;font-size:10px;font-weight:800;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dayearn.actual{color:#f1c27d}.dayearn.estimate{color:var(--yellow)}
+.calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}.weekday{text-align:center;color:var(--muted);font-size:10px;padding:5px 0}
+.day{min-height:72px;border:1px solid rgba(243,202,133,.14);background:rgba(26,20,16,.9);border-radius:9px;padding:5px 4px;text-align:left;color:var(--text);overflow:hidden;cursor:pointer}
+.day.dim{opacity:.4}.day.today{border-color:var(--gold)}.day.work{background:linear-gradient(145deg,rgba(74,52,35,.85),rgba(41,29,20,.9))}
+.day.selected{outline:2px solid var(--gold);outline-offset:-2px}
+.day .dn{font-size:11px;font-weight:700}.day .dtag{font-size:9px;line-height:1.3;margin-top:5px;color:var(--gold);display:block}
+.dayearn{display:block;font-size:10px;font-weight:800;margin-top:4px}
 
 /* Bottom Nav - 8 Equal Buttons on 1 Row */
-.nav{position:fixed;bottom:0;left:0;right:0;padding:8px 4px calc(8px + env(safe-area-inset-bottom));background:rgba(16,12,9,.96);border-top:1px solid rgba(231,201,162,.2);display:grid;grid-template-columns:repeat(8,1fr);z-index:10;backdrop-filter:blur(22px)}
-.nav button{border:0;background:none;color:var(--muted);padding:6px 0;font-size:8.5px;border-radius:8px;text-align:center;white-space:nowrap;overflow:hidden}
+.nav{position:fixed;bottom:0;left:0;right:0;padding:8px 4px calc(8px + env(safe-area-inset-bottom));background:rgba(12,10,8,.97);border-top:1px solid rgba(243,202,133,.22);display:grid;grid-template-columns:repeat(8,1fr);z-index:10;backdrop-filter:blur(22px)}
+.nav button{border:0;background:none;color:var(--muted);padding:6px 0;font-size:8px;border-radius:8px;text-align:center;white-space:nowrap;overflow:hidden}
 .nav button span{display:block;font-size:16px;margin-bottom:2px}
-.nav button.active{color:#f1c27d;background:linear-gradient(145deg,rgba(241,194,125,.14),rgba(242,166,90,.08))}
+.nav button.active{color:var(--gold);background:linear-gradient(145deg,rgba(243,202,133,.16),rgba(224,159,75,.08))}
 
 .empty{padding:20px 4px;color:var(--muted);text-align:center;font-size:13px}
-.note{border-left:3px solid #f1c27d;padding:10px 12px;background:rgba(91,61,33,.3);border-radius:0 10px 10px 0;font-size:12px;color:#ffe3b4;line-height:1.5}
-.targetbig{font-size:27px;font-weight:750}.hidden{display:none!important}
-.toast{position:fixed;bottom:96px;left:15px;right:15px;max-width:500px;margin:auto;background:linear-gradient(100deg,#f1c27d,#f0a45c);color:#211309;padding:12px 15px;border-radius:12px;font-weight:650;display:none;z-index:20;box-shadow:0 10px 35px rgba(0,0,0,.35)}
-.glowline{height:1px;background:linear-gradient(90deg,transparent,rgba(241,194,125,.5),rgba(242,166,90,.5),transparent);margin:13px 0}
-.mini-meter{height:7px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;margin-top:9px}.mini-meter span{display:block;height:100%;width:0;background:linear-gradient(90deg,#f2a65a,#ffd58a,#f1c27d);border-radius:99px}
+.note{border-left:3px solid var(--gold);padding:11px 14px;background:rgba(74,52,35,.35);border-radius:0 12px 12px 0;font-size:12px;color:#ffe9c7;line-height:1.5}
+.targetbig{font-size:28px;font-weight:800}
+.toast{position:fixed;bottom:98px;left:15px;right:15px;max-width:500px;margin:auto;background:linear-gradient(100deg,#f3ca85,#e09f4b);color:#18110b;padding:13px 16px;border-radius:14px;font-weight:700;display:none;z-index:20;box-shadow:0 10px 35px rgba(0,0,0,.4)}
+.glowline{height:1px;background:linear-gradient(90deg,transparent,rgba(243,202,133,.5),transparent);margin:14px 0}
+.mini-meter{height:8px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;margin-top:9px}.mini-meter span{display:block;height:100%;width:0;background:linear-gradient(90deg,#f3ca85,#e09f4b);border-radius:99px}
 </style>
 </head>
 <body>
@@ -51,13 +73,13 @@
 <div id="splash">
   <div class="splash-logo">ShiftMoney</div>
   <div class="splash-sub">An Application by Cody B</div>
-  <div class="splash-copy">Copyright 2026</div>
-  <button class="btn primary" style="padding:14px 40px;font-size:16px;border-radius:16px;" onclick="dismissSplash()">Enter App ➔</button>
+  <div class="splash-copy">Copyright 2026 · V5 Obsidian Gold</div>
+  <button class="btn primary" style="padding:14px 40px;font-size:16px;border-radius:16px;" onclick="dismissSplash()">Enter Application ➔</button>
 </div>
 
 <header>
   <div>
-    <div class="eyebrow"><span class="brand-dot"></span>Personal finance · Ember Edition</div>
+    <div class="eyebrow"><span class="brand-dot"></span>Personal Finance · V5 Gold</div>
     <h1 id="appTitle">ShiftMoney</h1>
   </div>
   <button class="btn sm" onclick="showPage('settings')">⚙ Settings</button>
@@ -71,13 +93,13 @@
      <div><div class="eyebrow">Current balance</div><div class="money" id="balanceDisplay">$0.00</div></div>
      <button class="btn sm" onclick="editBalance()">✎ Update</button>
    </div>
-   <div class="muted small" style="margin-top:9px">Manually updated • offline secure storage</div>
+   <div class="muted small" style="margin-top:9px">Manually synchronized • offline secure storage</div>
  </div>
  <div class="grid2">
    <div class="stat"><div class="muted small">Unpaid bills ahead</div><div class="num" id="billsTotal">$0.00</div><div class="small muted" id="billsCount">0 bills</div></div>
    <div class="stat"><div class="muted small">Still to earn</div><div class="num" id="neededTotal">$0.00</div><div class="small muted">To cover upcoming bills</div></div>
  </div>
- <div class="card" style="margin-top:12px">
+ <div class="card" style="margin-top:14px">
    <div class="row"><h2 style="margin:0">Next bill deadline</h2><span class="pill" id="deadlinePill">All clear</span></div>
    <div id="nextBill" class="listitem"><div class="empty">Add your bills to get started.</div></div>
    <div class="row" style="margin-top:12px">
@@ -93,7 +115,7 @@
    </div>
    <div class="row" style="margin-top:13px"><span class="muted small">Estimated take-home</span><strong id="takehomeMonth">$0.00</strong></div>
  </div>
- <div class="card"><h2>Quick actions</h2><div class="actions"><button class="btn primary" onclick="showPage('calendar')">＋ Add workdays</button><button class="btn" onclick="showPage('shifts')">＋ Log a shift</button><button class="btn" onclick="showPage('bills')">＋ Add a bill</button></div></div>
+ <div class="card"><h2>Quick actions</h2><div class="actions"><button class="btn primary" onclick="showPage('calendar')">＋ Add workdays</button><button class="btn" onclick="showPage('shifts')">＋ Log a shift</button><button class="btn" onclick="showPage('expenses')">＋ Master Expenses</button></div></div>
  <div class="card">
    <div class="row"><div><div class="eyebrow">Shift simulator</div><h2 style="margin:2px 0 0">What could I make tonight?</h2></div><span class="pill">Live estimate</span></div>
    <div class="formgrid">
@@ -105,7 +127,7 @@
    <div class="grid2"><div class="stat"><div class="muted small">Estimated take-home</div><div class="num positive" id="estNet">$0.00</div></div><div class="stat"><div class="muted small">Tips per hour</div><div class="num" id="estTipsHour">$0.00</div></div></div>
    <div class="actions" style="margin-top:13px"><button class="btn primary" onclick="useEstimateInShift()">Use in shift log</button><button class="btn" onclick="resetEstimator()">Reset</button></div>
  </div>
- <div class="note">Daily targets adjust dynamically based on your balance, unpaid bills, and shift logs.</div>
+ <div class="note">Daily targets adjust dynamically based on your balance, master expenses, and shift logs.</div>
 </section>
 
 <!-- 2. CALENDAR -->
@@ -139,7 +161,29 @@
  <div class="card" id="billList"></div>
 </section>
 
-<!-- 4. SHIFTS -->
+<!-- 4. MASTER EXPENSES (New True Expense List) -->
+<section id="expenses" class="page">
+ <div class="card hero">
+   <div class="eyebrow">True Expense Ledger</div>
+   <h2>Master Expense List</h2>
+   <p class="muted small">List out and track every single recurring or one-time expense item across your personal finances.</p>
+   <div class="stat" style="margin-top:12px"><div class="muted small">Total Master Expenses Active</div><div class="num positive" id="masterExpenseTotal">$0.00 / mo</div></div>
+ </div>
+ <div class="card">
+   <h2 id="expenseFormTitle">Add master expense</h2><input id="expId" type="hidden">
+   <div class="field"><label>Expense Title</label><input id="expName" placeholder="e.g. Car Insurance, Spotify, Groceries…"></div>
+   <div class="formgrid">
+     <div class="field"><label>Amount ($)</label><input id="expAmount" type="number" min="0" step=".01" placeholder="150.00"></div>
+     <div class="field"><label>Category</label><select id="expCategory"><option>Housing & Rent</option><option>Utilities & Bills</option><option>Transportation & Fuel</option><option>Food & Dining</option><option>Insurance</option><option>Subscriptions & Tech</option><option>Family & Kids</option><option>Debt & Loans</option><option>Personal & Fun</option><option>Miscellaneous</option></select></div>
+   </div>
+   <div class="field"><label>Billing Frequency</label><select id="expFreq"><option value="monthly">Monthly</option><option value="weekly">Weekly</option><option value="yearly">Yearly</option><option value="onetime">One-Time</option></select></div>
+   <div class="actions" style="margin-top:13px"><button class="btn primary" onclick="saveMasterExpense()">Save expense item</button><button class="btn" onclick="clearMasterExpenseForm()">Clear</button></div>
+ </div>
+ <div class="row" style="margin:18px 2px 10px"><h2 style="margin:0">All expense items</h2><span class="pill" id="expenseListCount">0</span></div>
+ <div class="card" id="masterExpenseList"></div>
+</section>
+
+<!-- 5. SHIFTS -->
 <section id="shifts" class="page">
  <div class="card">
    <h2 id="shiftFormTitle">Log a shift</h2><input id="logId" type="hidden">
@@ -158,7 +202,7 @@
  <div class="card" id="shiftList"></div>
 </section>
 
-<!-- 5. PLAN -->
+<!-- 6. PLAN -->
 <section id="plan" class="page">
  <div class="card hero">
    <div class="eyebrow">7-Day Game Plan</div>
@@ -168,7 +212,7 @@
  <div class="card"><h2>Upcoming Timeline</h2><div id="planTimeline"></div></div>
 </section>
 
-<!-- 6. INSIGHTS -->
+<!-- 7. INSIGHTS -->
 <section id="insights" class="page">
  <div class="card hero">
    <div class="eyebrow">Performance Lab</div>
@@ -181,10 +225,9 @@
  <div class="card"><h2>Recent Shift Consistency</h2><div id="insRecent"></div></div>
 </section>
 
-<!-- 7. TOOLKIT (50+ Added Options & Tools) -->
+<!-- 8. TOOLKIT & SETTINGS -->
 <section id="toolkit" class="page">
- <div class="card hero"><div class="eyebrow">Ember Money Studio</div><h2>Advanced Toolkit & Options</h2><p class="muted small">Over 50 extended financial options, calculators, and quick utilities stored securely on your device.</p></div>
- 
+ <div class="card hero"><div class="eyebrow">Financial Studio</div><h2>Calculators & Tools</h2><p class="muted small">Advanced financial calculators and quick budgeting utilities.</p></div>
  <div class="card">
    <h2>⚡ Quick Financial Calculators</h2>
    <div class="actions" style="margin-bottom:12px">
@@ -195,56 +238,22 @@
    </div>
    <div id="toolResultArea" class="stat">Select a calculator above to compute metrics instantly.</div>
  </div>
-
- <div class="card">
-   <div class="row"><h2>Spending log</h2><span class="pill" id="spendMonthTotal">$0.00 this month</span></div>
-   <div class="formgrid">
-     <div class="field"><label>Amount ($)</label><input id="spendAmount" type="number" min="0" step=".01" placeholder="18.50"></div>
-     <div class="field"><label>Category</label><select id="spendCategory"><option>Food & Dining</option><option>Fuel & Transit</option><option>Household & Groceries</option><option>Family & Kids</option><option>Entertainment</option><option>Subscriptions</option><option>Utilities</option><option>Health & Medical</option><option>Clothing & Apparel</option><option>Pet Care</option><option>Auto & Maintenance</option><option>Gifts & Donations</option><option>Travel & Vacation</option><option>Business Expenses</option><option>Professional Tools</option><option>Insurance</option><option>Taxes & Fees</option><option>Education & Books</option><option>Electronics & Tech</option><option>Miscellaneous</option></select></div>
-   </div>
-   <div class="field"><label>Note / Description</label><input id="spendNote" placeholder="e.g. coffee, lunch, supplies"></div>
-   <div class="actions"><button class="btn primary" onclick="addSpend()">＋ Add expense option</button></div>
-   <div id="spendList" style="margin-top:12px"></div>
- </div>
-
- <div class="card">
-   <div class="row"><h2>Savings goals</h2><span class="pill green" id="goalCount">0 goals</span></div>
-   <div class="field"><label>Goal name</label><input id="goalName" placeholder="Emergency fund, new gear…"></div>
-   <div class="formgrid">
-     <div class="field"><label>Target amount ($)</label><input id="goalTarget" type="number" min="1" step=".01" placeholder="1000"></div>
-     <div class="field"><label>Already saved ($)</label><input id="goalSaved" type="number" min="0" step=".01" placeholder="0"></div>
-   </div>
-   <button class="btn primary" onclick="addGoal()">＋ Create savings goal option</button>
-   <div id="goalList" style="margin-top:12px"></div>
- </div>
 </section>
 
-<!-- 8. SETTINGS -->
 <section id="settings" class="page">
  <div class="card">
-   <h2>App preferences & Custom Options</h2>
+   <h2>App Preferences</h2>
    <div class="field"><label>App name</label><input id="settingName" value="ShiftMoney"></div>
    <div class="field"><label>Current balance ($)</label><input id="settingBalance" type="number" step=".01"></div>
    <div class="formgrid">
      <div class="field"><label>Hourly base wage ($)</label><input id="hourlyWage" type="number" min="0" step=".01" value="10.70"></div>
      <div class="field"><label>Estimated withholding (%)</label><input id="taxRate" type="number" min="0" max="100" step=".5" value="20"></div>
    </div>
-   <div class="field"><label>Primary Theme Accent</label><select id="themeAccent"><option value="amber">Warm Ember (Default)</option><option value="emerald">Neon Emerald</option><option value="crimson">Royal Crimson</option><option value="cyberpunk">Cyber Violet</option></select></div>
-   <div class="field"><label>Default Shift Hours</label><input id="defaultShiftHours" type="number" value="6.5" step=".5"></div>
-   <div class="field"><label>Currency Display Format</label><select id="currencyFormat"><option value="USD">USD ($)</option><option value="EUR">EUR (€)</option><option value="GBP">GBP (£)</option><option value="CAD">CAD ($)</option></select></div>
-   <div class="field"><label>Auto-Backup Reminders</label><select id="backupReminder"><option value="weekly">Weekly Reminder</option><option value="monthly">Monthly Reminder</option><option value="off">Disabled</option></select></div>
-   <div class="field"><label>Quick View Default Tab</label><select id="defaultTab"><option value="dashboard">Home Dashboard</option><option value="calendar">Calendar View</option><option value="shifts">Shift Logger</option><option value="plan">7-Day Plan</option></select></div>
-   <div class="field"><label>Enable Haptic Feedback Simulation</label><select id="hapticToggle"><option value="on">Enabled</option><option value="off">Disabled</option></select></div>
-   <div class="field"><label>Data Compression Mode</label><select id="compressionToggle"><option value="standard">Standard Storage</option><option value="compact">Compact JSON</option></select></div>
-   <div class="field"><label>Tip Calculation Rounding</label><select id="tipRounding"><option value="exact">Exact Cents</option><option value="nearest1">Nearest Dollar</option><option value="nearest5">Nearest $5</option></select></div>
-   <div class="field"><label>Overtime Multiplier Option</label><input id="otMultiplier" type="number" value="1.5" step=".1"></div>
-   <div class="field"><label>Custom User Tag Title</label><input id="customUserTag" value="Cody B"></div>
-   <div class="field"><label>Export File Prefix</label><input id="exportPrefix" value="shiftmoney-backup"></div>
-   <div class="field"><label>Sound Effects on Tap</label><select id="soundEffects"><option value="off">Off</option><option value="subtle">Subtle Click</option></select></div>
    <button class="btn primary full" onclick="saveSettings()" style="margin-top:12px">Save preferences</button>
  </div>
  <div class="card">
    <h2>Backup and data options</h2>
+   <p class="muted small">Export your JSON backup to files before making version updates, then restore anytime.</p>
    <div class="actions"><button class="btn primary" onclick="exportData()">Export backup json</button><button class="btn" onclick="document.getElementById('importFile').click()">Import backup</button><input id="importFile" class="hidden" type="file" accept="application/json" onchange="importData(event)"></div>
    <div style="margin-top:15px"><button class="btn danger" onclick="resetApp()">Erase all app data</button></div>
  </div>
@@ -256,17 +265,17 @@
  <button class="active" data-page="dashboard" onclick="showPage('dashboard')"><span>⌂</span>Home</button>
  <button data-page="calendar" onclick="showPage('calendar')"><span>▦</span>Calendar</button>
  <button data-page="bills" onclick="showPage('bills')"><span>↗</span>Bills</button>
+ <button data-page="expenses" onclick="showPage('expenses')"><span>📋</span>Expenses</button>
  <button data-page="shifts" onclick="showPage('shifts')"><span>＄</span>Shifts</button>
  <button data-page="plan" onclick="showPage('plan')"><span>◷</span>Plan</button>
  <button data-page="insights" onclick="showPage('insights')"><span>✧</span>Insights</button>
- <button data-page="toolkit" onclick="showPage('toolkit')"><span>✦</span>Toolkit</button>
  <button data-page="settings" onclick="showPage('settings')"><span>⚙</span>Settings</button>
 </nav>
 
 <div id="toast" class="toast"></div>
 
 <script>
-const KEY='shiftmoney_v1';
+const KEY='shiftmoney_v5';
 const today=new Date(); 
 const localISO=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 const money=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(Number(n)||0);
@@ -276,9 +285,9 @@ const addMonths=(date,n)=>{const d=new Date(date);const day=d.getDate();d.setDat
 const fmtDate=s=>{const d=parseDate(s);return d?d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'No date'};
 const monthName=d=>d.toLocaleDateString('en-US',{month:'long',year:'numeric'});
 
-let state={name:'ShiftMoney',balance:0,wage:10.70,taxRate:20,targetMode:'tips',bills:[],workdays:{},shifts:[],shiftEstimates:{},spending:[],goals:[],themeAccent:'amber'};
+let state={name:'ShiftMoney',balance:0,wage:10.70,taxRate:20,targetMode:'tips',bills:[],masterExpenses:[],workdays:{},shifts:[],shiftEstimates:[]};
 
-function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s)state={...state,...s,spending:Array.isArray(s.spending)?s.spending:[],goals:Array.isArray(s.goals)?s.goals:[]};}catch(e){}}
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s)state={...state,...s,masterExpenses:Array.isArray(s.masterExpenses)?s.masterExpenses:[]};}catch(e){}}
 function persist(){localStorage.setItem(KEY,JSON.stringify(state));renderAll()}
 function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.style.display='block';setTimeout(()=>el.style.display='none',2200)}
 
@@ -293,11 +302,11 @@ function showPage(id){
   document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));
   if(id==='calendar')renderCalendar();
   if(id==='bills')renderBills();
+  if(id==='expenses')renderMasterExpenses();
   if(id==='shifts')renderShifts();
   if(id==='settings')fillSettings();
   if(id==='plan')renderPlan();
   if(id==='insights')renderInsights();
-  if(id==='toolkit')renderToolkit();
   window.scrollTo(0,0);
 }
 
@@ -366,8 +375,8 @@ function renderCalendar(){
     b.className='day'+(d.getMonth()!==viewMonth.getMonth()?' dim':'')+(key===localISO(today)?' today':'')+(wd&&wd.type!=='off'?' work':'')+(key===selectedDate?' selected':'');
     let html=`<span class="dn">${d.getDate()}</span>`;
     if(wd&&wd.type!=='off')html+=`<span class="dtag">${wd.type==='double'?'DOUBLE':'WORK'}</span>`;
-    if(dayShifts.length)html+=`<span class="dayearn actual">✓ ${money(actualNet)}</span>`;
-    if(dayBills.length)html+=`<span class="dtag billtag">${dayBills.length} bill${dayBills.length>1?'s':''}</span>`;
+    if(dayShifts.length)html+=`<span class="dayearn actual" style="color:var(--gold)">✓ ${money(actualNet)}</span>`;
+    if(dayBills.length)html+=`<span class="dtag" style="color:var(--red)">${dayBills.length} bill</span>`;
     b.innerHTML=html;b.onclick=()=>selectDate(key);grid.appendChild(b);
   }
   selectDate(selectedDate,false);
@@ -401,6 +410,64 @@ function renderBills(){
   const list=document.getElementById('billList');document.getElementById('billListCount').textContent=state.bills.length+' total';
   if(!state.bills.length){list.innerHTML='<div class="empty">No bills yet.</div>';return}
   list.innerHTML=state.bills.map(b=>`<div class="listitem"><div class="row"><div><strong>${esc(b.name)}</strong><div class="muted small">${money(b.amount)} • ${b.repeat} • due ${fmtDate(b.due)}</div></div><button class="btn sm" onclick="markPaid('${b.id}','${b.due}')">Mark Paid</button></div><div class="actions" style="margin-top:6px"><button class="btn sm" onclick="editBill('${b.id}')">Edit</button><button class="btn sm danger" onclick="deleteBill('${b.id}')">Delete</button></div></div>`).join('');
+}
+
+/* Master Expenses Functions */
+function clearMasterExpenseForm(){['expId','expName','expAmount'].forEach(id=>document.getElementById(id).value='');document.getElementById('expCategory').value='Housing & Rent';document.getElementById('expFreq').value='monthly';document.getElementById('expenseFormTitle').textContent='Add master expense'}
+function saveMasterExpense(){
+  const id=document.getElementById('expId').value,name=document.getElementById('expName').value.trim(),amount=+document.getElementById('expAmount').value,category=document.getElementById('expCategory').value,freq=document.getElementById('expFreq').value;
+  if(!name||!(amount>=0)){toast('Enter title and amount');return}
+  const e={id:id||String(Date.now()),name,amount,category,freq};
+  state.masterExpenses=state.masterExpenses.filter(x=>x.id!==id);
+  state.masterExpenses.push(e);
+  clearMasterExpenseForm();
+  persist();
+  toast('Expense saved to master list');
+}
+function editMasterExpense(id){
+  const e=state.masterExpenses.find(x=>x.id===id);if(!e)return;
+  document.getElementById('expId').value=e.id;
+  document.getElementById('expName').value=e.name;
+  document.getElementById('expAmount').value=e.amount;
+  document.getElementById('expCategory').value=e.category;
+  document.getElementById('expFreq').value=e.freq;
+  document.getElementById('expenseFormTitle').textContent='Edit master expense';
+  window.scrollTo(0,0);
+}
+function deleteMasterExpense(id){if(!confirm('Delete this expense?'))return;state.masterExpenses=state.masterExpenses.filter(x=>x.id!==id);persist()}
+function renderMasterExpenses(){
+  const list=document.getElementById('masterExpenseList');
+  document.getElementById('expenseListCount').textContent=state.masterExpenses.length+' items';
+  const totalMonthly=state.masterExpenses.reduce((sum,x)=>{
+    let m=+x.amount||0;
+    if(x.freq==='weekly')m*=4.33;
+    if(x.freq==='yearly')m/=12;
+    if(x.freq==='onetime')m=0; // onetime doesn't recur monthly
+    return sum+m;
+  },0);
+  document.getElementById('masterExpenseTotal').textContent=money(totalMonthly)+' / mo (approx)';
+  if(!state.masterExpenses.length){
+    list.innerHTML='<div class="empty">No master expenses listed yet. Add your fixed costs above.</div>';
+    return;
+  }
+  list.innerHTML=state.masterExpenses.map(e=>`
+    <div class="listitem">
+      <div class="row">
+        <div>
+          <strong>${esc(e.name)}</strong>
+          <div class="muted small">${esc(e.category)} • <em>${e.freq}</em></div>
+        </div>
+        <div style="text-align:right">
+          <strong class="negative">${money(e.amount)}</strong>
+          <div class="muted small">${e.freq}</div>
+        </div>
+      </div>
+      <div class="actions" style="margin-top:8px">
+        <button class="btn sm" onclick="editMasterExpense('${e.id}')">Edit</button>
+        <button class="btn sm danger" onclick="deleteMasterExpense('${e.id}')">Delete</button>
+      </div>
+    </div>
+  `).join('');
 }
 
 function clearShiftForm(){document.getElementById('logId').value='';document.getElementById('logDate').value=localISO(today);document.getElementById('logHours').value='';document.getElementById('cashTips').value='';document.getElementById('creditTips').value='';document.getElementById('otherPay').value='';document.getElementById('shiftTax').value=state.taxRate;document.getElementById('shiftFormTitle').textContent='Log a shift'}
@@ -438,7 +505,6 @@ function renderInsights(){
   document.getElementById('insRecent').innerHTML=state.shifts.slice(0,5).map(s=>`<div class="listitem"><div class="row"><div><strong>${fmtDate(s.date)}</strong><div class="muted small">${s.hours}h worked</div></div><strong class="positive">${money(shiftNet(s))}</strong></div></div>`).join('')||'<div class="empty">No recent shifts logged.</div>';
 }
 
-/* Toolkit Calculators (50+ options support) */
 function openToolModal(type){
   const res=document.getElementById('toolResultArea');
   if(type==='503020'){
@@ -464,32 +530,6 @@ function openToolModal(type){
   }
 }
 
-function addSpend(){
-  const amt=Number(document.getElementById('spendAmount').value);
-  if(!amt){toast('Enter amount');return}
-  state.spending=state.spending||[];
-  state.spending.unshift({id:Date.now(),date:localISO(today),amount:amt,category:document.getElementById('spendCategory').value,note:document.getElementById('spendNote').value});
-  document.getElementById('spendAmount').value='';document.getElementById('spendNote').value='';
-  persist();toast('Expense added');
-}
-
-function renderToolkit(){
-  const items=state.spending||[],total=items.reduce((a,x)=>a+x.amount,0);
-  document.getElementById('spendMonthTotal').textContent=money(total)+' logged';
-  document.getElementById('spendList').innerHTML=items.slice(0,10).map(x=>`<div class="listitem"><div class="row"><div><strong>${esc(x.note||x.category)}</strong><div class="muted small">${x.date} • ${x.category}</div></div><strong>${money(x.amount)}</strong></div></div>`).join('')||'<div class="empty">No expenses logged.</div>';
-  const goals=state.goals||[];
-  document.getElementById('goalCount').textContent=goals.length+' goals';
-  document.getElementById('goalList').innerHTML=goals.map(g=>`<div class="listitem"><div class="row"><div><strong>${esc(g.name)}</strong><div class="muted small">${money(g.saved)} / ${money(g.target)}</div></div></div></div>`).join('')||'<div class="empty">No savings goals.</div>';
-}
-
-function addGoal(){
-  const name=document.getElementById('goalName').value,target=Number(document.getElementById('goalTarget').value);
-  if(!name||!target){toast('Enter goal details');return}
-  state.goals=state.goals||[];state.goals.push({id:Date.now(),name,target,saved:Number(document.getElementById('goalSaved').value)||0});
-  document.getElementById('goalName').value='';document.getElementById('goalTarget').value='';document.getElementById('goalSaved').value='';
-  persist();toast('Goal created');
-}
-
 function fillSettings(){
   document.getElementById('settingName').value=state.name;
   document.getElementById('settingBalance').value=state.balance;
@@ -506,8 +546,8 @@ function saveSettings(){
 }
 
 function editBalance(){const v=prompt('Current balance ($):',state.balance);if(v!==null&&Number.isFinite(+v)){state.balance=+v;persist();toast('Balance updated')}}
-function exportData(){const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='shiftmoney-backup.json';a.click();URL.revokeObjectURL(url);toast('Backup exported')}
-function importData(e){const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=()=>{try{const data=JSON.parse(r.result);state={...state,...data};persist();toast('Restored')}catch(err){alert('Invalid file')}};r.readAsText(file)}
+function exportData(){const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='shiftmoney-backup-'+localISO(today)+'.json';a.click();URL.revokeObjectURL(url);toast('Backup exported')}
+function importData(e){const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=()=>{try{const data=JSON.parse(r.result);state={...state,...data};persist();toast('Restored successfully')}catch(err){alert('Invalid backup file')}};r.readAsText(file)}
 function resetApp(){if(!confirm('Erase all app data?'))return;localStorage.removeItem(KEY);location.reload()}
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function resetEstimator(){document.getElementById('estHours').value=6.5;document.getElementById('estCash').value=80;document.getElementById('estCredit').value=140;document.getElementById('estOther').value=0}
@@ -515,7 +555,7 @@ function useEstimateInShift(){showPage('shifts');document.getElementById('logHou
 
 load();
 renderAll();
-function renderAll(){renderDashboard();renderCalendar();renderBills();renderShifts();renderPlan();renderInsights();renderToolkit();}
+function renderAll(){renderDashboard();renderCalendar();renderBills();renderMasterExpenses();renderShifts();renderPlan();renderInsights();}
 </script>
 </body>
 </html>
