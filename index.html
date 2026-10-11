@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#06121c">
+<meta name="description" content="ShiftMoney — shifts, bills and real-life money, all in one place.">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -126,6 +127,16 @@ input,select{border-radius:16px}.day{border-radius:15px;transition:transform .4s
 #sheet{transition:transform .6s var(--spring)}
 .toast{bottom:calc(98px + env(safe-area-inset-bottom));transform:translateY(46px) scale(.9);transition:all .5s var(--spring)}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* v11: refined sky, message placements, ledger and accessibility */
+.skyline{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;margin:0 0 12px;border:1px solid rgba(56,189,248,.2);border-radius:20px;background:linear-gradient(110deg,rgba(15,40,59,.92),rgba(13,57,67,.6));min-height:70px}
+.skyart{position:relative;width:78px;height:47px;flex:none;overflow:hidden}.skyorb{position:absolute;top:2px;left:18px;font-size:30px;filter:drop-shadow(0 0 10px rgba(255,221,145,.35));animation:bob 6s ease-in-out infinite}.skycloud{position:absolute;bottom:0;left:0;font-size:23px;opacity:.88}.skycloud.two{left:45px;bottom:4px;font-size:16px}.skystars{position:absolute;right:0;top:0;color:#c7ecff;font-size:12px;letter-spacing:8px}
+.weatherline{font-size:13px;color:var(--muted)}.weatherline button{background:none;border:0;color:var(--gold2);padding:4px;text-decoration:underline;text-underline-offset:3px}
+.promo{border:1px solid rgba(56,189,248,.22);border-radius:22px;background:radial-gradient(circle at 95% 15%,rgba(52,211,153,.2),transparent 65%),linear-gradient(125deg,#0b2639,#102638);padding:16px;margin-bottom:14px;position:relative;overflow:hidden;min-height:124px}
+.promo:before{content:'SHIFT MONEY • LITTLE BOOST';font-size:9px;letter-spacing:2px;color:var(--muted);display:block;margin-bottom:12px}.promo-body{display:flex;align-items:center;gap:12px;min-height:49px}.promo-art{font-size:34px;min-width:44px;text-align:center}.promo-quote{font-weight:760;font-size:17px;line-height:1.25}.promo-foot{display:flex;align-items:center;justify-content:space-between;margin-top:10px}.promo-dots{display:flex;gap:5px}.promo-dots i{height:5px;width:5px;background:#507789;border-radius:5px}.promo-dots i.on{width:18px;background:var(--gold)}.promobtn{background:transparent;border:1px solid var(--line);border-radius:10px;padding:5px 9px;color:var(--muted);font-size:12px}
+.ledger-item{padding:11px 0;border-bottom:1px solid var(--line)}.ledger-item:last-child{border:0}.tiny{font-size:11px;color:var(--muted)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--gold2);outline-offset:3px}
+@media(max-width:370px){.money{font-size:38px}.skyline{padding:9px}.promo-quote{font-size:15px}}
+@media(prefers-reduced-motion:reduce){.skyorb{animation:none}}
 </style>
 </head>
 <body>
@@ -137,7 +148,9 @@ input,select{border-radius:16px}.day{border-radius:15px;transition:transform .4s
 
 <main class="wrap">
 <section id="home" class="page active">
- <div id="banner"></div>
+ <div class="skyline"><div class="row" style="gap:12px"><div class="skyart" aria-hidden="true"><span class="skystars" id="skyStars">✦ ✧</span><span class="skyorb" id="skyOrb">☀️</span><span class="skycloud">☁️</span><span class="skycloud two">☁️</span></div><div><div style="font-weight:750" id="skyGreeting">A fresh day to build.</div><div class="weatherline" id="weatherLine">Weather is optional · <button onclick="weatherSheet()">Set up</button></div></div></div></div>
+  <div id="banner"></div>
+  <div class="promo" id="promoHome" aria-label="Rotating positive messages"></div>
  <div class="card hero">
   <div class="row"><div class="muted small">Total balance</div><button class="btn sm" onclick="setBalance()">✎ Update</button></div>
   <div class="money" id="bal">$0.00</div><div class="small" id="afterBills" style="margin-top:6px"></div>
@@ -149,18 +162,21 @@ input,select{border-radius:16px}.day{border-radius:15px;transition:transform .4s
   <div class="small" id="shiftsNeed" style="margin-top:10px"></div>
  </div>
  <div class="card"><div class="row" style="margin-bottom:6px"><h2>Unpaid this month</h2><span class="pill" id="dueCnt"></span></div><div id="dueList"></div><div class="hint">Swipe a bill right to mark it paid</div></div>
- <div class="card"><div class="row"><h2>This month's shifts</h2><span class="pill" id="mShifts"></span></div>
+  <div class="card"><div class="row"><h2>Money movements</h2><button class="btn sm" onclick="txSheet()">＋ Add</button></div><div class="g2" style="margin-top:12px"><div class="stat"><div class="muted small">Spent this month</div><div class="n neg" id="spentMonth">$0</div></div><div class="stat"><div class="muted small">Deposits this month</div><div class="n pos" id="depositMonth">$0</div></div></div><div id="ledgerHome" style="margin-top:8px"></div><button class="btn sm full" onclick="ledgerSheet()">View transaction history</button></div>
+  <div class="card"><div class="row"><h2>This month's shifts</h2><span class="pill" id="mShifts"></span></div>
   <div class="g2" style="margin-top:14px"><div class="stat"><div class="muted small">Tips</div><div class="n pos" id="mTips"></div></div><div class="stat"><div class="muted small">Take-home</div><div class="n" id="mNet"></div></div></div>
   <button class="btn primary full" style="margin-top:14px" onclick="shiftSheet()">＋ Log a shift</button></div>
 </section>
 
-<section id="calendar" class="page">
+ <section id="calendar" class="page">
+  <div class="promo" id="promoCal"></div>
  <div class="mb"><button onclick="mv(-1)">‹</button><strong id="calM"></strong><button onclick="goToday()" style="font-size:12px">Today</button><button onclick="mv(1)">›</button></div>
  <div class="card" style="padding:10px"><div class="cal" id="calG"></div></div>
  <div class="card"><div id="calSum" class="small"></div><div class="hint" style="margin-top:8px">Tap a day to set work, log a shift or pay bills · swipe to change month</div></div>
 </section>
 
-<section id="shifts" class="page">
+ <section id="shifts" class="page">
+  <div class="promo" id="promoShifts"></div>
  <button class="btn primary full" onclick="shiftSheet()">＋ Log a shift</button>
  <div class="g2" style="margin-top:14px"><div class="stat"><div class="muted small">This week</div><div class="n pos" id="sWeek"></div></div><div class="stat"><div class="muted small">This month</div><div class="n" id="sMonth"></div></div><div class="stat"><div class="muted small">Tips per hour</div><div class="n" id="sTH"></div></div><div class="stat"><div class="muted small">Avg per shift</div><div class="n" id="sAvg"></div></div></div>
  <div class="card" style="margin-top:14px"><div class="row"><h2>Last 12 shifts</h2><span class="pill" id="barLbl">Tap a bar</span></div><div class="bars" id="bars"></div>
@@ -170,7 +186,8 @@ input,select{border-radius:16px}.day{border-radius:15px;transition:transform .4s
  <div class="card" id="shList"></div><div class="hint">Tap to edit · swipe left to delete</div>
 </section>
 
-<section id="bills" class="page">
+ <section id="bills" class="page">
+  <div class="promo" id="promoBills"></div>
  <button class="btn primary full" onclick="billSheet()">＋ Add a bill</button>
  <div class="g2" style="margin-top:14px"><div class="stat"><div class="muted small">Due this month</div><div class="n" id="bTot"></div></div><div class="stat"><div class="muted small">Still unpaid</div><div class="n neg" id="bLeft"></div></div></div>
  <div class="sec"><h2>All bills</h2><span class="pill" id="bCnt"></span></div>
@@ -201,7 +218,7 @@ const fd=s=>{const d=pd(s);return d?d.toLocaleDateString('en-US',{month:'short',
 const fdl=s=>pd(s).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
-let S={name:'ShiftMoney',wage:10.7,taxRate:20,bills:[],workdays:{},shifts:[],tx:[],lastBackup:''};
+let S={name:'ShiftMoney',wage:10.7,taxRate:20,bills:[],workdays:{},shifts:[],tx:[],lastBackup:'',autoShiftBalance:false,weather:null};
 
 /* storage: keeps your existing data; also keeps a safety copy */
 function load(){let s=null;for(const k of[KEY,KEY+'_bak']){try{s=JSON.parse(localStorage.getItem(k));if(s)break}catch(e){}}
@@ -259,7 +276,7 @@ function shiftSheet(id,date){const s=S.shifts.find(x=>x.id===id)||{};
  sheet(id?'Edit shift':'Log a shift',[{k:'d',l:'Date',t:'date',v:s.date||date||isoD(today)},{k:'h',l:'Hours worked',t:'number',v:id?s.hours:S.shifts[0]?.hours,p:'6.5'},{k:'c',l:'Cash tips ($)',t:'number',v:s.cash,p:'0'},{k:'r',l:'Credit tips ($)',t:'number',v:s.credit,p:'0'}],v=>{if(!v.d){toast('Choose a date');return false}
  const n={...s,id:s.id||uid(),date:v.d,hours:+v.h||0,cash:+v.c||0,credit:+v.r||0,other:+s.other||0,taxRate:s.taxRate??S.taxRate};
  S.shifts=S.shifts.filter(x=>x.id!==n.id);S.shifts.push(n);S.shifts.sort((a,b)=>b.date.localeCompare(a.date));
- S.tx=S.tx.filter(t=>t.ref!=='shift:'+n.id);addTx(net(n),`Shift · ${n.hours}h`,'shift:'+n.id,n.date);save();toast('Shift saved · +'+money(net(n))+' to balance')},'Save shift',
+ if(S.autoShiftBalance){S.tx=S.tx.filter(t=>t.ref!=='shift:'+n.id);addTx(net(n),`Shift estimate · ${n.hours}h`,'shift:'+n.id,n.date)}save();toast('Shift saved · '+money(net(n))+' estimated')},'Save shift',
  v=>{const t={...s,hours:+v.h||0,cash:+v.c||0,credit:+v.r||0,taxRate:s.taxRate??S.taxRate};return`<div class="muted small">Estimated take-home</div><div class="n pos">${money(net(t))}</div>`})}
 function delShift(id){withUndo('Shift deleted',()=>{S.shifts=S.shifts.filter(s=>s.id!==id);S.tx=S.tx.filter(t=>t.ref!=='shift:'+id)})}
 
@@ -306,8 +323,8 @@ addEventListener('touchend',e=>{const t=e.changedTouches[0];
  if(pt!==null){if(ptd>110){today=new Date();renderAll();toast('Refreshed')}$('ptr').style.opacity=0;$('ptr').style.transform='';pt=null;ptd=0}});
 
 /* settings and backup */
-function settings(){sheet('Settings',[{k:'w',l:'Hourly wage ($)',t:'number',v:S.wage},{k:'t',l:'Tax withholding (%)',t:'number',v:S.taxRate}],v=>{S.wage=+v.w||0;S.taxRate=Math.min(100,Math.max(0,+v.t||0));save();toast('Settings saved')});
- $('shB').insertAdjacentHTML('beforeend',`<div class="small muted" style="margin-top:14px">Last backup: ${S.lastBackup?fd(S.lastBackup):'never'}</div><div class="actions" style="margin-top:8px"><button class="btn" onclick="exportData()">Export backup</button><button class="btn" onclick="$('imp').click()">Import backup</button><input id="imp" type="file" accept="application/json" hidden onchange="importData(event)"></div>${snapHtml()}<button class="btn danger full" style="margin-top:14px" onclick="resetApp()">Erase all data</button>`)}
+function settings(){sheet('Settings',[{k:'w',l:'Hourly wage ($)',t:'number',v:S.wage},{k:'t',l:'Estimated tax withholding (%)',t:'number',v:S.taxRate},{k:'a',l:'Add estimated shift income to balance? (not recommended if updating balance manually)',v:S.autoShiftBalance?'yes':'no',o:[['no','No — track shifts separately'],['yes','Yes — automatically add estimates']]}],v=>{S.wage=+v.w||0;S.taxRate=Math.min(100,Math.max(0,+v.t||0));S.autoShiftBalance=v.a==='yes';save();toast('Settings saved')});
+ $('shB').insertAdjacentHTML('beforeend',`<div class="small muted" style="margin-top:14px">Balance tip: logging shifts does not change your balance unless enabled above. Existing transactions remain unchanged. Estimated take-home is not a paycheck guarantee.</div><button class="btn full" style="margin-top:10px" onclick="weatherSheet()">☁ Weather settings</button><div class="small muted" style="margin-top:14px">Last backup: ${S.lastBackup?fd(S.lastBackup):'never'}</div><div class="actions" style="margin-top:8px"><button class="btn" onclick="exportData()">Export backup</button><button class="btn" onclick="$('imp').click()">Import backup</button><input id="imp" type="file" accept="application/json" hidden onchange="importData(event)"></div>${snapHtml()}<button class="btn danger full" style="margin-top:14px" onclick="resetApp()">Erase all data</button>`)}
 function exportData(){S.lastBackup=isoD(today);try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}const u=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=u;a.download='shiftmoney-backup-'+isoD(today)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);renderAll();toast('Backup exported')}
 function importData(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(typeof d!=='object')throw 0;localStorage.setItem(KEY,JSON.stringify(d));load();normalize();closeSheet();save();toast('Backup restored')}catch(x){alert('Invalid backup file')}};r.readAsText(f)}
 function resetApp(){if(!confirm('Erase all app data?'))return;dirty=0;clearTimeout(pt2);localStorage.removeItem(KEY+'_hist');localStorage.removeItem(KEY);localStorage.removeItem(KEY+'_bak');location.reload()}
@@ -329,7 +346,7 @@ function renderAll(){
  $('dueCnt').textContent=unp.length;
  $('dueList').innerHTML=unp.map(o=>{const[t,c]=dueText(o.date);return row(`<div class="row"><div><strong>${esc(o.b.name)}</strong><div class="small ${c}">${t}</div></div><div class="row" style="gap:10px"><strong>${money(o.b.amount)}</strong><button class="btn sm primary" onclick="payBill('${o.b.id}','${o.date}')">Pay</button></div></div>`,{sr:`pay:${o.b.id}:${o.date}`})}).join('')||'<div class="empty">Nothing left to pay this month.</div>';
  const sh=S.shifts.filter(s=>s.date>=ms&&s.date<=me),mnet=sh.reduce((s,x)=>s+net(x),0);
- $('mShifts').textContent=sh.length+(sh.length===1?' shift':' shifts');setNum('mTips',sh.reduce((s,x)=>s+x.cash+x.credit,0));setNum('mNet',mnet);
+ renderLedger();$('mShifts').textContent=sh.length+(sh.length===1?' shift':' shifts');setNum('mTips',sh.reduce((s,x)=>s+x.cash+x.credit,0));setNum('mNet',mnet);
  /* shifts page */
  const ws=isoD(addD(today,-today.getDay())),we=isoD(addD(today,6-today.getDay()));
  setNum('sWeek',S.shifts.filter(s=>s.date>=ws&&s.date<=we).reduce((s,x)=>s+net(x),0));setNum('sMonth',mnet);
@@ -348,6 +365,24 @@ function renderAll(){
  $('billList').innerHTML=[...S.bills].map(x=>({x,n:win.find(o=>o.b.id===x.id&&!o.paid),p:win.filter(o=>o.b.id===x.id&&o.paid).pop()})).sort((a,c)=>(a.n?.date||'9').localeCompare(c.n?.date||'9')).map(({x,n,p})=>row(`<div class="row"><div><strong>${esc(x.name)}</strong><div class="small ${n?dueText(n.date)[1]:'muted'}">${money(x.amount)} · ${x.repeat==='once'?'one time':x.repeat} · ${n?dueText(n.date)[0]:'all paid'}</div></div>${n?`<button class="btn sm primary" onclick="payBill('${x.id}','${n.date}')">Pay</button>`:p?`<button class="btn sm" onclick="unpayBill('${x.id}','${p.date}')">Undo paid</button>`:'<span class="pill grn">Paid</span>'}</div>`,{sr:n?`pay:${x.id}:${n.date}`:'',sl:'delb:'+x.id,tap:'bill:'+x.id})).join('')||'<div class="empty">No bills yet. Tap “Add a bill”.</div>';
  renderCal()}
 
+
+/* v11 extras: weather is opt-in and messages are local, not real advertisements */
+const messages=[['💸','Small shifts. Big progress.'],['🌱','A little saved today is freedom tomorrow.'],['🪙','Your future self says: nice work.'],['😎','Financial glow-up loading…'],['✨','You are allowed to start small.'],['☕','Budget first. Fancy coffee second. Maybe.'],['📈','Consistency beats the perfect paycheck.'],['🧾','A paid bill is a quiet victory.'],['💚','SHIFTMONEY · Earn. Track. Grow.'],['🐸','The budget frog believes in you.'],['🌙','Rest counts, too.'],['💰','Money is a tool, not a scoreboard.']];
+let promoIndex=0,promoTimer=null;
+function drawPromos(){for(const [j,id] of ['promoHome','promoCal','promoShifts','promoBills'].entries()){const el=$(id);if(!el)continue;const i=(promoIndex+j*3)%messages.length,[art,quote]=messages[i];el.innerHTML=`<div class="promo-body"><div class="promo-art" aria-hidden="true">${art}</div><div class="promo-quote">${esc(quote)}</div></div><div class="promo-foot"><div class="promo-dots">${Array.from({length:5},(_,k)=>`<i class="${k===i%5?'on':''}"></i>`).join('')}</div><div><button class="promobtn" onclick="togglePromos()" aria-label="${promoTimer?'Pause':'Play'} rotating messages">${promoTimer?'Ⅱ Pause':'▶ Play'}</button> <button class="promobtn" onclick="nextPromo()" aria-label="Next message">Next ›</button></div></div>`}}
+function nextPromo(){promoIndex=(promoIndex+1)%messages.length;drawPromos()}
+function togglePromos(){if(promoTimer){clearInterval(promoTimer);promoTimer=null}else promoTimer=setInterval(()=>{if(!document.hidden)nextPromo()},6500);drawPromos()}
+function renderSky(){const h=new Date().getHours(),night=h<6||h>=20,evening=h>=17&&h<20;const orb=$('skyOrb');orb.textContent=night?'🌙':evening?'🌇':'☀️';$('skyStars').style.opacity=night?'1':'.18';$('skyGreeting').textContent=night?'Make room for tomorrow.':evening?'Finish strong. Rest well.':h<12?'Good morning, money mover.':'Keep the momentum going.';renderWeather()}
+function renderWeather(){const w=S.weather,el=$('weatherLine');if(!w||w.temp==null){el.innerHTML=`Weather optional · <button onclick="weatherSheet()">Set up</button>`;return}el.innerHTML=`${esc(w.place||'Local weather')} · <strong>${Math.round(w.temp)}°F</strong> <button onclick="weatherSheet()">Edit</button>${w.updated?` <span class="tiny">${esc(w.updated)}</span>`:''}`}
+function weatherSheet(){sheet('Weather preferences',[{k:'city',l:'City (optional, e.g. Buffalo, NY)',v:S.weather?.city||'',p:'Buffalo, NY'},{k:'mode',l:'Weather source',v:S.weather?.mode||'off',o:[['off','Off — no location access'],['city','Use city name'],['gps','Use my location (permission required)']]}],v=>{S.weather={mode:v.mode,city:v.city.trim(),place:'',temp:null};save();refreshWeather();toast('Weather preference saved')},'Save weather')}
+async function refreshWeather(){const w=S.weather;if(!w||w.mode==='off')return;try{let lat,lon,place=w.city;if(w.mode==='gps'){if(!navigator.geolocation)throw Error('Location unavailable');const pos=await new Promise((ok,no)=>navigator.geolocation.getCurrentPosition(ok,no,{timeout:9000,maximumAge:900000}));lat=pos.coords.latitude;lon=pos.coords.longitude;place='Near you'}else{if(!w.city)return;const r=await fetch('https://geocoding-api.open-meteo.com/v1/search?name='+encodeURIComponent(w.city)+'&count=1&language=en&format=json');if(!r.ok)throw Error('City lookup failed');const j=await r.json(),a=j.results?.[0];if(!a)throw Error('City not found');lat=a.latitude;lon=a.longitude;place=a.name+(a.admin1?', '+a.admin1:'')}
+const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m&temperature_unit=fahrenheit&timezone=auto`);if(!r.ok)throw Error('Weather unavailable');const j=await r.json();if(S.weather?.mode!==w.mode||S.weather?.city!==w.city)return;S.weather={...w,place,temp:j.current.temperature_2m,updated:'updated '+new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})};save();renderWeather()}catch(e){toast('Weather: '+e.message)}}
+function txSheet(){sheet('Add money movement',[{k:'type',l:'Type',v:'expense',o:[['expense','Expense / money out'],['deposit','Deposit / money in']]},{k:'a',l:'Amount ($)',t:'number',v:''},{k:'cat',l:'Category',v:'Other',o:[['Food','Food'],['Gas','Gas / transport'],['Shopping','Shopping'],['Home','Home'],['Entertainment','Entertainment'],['Paycheck','Paycheck'],['Transfer','Transfer'],['Other','Other']]},{k:'d',l:'Date',t:'date',v:isoD(today)},{k:'n',l:'Description',v:'',p:'What was it for?'}],v=>{const a=+v.a;if(!Number.isFinite(a)||a<=0||!v.d){toast('Enter a valid positive amount and date');return false}addTx(v.type==='expense'?-a:a,(v.n||v.cat).trim(),v.type+':'+v.cat,v.d);save();toast('Money movement saved')},'Add transaction')}
+function deleteTx(id){const t=S.tx.find(x=>x.id===id);if(!t)return;if(t.ref?.startsWith('bill:')||t.ref?.startsWith('shift:')){toast('Undo the bill or edit the shift instead');return}withUndo('Transaction deleted',()=>{S.tx=S.tx.filter(x=>x.id!==id)})}
+function ledgerSheet(){const tx=[...S.tx].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,100);$('shT').textContent='Money movement history';$('shB').innerHTML=`<div class="small muted" style="margin:10px 0">These entries affect your balance. Shift earnings are estimates tracked separately by default.</div><button class="btn primary full" onclick="txSheet()">＋ Add money movement</button>${tx.map(t=>`<div class="ledger-item row"><div><strong>${esc(t.label||'Transaction')}</strong><div class="tiny">${esc(t.date)} · ${esc(t.ref||'Manual')}</div></div><div style="text-align:right"><strong class="${t.amt<0?'neg':'pos'}">${t.amt<0?'−':'+'}${money(Math.abs(t.amt))}</strong><div>${t.ref?.startsWith('bill:')||t.ref?.startsWith('shift:')?'':`<button class="promobtn" onclick="deleteTx('${t.id}');ledgerSheet()">Delete</button>`}</div></div></div>`).join('')||'<div class="empty">No transactions yet</div>'}`;openSheet()}
+function renderLedger(){const m=isoD(mStart()).slice(0,7),manual=S.tx.filter(t=>t.date?.startsWith(m));const spend=manual.filter(t=>t.amt<0&&!t.ref?.startsWith('bill:')).reduce((a,t)=>a-Math.min(0,t.amt),0),dep=manual.filter(t=>t.amt>0&&!t.ref?.startsWith('shift:')&&t.ref!=='open'&&t.ref!=='adj').reduce((a,t)=>a+t.amt,0);$('spentMonth').textContent=money(spend);$('depositMonth').textContent=money(dep);$('ledgerHome').innerHTML=[...S.tx].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,3).map(t=>`<div class="ledger-item row"><div><strong>${esc(t.label||'Money movement')}</strong><div class="tiny">${esc(t.date)}</div></div><strong class="${t.amt<0?'neg':'pos'}">${t.amt<0?'−':'+'}${money(Math.abs(t.amt))}</strong></div>`).join('')||'<div class="empty">No movements recorded yet</div>'}
+function initExtras(){renderSky();drawPromos();promoTimer=setInterval(()=>{if(!document.hidden)nextPromo()},6500);if(S.weather?.mode==='city'&&S.weather.city)refreshWeather();document.addEventListener('visibilitychange',()=>{if(!document.hidden)renderSky()});}
+
 /* small touches */
 addEventListener('pointerdown',e=>{const h=e.target.closest('.btn,.day');if(!h)return;const r=h.getBoundingClientRect(),d=Math.max(r.width,r.height)*2,p=document.createElement('span');p.className='rip';p.style.cssText=`width:${d}px;height:${d}px;left:${e.clientX-r.left-d/2}px;top:${e.clientY-r.top-d/2}px`;h.appendChild(p);setTimeout(()=>p.remove(),700)},{passive:true});
 document.addEventListener('focusin',e=>{if(e.target.matches('input[type=number],input[type=text]'))setTimeout(()=>e.target.select(),0)});
@@ -357,7 +392,7 @@ if(sessionStorage.getItem('sm_in'))$('splash').style.display='none';
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
 if('serviceWorker' in navigator)navigator.serviceWorker.addEventListener('message',e=>{if(e.data==='updated')toast('New version ready',()=>location.reload(),'Reload')});
 if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').then(r=>r.addEventListener('updatefound',()=>{const n=r.installing;n&&n.addEventListener('statechange',()=>{if(n.state==='installed'&&navigator.serviceWorker.controller)toast('New version ready',()=>location.reload(),'Reload')})})).catch(()=>{}));
-load();normalize();renderAll();
+load();normalize();renderAll();initExtras();
 </script>
 </body>
 </html>
