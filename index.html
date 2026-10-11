@@ -71,13 +71,42 @@ input:focus,select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 
 #conf{position:fixed;inset:0;pointer-events:none;z-index:70}
 #splash{position:fixed;inset:0;background:radial-gradient(circle at 50% 30%,rgba(243,202,133,.22),transparent 65%),#0c0a08;z-index:99;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;transition:opacity .5s,transform .5s}#splash.out{opacity:0;transform:scale(1.05);pointer-events:none}
 .logo{font-size:44px;font-weight:850;background:linear-gradient(110deg,#fff7ec 10%,var(--gold) 50%,var(--gold2) 90%);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-1.5px}
+/* v9 polish */
+body::before{content:"";position:fixed;width:360px;height:360px;left:-100px;top:15%;background:radial-gradient(circle,rgba(243,202,133,.11),transparent 65%);filter:blur(30px);animation:drift 20s ease-in-out infinite alternate;pointer-events:none;z-index:-1}
+@keyframes drift{to{transform:translate(280px,260px)}}
+.card{box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 14px 34px rgba(0,0,0,.35)}
+.page.active{animation:none}
+.page.active>*{animation:rise .6s var(--ease) both}
+.page.active>*:nth-child(2){animation-delay:.05s}.page.active>*:nth-child(3){animation-delay:.1s}.page.active>*:nth-child(4){animation-delay:.15s}.page.active>*:nth-child(5){animation-delay:.2s}.page.active>*:nth-child(6){animation-delay:.25s}.page.active>*:nth-child(7){animation-delay:.3s}
+@keyframes rise{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:none}}
+.hero{position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,240,210,.1) 50%,transparent 65%);transform:translateX(-120%);animation:sheen 8s ease-in-out infinite;pointer-events:none}
+@keyframes sheen{0%,55%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+#bal{background:linear-gradient(180deg,#fff7ec 20%,#f3ca85);-webkit-background-clip:text;background-clip:text;color:transparent}
+#bal.neg{background:none;color:var(--red)}
+.flash{animation:flash 1s var(--ease)}
+@keyframes flash{30%{filter:drop-shadow(0 0 10px rgba(243,202,133,.75))}}
+.meter span{position:relative;overflow:hidden}
+.meter span::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);transform:translateX(-100%);animation:sheen2 3s infinite}
+@keyframes sheen2{to{transform:translateX(100%)}}
+.nav{--i:0}
+.nav::before{content:"";position:absolute;top:8px;bottom:calc(8px + env(safe-area-inset-bottom));left:calc(10px + var(--i)*((100% - 38px)/4 + 6px));width:calc((100% - 38px)/4);border-radius:12px;background:rgba(243,202,133,.14);box-shadow:0 0 18px rgba(243,202,133,.12);transition:left .45s cubic-bezier(.34,1.4,.5,1)}
+.nav button{position:relative;z-index:1}.nav button.active{background:none}
+#sheet{transition:transform .5s cubic-bezier(.3,1.15,.45,1)}
+#sheet.on #shB>*{animation:rise .5s var(--ease) both}
+#sheet.on #shB>*:nth-child(2){animation-delay:.04s}#sheet.on #shB>*:nth-child(3){animation-delay:.08s}#sheet.on #shB>*:nth-child(4){animation-delay:.12s}#sheet.on #shB>*:nth-child(5){animation-delay:.16s}
+.bars button{transform-origin:bottom;animation:grow .8s var(--ease) both}
+@keyframes grow{from{transform:scaleY(0)}}
+.cal.sl{animation:slL .4s var(--ease)}.cal.sr{animation:slR .4s var(--ease)}
+@keyframes slL{from{opacity:0;transform:translateX(34px)}}@keyframes slR{from{opacity:0;transform:translateX(-34px)}}
+.swc:active{background:#221a14}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 <div id="splash"><div class="logo">ShiftMoney</div><div style="font-weight:600;margin:6px 0 4px">An Application by Cody B</div><div class="muted small" style="margin-bottom:30px">Copyright 2026</div><button class="btn primary" style="padding:14px 42px;font-size:17px" onclick="splashOut()">Enter</button></div>
 <div id="ptr">↻</div><canvas id="conf"></canvas>
-<header><h1 id="appTitle">ShiftMoney</h1><button class="btn sm" onclick="settings()">⚙ Settings</button></header>
+<header><div><div class="muted small" id="greet"></div><h1 id="appTitle">ShiftMoney</h1></div><button class="btn sm" onclick="settings()">⚙ Settings</button></header>
 
 <main class="wrap">
 <section id="home" class="page active">
@@ -150,18 +179,21 @@ let S={name:'ShiftMoney',wage:10.7,taxRate:20,bills:[],workdays:{},shifts:[],tx:
 /* storage: keeps your existing data; also keeps a safety copy */
 function load(){let s=null;for(const k of[KEY,KEY+'_bak']){try{s=JSON.parse(localStorage.getItem(k));if(s)break}catch(e){}}
  if(s){S={...S,...s};if(!Array.isArray(s.tx)){S.tx=[];if(+s.balance)S.tx.push({id:uid(),date:isoD(today),amt:+s.balance,label:'Opening balance',ref:'open'})}}}
-function save(){try{const j=JSON.stringify(S);localStorage.setItem(KEY,j);localStorage.setItem(KEY+'_bak',j)}catch(e){}renderAll()}
+function normalize(){S.v=2;['bills','shifts','tx'].forEach(k=>{if(!Array.isArray(S[k]))S[k]=[]});if(!S.workdays||typeof S.workdays!=='object')S.workdays={};
+ S.shifts=S.shifts.filter(x=>x&&x.date).map(x=>({...x,hours:+x.hours||0,cash:+x.cash||0,credit:+x.credit||0,other:+x.other||0}));S.bills=S.bills.filter(x=>x&&x.due).map(x=>({...x,amount:+x.amount||0,paidDates:Array.isArray(x.paidDates)?x.paidDates:[]}));S.tx=S.tx.filter(x=>x&&isFinite(+x.amt)).map(x=>({...x,ref:x.ref||'',label:x.label||''}))}
+let rq=0;function renderSoon(){cancelAnimationFrame(rq);rq=requestAnimationFrame(renderAll)}
+function save(){try{const j=JSON.stringify(S);localStorage.setItem(KEY,j);localStorage.setItem(KEY+'_bak',j)}catch(e){}renderSoon()}
 const balance=()=>S.tx.reduce((s,t)=>s+(+t.amt||0),0);
 function addTx(amt,label,ref,date){S.tx.push({id:uid(),date:date||isoD(today),amt:+amt,label,ref:ref||''})}
 
 /* feedback */
-let tt,undoFn;function toast(m,undo){const e=$('toast');undoFn=undo;e.innerHTML=`<span>${esc(m)}</span>`+(undo?'<button onclick="undoFn();$(\'toast\').classList.remove(\'on\')">Undo</button>':'');e.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('on'),undo?5000:2200);if(navigator.vibrate)navigator.vibrate(10)}
+let tt,undoFn;function toast(m,undo,lbl){const e=$('toast');undoFn=undo;e.innerHTML=`<span>${esc(m)}</span>`+(undo?'<button onclick="undoFn();$(\'toast\').classList.remove(\'on\')">'+(lbl||'Undo')+'</button>':'');e.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('on'),undo?5000:2200);if(navigator.vibrate)navigator.vibrate(10)}
 function withUndo(msg,fn){const snap=JSON.stringify(S);fn();save();toast(msg,()=>{S=JSON.parse(snap);save()})}
-function setNum(id,v){const e=$(id),from=e._v??0;e._v=v;if(from===v||matchMedia('(prefers-reduced-motion:reduce)').matches){e.textContent=money(v);return}const t0=performance.now();(function f(t){const p=Math.min(1,(t-t0)/600),k=1-Math.pow(1-p,3);e.textContent=money(from+(v-from)*k);if(p<1)requestAnimationFrame(f)})(t0)}
+function setNum(id,v){const e=$(id),from=e._v??0;e._v=v;if(from!==v&&e._v0){e.classList.remove('flash');void e.offsetWidth;e.classList.add('flash')}e._v0=1;if(from===v||matchMedia('(prefers-reduced-motion:reduce)').matches){e.textContent=money(v);return}const t0=performance.now();(function f(t){const p=Math.min(1,(t-t0)/600),k=1-Math.pow(1-p,3);e.textContent=money(from+(v-from)*k);if(p<1)requestAnimationFrame(f)})(t0)}
 function confetti(){const c=$('conf'),x=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;const cols=['#f3ca85','#e09f4b','#8ce6a3','#fff7ec'];const p=Array.from({length:90},()=>({x:innerWidth/2,y:innerHeight*.6,vx:(Math.random()-.5)*14,vy:-Math.random()*16-4,r:3+Math.random()*4,c:cols[Math.random()*4|0],a:1}));
  (function f(){x.clearRect(0,0,c.width,c.height);let alive=0;p.forEach(q=>{q.x+=q.vx;q.y+=q.vy;q.vy+=.5;q.a-=.012;if(q.a>0){alive++;x.globalAlpha=q.a;x.fillStyle=q.c;x.fillRect(q.x,q.y,q.r,q.r*1.6)}});if(alive)requestAnimationFrame(f);else x.clearRect(0,0,c.width,c.height)})()}
 function splashOut(){$('splash').classList.add('out');sessionStorage.setItem('sm_in','1');setTimeout(()=>$('splash').style.display='none',500)}
-function go(id){const cur=document.querySelector('.page.active').id;if(cur===id){scrollTo({top:0,behavior:'smooth'});return}document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.p===id));scrollTo(0,0)}
+function go(id){const cur=document.querySelector('.page.active').id;if(cur===id){scrollTo({top:0,behavior:'smooth'});return}document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.p===id));document.querySelector('.nav').style.setProperty('--i',['home','calendar','shifts','bills'].indexOf(id));scrollTo(0,0)}
 
 /* sheets */
 function openSheet(){$('sheetBg').classList.add('on');$('sheet').classList.add('on')}
@@ -199,7 +231,7 @@ function delShift(id){withUndo('Shift deleted',()=>{S.shifts=S.shifts.filter(s=>
 
 /* calendar */
 let view=new Date(today.getFullYear(),today.getMonth(),1),selDate=isoD(today);
-function mv(n){view=new Date(view.getFullYear(),view.getMonth()+n,1);renderCal()}
+function mv(n){view=new Date(view.getFullYear(),view.getMonth()+n,1);renderCal();const g=$('calG');g.classList.remove('sl','sr');void g.offsetWidth;g.classList.add(n>0?'sl':'sr')}
 function goToday(){view=new Date(today.getFullYear(),today.getMonth(),1);selDate=isoD(today);renderCal()}
 function setDay(k,type){const old=S.workdays[k]||{type:'off'};type=type||old.type;if(type==='off')delete S.workdays[k];else S.workdays[k]={type,hours:+$('dH')?.value||old.hours||6.5};save();daySheet(k)}
 function daySheet(k){selDate=k;const w=S.workdays[k]||{type:'off'},bl=allOcc(pd(k),pd(k),false),sh=S.shifts.filter(s=>s.date===k);$('shT').textContent=fdl(k);
@@ -243,13 +275,13 @@ addEventListener('touchend',e=>{const t=e.changedTouches[0];
 function settings(){sheet('Settings',[{k:'w',l:'Hourly wage ($)',t:'number',v:S.wage},{k:'t',l:'Tax withholding (%)',t:'number',v:S.taxRate}],v=>{S.wage=+v.w||0;S.taxRate=Math.min(100,Math.max(0,+v.t||0));save();toast('Settings saved')});
  $('shB').insertAdjacentHTML('beforeend',`<div class="small muted" style="margin-top:14px">Last backup: ${S.lastBackup?fd(S.lastBackup):'never'}</div><div class="actions" style="margin-top:8px"><button class="btn" onclick="exportData()">Export backup</button><button class="btn" onclick="$('imp').click()">Import backup</button><input id="imp" type="file" accept="application/json" hidden onchange="importData(event)"></div><button class="btn danger full" style="margin-top:10px" onclick="resetApp()">Erase all data</button>`)}
 function exportData(){S.lastBackup=isoD(today);try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}const u=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=u;a.download='shiftmoney-backup-'+isoD(today)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);renderAll();toast('Backup exported')}
-function importData(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(typeof d!=='object')throw 0;localStorage.setItem(KEY,JSON.stringify(d));load();closeSheet();save();toast('Backup restored')}catch(x){alert('Invalid backup file')}};r.readAsText(f)}
+function importData(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(typeof d!=='object')throw 0;localStorage.setItem(KEY,JSON.stringify(d));load();normalize();closeSheet();save();toast('Backup restored')}catch(x){alert('Invalid backup file')}};r.readAsText(f)}
 function resetApp(){if(!confirm('Erase all app data?'))return;localStorage.removeItem(KEY);localStorage.removeItem(KEY+'_bak');location.reload()}
 
 /* render */
 function renderAll(){
  const b=balance(),ms=isoD(mStart()),me=isoD(mEnd()),mon=today.toLocaleDateString('en-US',{month:'long'});
- $('appTitle').textContent=S.name||'ShiftMoney';
+ $('appTitle').textContent=S.name||'ShiftMoney';const hr=today.getHours();$('greet').textContent=(hr<12?'Good morning':hr<18?'Good afternoon':'Good evening')+' · '+today.toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'});
  const stale=(S.shifts.length||S.bills.length)&&(!S.lastBackup||(today-pd(S.lastBackup))/864e5>14);
  $('banner').innerHTML=stale?`<div class="banner"><span>${S.lastBackup?'It has been over 2 weeks since your last backup.':'You have not backed up yet.'}</span><button class="btn sm primary" onclick="exportData()">Back up</button></div>`:'';
  const all=allOcc(mStart(),mEnd(),false),unp=all.filter(o=>!o.paid),tot=all.reduce((s,o)=>s+o.b.amount,0),left=unp.reduce((s,o)=>s+o.b.amount,0),gap=Math.max(0,left-b);
@@ -271,7 +303,7 @@ function renderAll(){
  $('sTH').textContent=money(hrs?(cash+cred)/hrs:0);$('sAvg').textContent=money(S.shifts.length?S.shifts.reduce((s,x)=>s+net(x),0)/S.shifts.length:0);
  $('sCnt').textContent=S.shifts.length+' logged';
  const last=S.shifts.slice(0,12).reverse(),mx=Math.max(1,...last.map(net)),bestV=Math.max(...last.map(net),0);
- $('bars').innerHTML=last.map((s,i)=>`<button class="${net(s)===bestV?'best':''}" style="height:${Math.max(4,net(s)/mx*100)}%" onclick="document.querySelectorAll('.bars button').forEach(x=>x.classList.remove('sel'));this.classList.add('sel');$('barLbl').textContent='${pd(s.date).toLocaleDateString('en-US',{month:'short',day:'numeric'})} · ${money(net(s))}'"></button>`).join('')||'<div class="empty" style="width:100%">Log shifts to see your chart</div>';
+ $('bars').innerHTML=last.map((s,i)=>`<button class="${net(s)===bestV?'best':''}" style="height:${Math.max(4,net(s)/mx*100)}%;animation-delay:${i*45}ms" onclick="document.querySelectorAll('.bars button').forEach(x=>x.classList.remove('sel'));this.classList.add('sel');$('barLbl').textContent='${pd(s.date).toLocaleDateString('en-US',{month:'short',day:'numeric'})} · ${money(net(s))}'"></button>`).join('')||'<div class="empty" style="width:100%">Log shifts to see your chart</div>';
  const dw={};S.shifts.forEach(s=>{const d=pd(s.date).getDay();(dw[d]??=[]).push(net(s))});const bd=Object.entries(dw).map(([d,a])=>[d,a.reduce((x,y)=>x+y,0)/a.length,a.length]).filter(x=>x[2]>=2).sort((a,c)=>c[1]-a[1])[0];
  $('bestDay').innerHTML=bd?`Best night: <strong class="pos">${['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][bd[0]]}</strong> · averages ${money(bd[1])} (${bd[2]} shifts)`:'Log 2+ shifts on the same weekday to see your best night';
  const tp=cash+cred;$('pCash').textContent=tp?Math.round(cash/tp*100)+'%':'0%';$('pCred').textContent=tp?Math.round(cred/tp*100)+'%':'0%';$('spCash').style.width=tp?cash/tp*100+'%':'0';$('spCred').style.width=tp?cred/tp*100+'%':'0';
@@ -288,8 +320,8 @@ document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.closest('#s
 document.addEventListener('visibilitychange',()=>{if(!document.hidden){today=new Date();renderAll()}});
 if(sessionStorage.getItem('sm_in'))$('splash').style.display='none';
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
-if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
-load();renderAll();
+if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').then(r=>r.addEventListener('updatefound',()=>{const n=r.installing;n&&n.addEventListener('statechange',()=>{if(n.state==='installed'&&navigator.serviceWorker.controller)toast('New version ready',()=>location.reload(),'Reload')})})).catch(()=>{}));
+load();normalize();renderAll();
 </script>
 </body>
 </html>
