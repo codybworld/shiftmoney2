@@ -1,11 +1,9 @@
-ShiftMoney v11
+ShiftMoney V12 - Sky & Stories
 
-Upload ALL SIX web files in this folder to the ROOT of your GitHub Pages repository: index.html, sw.js, manifest.webmanifest, icon-192.png, icon-512.png, apple-touch-icon.png. README.txt is optional.
+Upload all files in this folder to the root of your GitHub Pages repository, replacing files with matching names.
 
-Before replacing the live app: Settings > Export backup and save the JSON file. Keep the same site URL/origin to preserve local data.
+IMPORTANT: Export a ShiftMoney backup in Settings before updating. Your app stores personal records in localStorage, not GitHub. Keep the same website URL.
 
-Weather is opt-in. City mode sends the entered city to Open-Meteo geocoding; location mode asks browser permission and sends coordinates to Open-Meteo for a forecast. No backend or bank connection.
+V12: Photo quote banners auto-rotate every 6.5 seconds and can be swiped left/right. Nature photos load from Unsplash when online; gradients remain offline. Larger CSS-generated sky with sun, moon, clouds and stars. Profile photo/name stored only on device; avatar opens Profile, Settings, Help, About.
 
-Shift logs are estimates and do not alter the balance by default; previously recorded shift transactions remain untouched. Reconcile balance manually once after upgrade.
-
-Install: visit your GitHub Pages URL in Safari > Share > Add to Home Screen.
+To change the profile, tap the round avatar at the top-right. Photo is resized to 256x256 before saving.
